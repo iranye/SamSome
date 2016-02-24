@@ -1,0 +1,31 @@
+syntax: glob
+
+# switch to regexp syntax.
+syntax: regexp
+/bin/
+/Debug/
+/Binaries/
+/Drivers/
+/DLL/
+/Install/
+/TestData/
+(?i)\~
+(?i)\.cat
+(?i)\.dll
+(?i)\.doc
+(?i)\.docx
+(?i)\.exe
+(?i)\.ico
+(?i)\.pdf
+(?i)\.png
+(?i)\.res
+(?i)\.scc
+(?i)\.suo
+(?i)\.user
+(?i)\.vi
+(?i)\.vspscc
+(?i)\.vsscc
+(?i)\.vssscc
+(?i)\.xls
+(?i)\.xlsx
+(?i)\.zip
