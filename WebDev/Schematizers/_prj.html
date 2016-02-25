@@ -1,0 +1,163 @@
+<HTML>
+<HEAD>
+<TITLE>prj</TITLE>
+<style type='text/css'>
+.heading{
+  font-family: Imprint MT Shadow, arial;
+  font-weight: normal;
+  font-size: 16px;
+}
+.toggle {
+  visibility: visible;
+}
+</style>
+<SCRIPT language="JavaScript" type="text/javascript">
+
+function clear_box() {  document.forms[0].statusbox.value = ""; }
+function print_to_box(s) { document.forms[0].statusbox.value += s; }
+
+function reset_files_array() {
+  for (var i = 0; i < files_array.length;  i++) {
+    files_array[i] = "";
+  }
+}
+
+var files_array = new Array();
+files_array = [
+              "add_company.cgi"
+              ,"all.txt"
+              ,"db_test.cgi"
+              ,"deleteme.txt"
+              ,"disp_single_table.cgi"
+              ,"list.cgi"
+              ,"SQL_greenspace_database.txt"
+              ,"table_disp.cgi"
+              ,"template_test.cgi"
+              ,"writes.pl"
+              ,"_prj.html"
+              ];
+
+var req = null;
+
+var READY_STATE_UNINITIALIZED = 0;
+var READY_STATE_LOADING       = 1;
+var READY_STATE_LOADED        = 2;
+var READY_STATE_INTERACTIVE   = 3;
+var READY_STATE_COMPLETE      = 4;
+
+function clip_board() {
+  Copied = document.forms[0].statusbox.createTextRange();
+  Copied.execCommand("Copy");
+}
+
+function initXMLHTTPRequest() {
+  var xRequest = null;
+  if (window.XMLHttpRequest) {
+    xRequest = new XMLHttpRequest();
+  }
+  else if (window.ActiveXObject) {
+    xRequest = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  return xRequest;
+}
+
+function sendRequest(url, params, HttpMethod) {
+  if (!HttpMethod) {
+    HttpMethod = "GET";
+  }
+  req = initXMLHTTPRequest();
+  if (req) {
+    req.onreadystatechange = onReadyState;
+    req.open(HttpMethod, url, true);
+    req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    req.send(params);
+  }
+}
+
+function onReadyState() {
+  var ready = req.readyState;
+  var data  = null;
+  if (ready == READY_STATE_COMPLETE) {
+    data = req.responseText;
+    toConsole(data + "\n\n");
+    //toDiag(data + "\n\n");
+  }
+  else {
+    data = "loading...[" + ready + "]";
+  }
+}
+
+function toConsole(data) {
+  var txt = data.toString();
+  p = /[\u007F-\uFFFF]/g;
+  txt = txt.replace(p, "");
+  print_to_box(txt.toString());
+}
+
+
+function massage_number(numb) {
+  var numb_string = (numb < 10) ? "0" + numb.toString() : numb.toString();
+  return numb_string;
+}
+
+function toDiag(data) {
+  var txt = data.toString();
+  p = /[\u007F-\uFFFF]/g;
+  var result = p.test(txt) ? "YES" : "NO";
+  print_to_box("result: " + result + "\n");
+  var c = "\u007E";
+
+  txt = txt.replace(p, "");
+  result = p.test(txt) ? "YES" : "NO";
+  print_to_box("result: " + result + "\n");
+  print_to_box(txt);
+}
+
+function next_step() {
+  var step_select = document.getElementById("file_select");
+
+  var next_index = step_select['selectedIndex'] + 1;
+  if (step_select.options.length > 1 && next_index == step_select.options.length) { next_index = 1; }
+
+  step_select.value = step_select.options[next_index].value;
+  show_file();
+}
+
+function show_file() {
+  clear_box();
+  var step_select = document.getElementById("file_select");
+  // print_to_box("step_select.value: " + step_select.value + "\n");
+  sendRequest(step_select.value); //.toString()
+  clip_board();
+}
+
+function init() {
+  var step_select = document.getElementById("file_select");
+  step_select.length = files_array.length + 1;
+  for (var i = 0; i < files_array.length; i++) {
+    step_select[i + 1].value = files_array[i];
+    step_select[i + 1].innerHTML = files_array[i];
+  }
+  // var obj = step_select[1];
+  // for (var argname in obj) { print_to_box(argname + " in obj is " + obj[argname] + "\n"); }
+}
+
+</SCRIPT>
+
+</HEAD>
+<!-- olive: #C3C899,  dark grey: #88F8FF8 onload='init_re_strings();' -->
+<body bgcolor='#888F80' onload='init();'>
+<h4 class='heading'>File Select</h4>
+<form>
+<select name="file_select" id="file_select" onchange="show_file();">
+  <option>-- File Select --</option>
+</select>&nbsp;
+<input type="button" onclick="next_step();" value="\/"/>
+<br />
+<br/>
+<textarea name="statusbox" rows="33" cols="130"></textarea>
+</form>
+
+</BODY>
+</HTML>
+file count: 152

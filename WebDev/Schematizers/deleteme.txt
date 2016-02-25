@@ -1,0 +1,13 @@
+
+/*
+      if ( formObj.regex[i].checked ) {
+        var regex_pick = formObj.regex[i].value
+
+        var index = RegexList.lookup_regex(regex_pick);
+        if (index == -1) {
+          var e = "regex not found: " + regex_pick + "\n";
+          return e;
+        }
+        return RegexList[index].sample_string;
+      }
+*/

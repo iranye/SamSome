@@ -3,6 +3,7 @@
 [Dd]ebug*/
 obj/
 .hg/
+/__pycache__/
 
 #ignore thumbnails created by windows
 Thumbs.db
@@ -12,10 +13,12 @@ Thumbs.db
 *.aps
 *.bak
 *.cache
+.hgignore
 *.ilk
 *.log
 *.ncb
 *.pch
+*.pyc
 *.sbr
 *.suo
 *.user

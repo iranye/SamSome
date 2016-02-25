@@ -1,0 +1,459 @@
+<HTML><HEAD><TITLE>Object Template</TITLE>
+<style type='text/css'>
+#table_name{
+  font-family: helvetica;
+  font-weight: bold;
+  font-size: 14px;
+  visibility: hidden;
+}
+#field_select{
+  visibility: hidden;
+}
+H2{
+  color: black;
+  font-family: helvetica;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+</style>
+<LINK href="style.css" rel="stylesheet" type="text/css">
+<SCRIPT type="text/javascript">
+/*
+** Ira Nye
+** Object Template
+** Last Modified: 07/25/2008
+**
+*/
+
+/// General Routines ///////////////////////////////
+String.prototype.startswith = function(c) { return (c == this.charAt(0)); }
+
+function print_to_in(s)  { document.forms[0].inbox.value += s; }
+function print_to_out(s) { document.forms[0].outbox.value += s; }
+
+function dump_obj(obj) {
+  if (!obj) {
+    print ("null object in dump_obj()\n");
+    return;
+  }
+  for (var argname in obj) { print_to_in(argname + " in obj is " + obj[argname] + "\n"); }
+}
+
+function dbl_chomp(s) {
+  var chomped_s = s.replace(/^\s*/, "");
+  chomped_s = chomped_s.replace(/\s*$/, "");
+  return chomped_s;
+}
+
+function ClipBoard() {
+  Copied = document.forms[0].outbox.createTextRange();
+  Copied.execCommand("Copy");
+}
+
+function clear_boxes() { document.forms[0].inbox.value = ""; document.forms[0].outbox.value = ""; }
+function clear_box(o) { o.value = ""; }
+
+function massage_input(str) {
+  if ((str == input_description) || (str == "") || (str.match(" "))) {
+    alert ("invalid table/field name: '" + str + "'");
+    return null;
+  }
+  return str;
+}
+
+/// Data Management Functions///////////////////////////////
+function get_value(form_obj) {
+  //expect a group (e.g., of radios) if object passed in isn't an INPUT
+  if (form_obj.nodeName != "INPUT") {
+    var input_objs = form_obj.getElementsByTagName("input");
+    for (var i = 0; i < input_objs.length; i++) {
+      if (input_objs[i].checked)
+        return input_objs[i].value;
+    }
+    return null;
+  }
+
+  if (!form_obj || !form_obj.type) {
+    print_to_out("Error: invalid form object in get_value()\n");
+    dump_obj(form_obj);
+    return null;
+  }
+
+  switch (form_obj.type) {
+    case "text" :
+      return form_obj.value;
+      break;
+
+    case "textarea" :
+      return form_obj.value;
+      break;
+
+    case "checkbox" :
+      var repaired = document.getElementById("repaired").checked;
+      if (! repaired) {
+        return 0;
+      }
+      return 1;
+      break;
+
+    case "select-one" :
+      if (form_obj.options['selectedIndex'] > 0) {
+        return form_obj.options[form_obj.options['selectedIndex']].innerHTML;
+      }
+      else {
+        print_to_out("Error: invalid choice for '" + form_obj.name + "'\n");
+      }
+      break;
+
+    case "radio" :
+      var formObj = document.forms[0];
+
+      for (i = 0; i < formObj.radio_select.length; i++) {
+        if ( formObj.radio_select[i].checked ) {
+          return formObj.radio_select[i].value
+        }
+      }
+
+    default :
+      print_to_out("unknown form object type: " + form_obj.type + "\n");
+      break;
+  }
+
+  return null;
+}
+
+function add_field() {
+  var new_obj = new object_field();
+
+  for (var argname in new_obj) {
+    //print_to_out("argname: " + argname + "\n");
+
+    var data_obj = document.getElementById(argname);
+
+    if (data_obj) {
+      //new_obj[argname] = get_value(data_obj);
+      //if (isNaN(parseInt(new_obj[argname])))
+
+      new_obj[argname] = String(get_value(data_obj));
+
+      if ((!new_obj[argname]) || (new_obj[argname].length < 1)) {
+        print_to_out("Error: '" + new_obj[argname] + "' not valid input for '" + argname + "'\n");
+        return;
+      }
+    }
+    else {
+      print_to_out("cannot find field entry for '" + argname + "' in calculate function\n");
+      return;
+    }
+  }
+
+  switch (new_obj['widget_type']) {
+    case "text" :
+      var box_length = prompt("Please enter box length", "30");
+      var length = parseInt(box_length);
+      if (isNaN(length) || length == 0) {
+        print_to_out("Error: '" + box_length + "'  not valid input for box length\n");
+        return;
+      }
+      objects.push(new text_obj(new_obj['widget_type'], new_obj['field_name'], length));
+      break;
+
+    case "textarea" :
+      var length_and_width = prompt("Please enter box width and length, separated by a comma", "10,80");
+      var data_pair = length_and_width.split(",");
+      if(data_pair.length != 2) {
+        print_to_out("Error: '" + length_and_width + "'  not valid input for box width and length\n");
+        return;
+      }
+      box_width = parseInt(data_pair[0]);
+      box_length = parseInt(data_pair[1]);
+      if (isNaN(box_width) || box_width == 0 || isNaN(box_length) || box_length == 0) {
+        print_to_out("Error: '" + length_and_width + "'  not valid input for box width and length\n");
+        return;
+      }
+      objects.push(new textarea_obj(new_obj['widget_type'], new_obj['field_name'], box_width, box_length));
+
+      break;
+
+    case "radio" :
+      var set_text = prompt("Please enter values for radio selections, separated by a comma", "a,b,c");
+      var data_set = set_text.split(",");
+      if (data_set.length < 2) {
+        print_to_out("Error: '" + set_text + "'  not valid input for selections\n");
+        return;
+      }
+
+      for (var i = 0; i < data_set.length; i++) {
+        data_set[i] = dbl_chomp(data_set[i]);
+        if (data_set[i].length < 1) {
+          print_to_out("Error: '" + set_text + "'  not valid input for selections\n");
+          return;
+        }
+      }
+      objects.push(new radio_obj(new_obj['widget_type'], new_obj['field_name'], data_set));
+      break;
+
+    case "checkbox" :
+      var checkbox_text = prompt("Please enter checkbox_text", "checkbox");
+      break;
+
+    case "select-one" :
+      if (form_obj.options['selectedIndex'] > 0) {
+        return form_obj.options[form_obj.options['selectedIndex']].innerHTML;
+      }
+      else {
+        print_to_out("Error: invalid choice for '" + form_obj.name + "'\n");
+      }
+      break;
+
+
+    default :
+      print_to_out("unknown form widget type: " + new_obj['widget_type'] + "\n");
+      break;
+  }
+
+}
+
+function show_data() {
+  print_to_in(objects.length + " total objects\n");
+  for (var i = 0; i < objects.length; i++) {
+    dump_obj(objects[i]);
+    print_to_out("\n");
+  }
+}
+
+function create_form() {
+  clear_boxes();
+  if (objects.length == 0) {
+    print_to_out("Error: no form widgets created yet!\n");
+    return;
+  }
+  var html_code = "<INPUT name='FIELD_NAME' id='FIELD_NAME' type='FIELD_TYPE' OTHER_DATA></INPUT>";
+
+  for (var i = 0; i < objects.length; i++) {
+    switch(objects[i]['widget_type']) {
+      case "radio" :
+
+        html_code =  "<SPAN id='FIELD_NAME' >\n";
+        html_code += "  <INPUT type='radio' id='baseRadioButton' name='radio_template' style='display: none;' value=null/>\n"
+        html_code +=  "</SPAN>\n";
+
+        //var html_radio_code = "  <INPUT type='FIELD_TYPE' name='FIELD_NAME' type='FIELD_TYPE' OTHER_DATA></INPUT>\n";
+
+        print_to_out(html_code + "\n");
+        print_to_in("(radio) Still to code: values-handling " + objects[i]['values_list'] + "\n");
+
+/*
+function populate_radios() {
+  var span_obj = document.getElementById("widget_type");
+  for (i = 0; i < radio_types.length; i++) {
+    //print_to_out("radio_types[i].name: " + radio_types[i].name + "\n");
+    var radioObj = document.getElementById('baseRadioButton').cloneNode(false);
+    radioObj.style.display = '';
+    radioObj.name = "radio_select";
+    radioObj.value = radio_types[i];
+    radioObj.id = "";
+    if (i == -1) {
+      radioObj.checked = true;
+      radioObj.defaultChecked = true;
+    }
+
+    var labelObj = document.createElement("label");
+    var txtNode = document.createTextNode(radio_types[i]);
+    labelObj.appendChild(txtNode);
+
+    span_obj.appendChild(radioObj);
+    span_obj.appendChild(labelObj);
+  }
+}
+
+
+        html_code += "</SPAN>\n";
+
+        html_code = html_code.replace(/FIELD_NAME/gi, objects[i].field_name);
+        html_code = html_code.replace(/FIELD_TYPE/gi, objects[i]['widget_type']);
+
+        var other_data_string = "size=" + objects[i].length;
+        html_code = html_code.replace(/OTHER_DATA/gi, other_data_string);
+        print_to_out(html_code + "\n");
+
+    this['widget_type'] = widget_type;
+    this['field_name'] = field_name;
+    this['values_list'] = values_list;
+*/
+        break;
+      case "text" :
+        html_code = html_code.replace(/FIELD_NAME/gi, objects[i].field_name);
+        html_code = html_code.replace(/FIELD_TYPE/gi, objects[i]['widget_type']);
+
+        var other_data_string = "size=" + objects[i].length;
+        html_code = html_code.replace(/OTHER_DATA/gi, other_data_string);
+        print_to_out(html_code + "\n");
+
+        break;
+      case "textarea" :
+        html_code = "<TEXTAREA name='FIELD_NAME' id='FIELD_NAME' OTHER_DATA></TEXTAREA>";
+
+        html_code = html_code.replace(/FIELD_NAME/gi, objects[i].field_name);
+
+        var other_data_string = "rows=" + objects[i].width + " cols=" + objects[i].length;
+        html_code = html_code.replace(/OTHER_DATA/gi, other_data_string);
+        print_to_out(html_code + "\n");
+
+        break;
+      case "foo" :
+        print_to_out("<INPUT name='"
+            + objects[i].field_name + "' id='" + objects[i].field_name
+            + "' type='text' size=" + objects[i].length
+            + "></INPUT>"
+            + "\n");
+        break;
+
+      default :
+        print_to_out("unknown form object type: " + objects[i].widget_type + "\n");
+        break;
+    }
+  }
+}
+
+function open_dlg() {
+  if ((dlg_win == null) || (dlg_win.closed)) {
+    var options = "width=900,height=548,resizable,menubar=yes,location=yes,scrollbars=yes,status=yes";
+    dlg_win = window.open("NewForm.htm", "target", options);
+  }
+  dlg_doc = dlg_win.document;
+  dlg_win.focus();
+
+  var jobObj = objFromForm();
+  if (!jobObj) {
+    print_to_out("nothing in form!");
+    return;
+  }
+}
+
+/// Objects & Initializers ///////////////////////////////
+
+// schematizer: (.+)~~this['$1'] = $1;
+function text_obj(widget_type, field_name, length) {
+    this['widget_type'] = widget_type;
+    this['field_name'] = field_name;
+    this['length'] = length;
+}
+
+function textarea_obj(widget_type, field_name, width, length) {
+    this['widget_type'] = widget_type;
+    this['field_name'] = field_name;
+    this['width'] = width;
+    this['length'] = length;
+}
+
+function radio_obj(widget_type, field_name, values_list) {
+    this['widget_type'] = widget_type;
+    this['field_name'] = field_name;
+    this['values_list'] = values_list;
+}
+
+function object_field(field_name, widget_type) {
+  var expected_arg_count = 2;
+  if (arguments.length != expected_arg_count) {
+    this['field_name']  = "name";
+    this['widget_type'] = "a widget";
+  }
+  else {
+    this['field_name'] = field_name;
+    this['widget_type'] = widget_type;
+  }
+}
+
+var objects = new Array();
+var radio_types = new Array();
+
+// schematizer: (\d+)\s+(.+)~~prod_steps.push(new prod_step($1, "$2"));
+function initialize_arrays() {
+  radio_types.push("text");
+  radio_types.push("textarea");
+  radio_types.push("checkbox");
+  radio_types.push("radio");
+  radio_types.push("select-one");
+
+}
+
+function populate_radios(radio_span_tag_id) {
+  var span_obj = document.getElementById(radio_span_tag_id);
+  for (i = 0; i < radio_types.length; i++) {
+    //print_to_out("radio_types[i].name: " + radio_types[i].name + "\n");
+    var radioObj = document.getElementById('baseRadioButton').cloneNode(false);
+    radioObj.style.display = '';
+    radioObj.name = "radio_select";
+    radioObj.value = radio_types[i];
+    radioObj.id = "";
+    if (i == -1) {
+      radioObj.checked = true;
+      radioObj.defaultChecked = true;
+    }
+
+    var labelObj = document.createElement("label");
+    var txtNode = document.createTextNode(radio_types[i]);
+    labelObj.appendChild(txtNode);
+
+    span_obj.appendChild(radioObj);
+    span_obj.appendChild(labelObj);
+  }
+}
+
+function do_inits() {
+  initialize_arrays();
+  populate_radios("widget_type");
+  clear_boxes();
+}
+
+// <BODY bgcolor='#005080' onload='do_inits();'>
+
+</SCRIPT>
+</HEAD>
+<BODY bgcolor='#005080' onload='do_inits();'>
+
+<H2>Object Template</H2>
+<FORM>
+<TABLE>
+<TBODY>
+  <TR>
+    <TD>
+      <SPAN id="widget_type" >
+        <input type='radio' id='baseRadioButton' name='radio_template' style='display: none;' value=null/>
+      </SPAN>
+  </TR>
+
+  <TR>
+    <TD><input name="field_name" id="field_name" type="text" size="50"></input></TD>
+    <TD></TD>
+  </TR>
+  <TR>
+    <TD>
+      <input type="button" onclick="add_field();" value="New" accesskey="W"></input>
+      <input type="button" onclick="show_data();" value="Data" accesskey="Q"></input>
+      <input type="button" onclick="create_form();" value="Create Form" accesskey="B">
+    </TD>
+  </TR>
+</TBODY>
+</TABLE>
+<!--
+    <TD><select name="type_select" id="type_select">
+          <option>-- Type Select --</option>
+        </select>
+    </TD>
+-->
+
+<BR />
+<textarea name="inbox" rows="10" cols="108"></textarea>
+<BR />
+<textarea class="toggle" name="outbox" rows="10" cols="108"></textarea><br />
+
+<BR />
+<input type="button" onclick="ClipBoard();" accesskey="C" value="To Clipboard" ></input>
+<input type="button" onclick="clear_boxes();" accesskey="S" value="Clear Boxes" ></input>
+
+</FORM>
+
+</BODY>

@@ -1,0 +1,1 @@
+Search allmusic.com and compare play times for songs (e.g., Some Girls album Miss You = 4:48, 40 Licks Miss You = 3:35)

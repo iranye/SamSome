@@ -1,0 +1,93 @@
+Tiff Processing1.5.2\
+Tiff TIE1.5.2\
+TiffQC Translator 1.5.2\
+Tiff Processing1.5.2\00-SkipItemsthatXLDMissedsql.sql
+Tiff Processing1.5.2\00-SkipSpreadsheetsForACTCases.sql
+Tiff Processing1.5.2\00-TRANS Only check Process Settings.sql
+Tiff Processing1.5.2\00-UpdateHTMfilestoWordFiosfiletype.sql
+Tiff Processing1.5.2\00a-CheckProcessingSettings_Ordered.sql
+Tiff Processing1.5.2\00b-check Tiff Process Settings.sql
+Tiff Processing1.5.2\01a -Queueing&Monitoring.sql
+Tiff Processing1.5.2\01b -InsertItemsinTiffQueue.sql
+Tiff Processing1.5.2\01c -Pre-emptive Tiffing.withisnullsql.sql
+Tiff Processing1.5.2\02 - TiffQueueStatus.sql
+Tiff Processing1.5.2\03 -  Remove Spreadsheets for Pre-Tiffing.sql
+Tiff Processing1.5.2\Cravath Proc to Queue.sql
+Tiff Processing1.5.2\FinalTiffQCQuery.sql
+Tiff Processing1.5.2\FindMediabyPartition.sql
+Tiff Processing1.5.2\OldScripts\
+Tiff Processing1.5.2\QueueUpExcelOnly-Pretiff.sql
+Tiff Processing1.5.2\Re-Tiff\
+Tiff Processing1.5.2\tblQueueTiffbyFileClass.sql
+Tiff Processing1.5.2\TiffProcessingQueries.sql
+Tiff Processing1.5.2\TiffQueueStatus.sql
+Tiff Processing1.5.2\TiffRates1.52.sql
+Tiff Processing1.5.2\Update ProcessingFlag during tiffing.sql
+Tiff Processing1.5.2\Update Timeout.sql
+Tiff Processing1.5.2\UpdateApagoLicense.sql
+Tiff Processing1.5.2\UpdateShares.sql
+Tiff Processing1.5.2\OldScripts\00_UpdateMHTFiosFileTypeIDs.sql
+Tiff Processing1.5.2\Re-Tiff\DeleteTiffRecords2ReTiff.sql
+Tiff TIE1.5.2\00-WorkaroundForTiffingUntiffables.sql
+Tiff TIE1.5.2\bogus.sql
+Tiff TIE1.5.2\CommonErrors.sql
+Tiff TIE1.5.2\copy from inventorytoarchive.sql
+Tiff TIE1.5.2\copybogusfile.CSV
+Tiff TIE1.5.2\easytiesql.sql
+Tiff TIE1.5.2\findTIEaftercertaindate.sql
+Tiff TIE1.5.2\GetPathtoArchiveforITtoRestore.sql
+Tiff TIE1.5.2\IncreaseTimeout.sql
+Tiff TIE1.5.2\ItemsnotTiffedNotin Queue File Type.sql
+Tiff TIE1.5.2\ItemsnotTiffedNotin Queue-countoferrors.sql
+Tiff TIE1.5.2\Leftover Tiff TIE.sql
+Tiff TIE1.5.2\LookforPSfileerror.sql
+Tiff TIE1.5.2\normas.sql
+Tiff TIE1.5.2\OldScripts\
+Tiff TIE1.5.2\Report Untiffable Items.CSV
+Tiff TIE1.5.2\ReportofUntiffables.sql
+Tiff TIE1.5.2\OldScripts\2616 workaround.sql
+Tiff TIE1.5.2\OldScripts\ItemsnotTiffedNotin Queue.sql
+Tiff TIE1.5.2\OldScripts\Wordworkaround.sql
+TiffQC Translator 1.5.2\00-v1.5.2 script to Create Tiff QC tables.sql
+TiffQC Translator 1.5.2\01-insert missing pagetext records.sql
+TiffQC Translator 1.5.2\02-v1.5.2 procBuildTiffQC.sql
+TiffQC Translator 1.5.2\03-v1.5.2 procBigPageCount.sql
+TiffQC Translator 1.5.2\05-MarkbyIIDandpage.sql
+TiffQC Translator 1.5.2\05-MarkPagesbyTextString(Blanksmostly).sql
+TiffQC Translator 1.5.2\06-v1.5.2 procUseTiffQC.sql
+TiffQC Translator 1.5.2\08-1.5.2 check to see if counts of OutputFile and OutputPageText match.sql
+TiffQC Translator 1.5.2\09-QC_PGRP_Threshold_MFS_Max_Byte.sql
+TiffQC Translator 1.5.2\09-QC_PGRP_Threshold_XLD_Max_Page.sql
+TiffQC Translator 1.5.2\10-What's Left to Tiff.sql
+TiffQC Translator 1.5.2\11-procAuditSkippyPages.sql
+TiffQC Translator 1.5.2\11-procAuditSkippyPagesWithItemError.sql
+TiffQC Translator 1.5.2\12-v1.5.2 procMadTiffSkipper.sql
+TiffQC Translator 1.5.2\Characters per page for qc.sql
+TiffQC Translator 1.5.2\Findrecordsthatexistintbloutputpagetextbutnotoutputfile.sql
+TiffQC Translator 1.5.2\insert missing tblConversionLog records for IBI.sql
+TiffQC Translator 1.5.2\Insert what's Left to Tiff into Queue.sql
+TiffQC Translator 1.5.2\Items with big text (for ACT exports over 2GB).sql
+TiffQC Translator 1.5.2\Normascheckcount.sql
+TiffQC Translator 1.5.2\normastest.sql
+TiffQC Translator 1.5.2\OldScripts
+TiffQC Translator 1.5.2\RetiffITems
+TiffQC Translator 1.5.2\test1.5.2 check to see if counts of OutputFile and OutputPageText match.sql
+TiffQC Translator 1.5.2\OldScripts\00-v1.5.2 script to Create Tiff QC tables.sql.old
+TiffQC Translator 1.5.2\OldScripts\01-v1.5.2 procBigPageCount.-FOR REPORTING.sql
+TiffQC Translator 1.5.2\OldScripts\01-v1.5.2 procBigPageCountbyMediaID.sql
+TiffQC Translator 1.5.2\OldScripts\02-v1.5.2 procMadTiffSkipper.sql
+TiffQC Translator 1.5.2\OldScripts\02-v1.5.2 procMadTiffSkipper2693.sql
+TiffQC Translator 1.5.2\OldScripts\03-v1.5.2 procDeleteBlanks.sql
+TiffQC Translator 1.5.2\OldScripts\04-v1.5.2 procEnforceXLD.sql
+TiffQC Translator 1.5.2\OldScripts\06-v1.5.2 procUseTiffQC.sql.OLD
+TiffQC Translator 1.5.2\OldScripts\10-ACTCDSizeQCCheck.sql
+TiffQC Translator 1.5.2\OldScripts\11-FinalTiffQCQuery.sql
+TiffQC Translator 1.5.2\OldScripts\create QC login and add to all case databases.sql
+TiffQC Translator 1.5.2\OldScripts\Manually flag pages.sql
+TiffQC Translator 1.5.2\OldScripts\Norma'sforskippingxlditemsbeforeittiffs (for time crunches only).sql
+TiffQC Translator 1.5.2\OldScripts\troubleshoottablesdifference.sql
+TiffQC Translator 1.5.2\OldScripts\What's Left to Tiff-2616.sql
+TiffQC Translator 1.5.2\RetiffITems\Backout Tiffs.sql
+TiffQC Translator 1.5.2\RetiffITems\Retiff all emails.sql
+TiffQC Translator 1.5.2\RetiffITems\Retiff all items in a media.sql
+TiffQC Translator 1.5.2\RetiffITems\Retiff all items in a processing group.sql

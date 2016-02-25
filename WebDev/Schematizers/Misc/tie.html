@@ -1,0 +1,113 @@
+<HTML>
+<HEAD>
+<TITLE>TIFFEzer</TITLE>
+<style type='text/css'>
+/*   color: red;
+  width: 300px;
+  text-decoration: line-through; /* line-through, drop-shadow, underline */
+  padding: 1em;
+  margin-left: 4%;
+  margin-top: -2.6%;
+*/
+.select_box {
+  font-family: Tw Cen MT, System, Imprint MT Shadow, Tahoma;
+  font-size: 14px;
+}
+#user_form {
+  font-family: Tw Cen MT, System, Imprint MT Shadow, Tahoma;
+  font-size: 14px;
+}
+span.heading {
+  color: #F7F090;
+  font-family: Tw Cen MT, System, Imprint MT Shadow, Tahoma, arial;
+  font-weight: normal;
+  font-size: 36px;
+}
+span.client {
+  font-family: Papyrus, Tw Cen MT, System, Imprint MT Shadow, Tahoma, arial;
+  font-weight: normal;
+  font-size: 36px;
+  color: cornsilk;
+  border-width: .1pt;
+  border: outset cornsilk; /* choices: inset, outset, ridge, solid, dotted, dashed, groove */
+  text-align: justify; /* left, right, justify, center */
+}
+#files_table {
+  position: absolute;
+  top: 11.5em;
+  left: 60px;
+  width: 536px;
+  margin-left: 22%;
+  height: 49px;
+  font-family = arial;
+  font-weight: normal;
+  font-size: 10px;
+  border = 'solid green 2px';
+  text-decoration: underline;
+}
+#path {
+  text-decoration: underline;
+  font-size: 12px;
+  color: blue;
+}
+
+a {
+  text-decoration: underline;
+  font-size: 12px;
+  color: white;
+}
+.toggle {
+  visibility: visible;
+}
+</style>
+<SCRIPT type="text/javascript">
+
+function clear_box() {  document.forms[0].statusbox.value = ""; document.forms[0].output.value = "";}
+function print_to_box(s) { document.forms[0].statusbox.value += s; }
+function print_to_out(s) { document.forms[0].output.value += s; }
+
+// remove leading and trailing whitespace
+function dbl_chomp(s) {
+  var chomped_s = s.replace(/^\s*/, "");
+  chomped_s = chomped_s.replace(/\s*$/, "");
+
+  return chomped_s;
+}
+
+</SCRIPT>
+
+</HEAD>
+<!-- olive: #C3C899,  onload='init_re_strings();' -->
+<body bgcolor='#073789' >
+<span class='heading'>Workaround Files</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<form id="user_form">
+<br /><br />
+
+<!--
+<input type="button" onclick="clear_box();" value="Clear" />
+<input type="button" onclick="clear_box();sendRequest('WordDriveMapBugWorkaround.sql');" value="W" /><br />
+
+<input type="button" onclick="append_row();" accesskey="S" value="U" />
+<input type="button" onclick="sql_files();" value="Display SQL"/>
+-->
+
+<br/>
+<a href="\\pctrtitan2\w1\case2919\2919-0000060593.i">60593</a>
+
+<br/>
+<br/>
+
+<br/>
+<br/>
+<textarea name="statusbox" rows="16" cols="122"></textarea>
+<br/>
+<textarea class="toggle" name="output" rows="11" cols="122"></textarea><br />
+
+<br />
+<br />
+
+<br />
+</form>
+
+</BODY>
+</HTML>

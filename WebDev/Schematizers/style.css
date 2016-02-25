@@ -1,0 +1,65 @@
+a:visited {color: 'blue';}
+
+.default_tab {
+  left: 90px;
+  width: 30px;
+  position: absolute;
+  top: 12.8m;
+}
+.div_tab_0 {
+  left: 130px;
+  width: 90px;
+  background-color: #95E5D3;
+  position: absolute;
+  top: 12.8em;
+}
+.div_tab_1 {
+  left: 210px;
+  width: 90px;
+  background-color: #C78345;
+  position: absolute;
+  top: 12.8em;
+}
+.div_tbl_0 {
+  width: 88%;
+  background-color: #95E5D3;
+  position: absolute;
+  top: 14.0em;
+  left: 80px;
+}
+.div_tbl_1 {
+  width: 88%;
+  position: absolute;
+  top: 14.0em;
+  left: 80px;
+  background-color:#C78345;
+}
+.path_div {
+  text-decoration: underline;
+  font-size: 11px;
+  color: blue;
+}
+TABLE {
+  border: 'solid ridge beige 2px';
+  background-color: #7898A8;
+}
+
+TR { padding: 0px; }
+TD.small {
+  font-size: 8.5pt;
+  text-align: center;
+  font-family: Tahoma, arial;
+}
+TD.big {
+  font-weight: bold;
+  font-size: 12.5pt;
+  text-align: center;
+  font-family: Tahoma, arial;
+}
+TD.centered { text-align: center; }
+BODY {
+  font-family: Tw Cen MT
+}
+INPUT {
+  font-size: 9pt;
+}

@@ -1,0 +1,174 @@
+<HTML>
+<HEAD>
+<TITLE>SQLizer 2 Dialog</TITLE>
+<LINK href="style.css" rel="stylesheet" type="text/css">
+<SCRIPT>
+
+/// General Routines //////////////////////////////////////////////////////
+function clear_box() {  document.forms[0].statusbox.value = ""; document.forms[0].output.value = "";}
+function print_to_box(s) { document.forms[0].statusbox.value += s; }
+function print_to_out(s) { document.forms[0].output.value += s; }
+
+function dump_obj(obj) {
+  if (!obj) {
+    print_to_out("null\n");
+    return;
+  }
+  for (var argname in obj) { print_to_box("'" + argname + "' in obj is '" + obj[argname] + "'\n"); }
+  print_to_box("\n");
+}
+
+function clear_if_0(obj) { if (obj.value == "-") obj.value = ""; }
+
+/// Form Data Handling //////////////////////////////////////////////////////
+function calculate() {
+  clear_box();
+  var new_obj = new Object();
+  var form_obj = document.forms[0];
+  var inputs = form_obj.getElementsByTagName("input");
+
+  var objArr = new Array();
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i]['type'] == 'text') {
+      new_obj[inputs[i]['name']] = inputs[i]['value'];
+      objArr.push(inputs[i]['value'])
+    }
+  }
+  // dump_obj(inputs[5]);
+
+  dump_obj(new_obj);
+  //self.close();
+
+  var tbl_pick_id = 'data_tbl_0';
+  delete_rows(tbl_pick_id, 1);
+
+  for (var i = 0; i < objArr.length; i++) {
+    add_row_by_array(objArr[i], tbl_pick_id, 'small', 1);
+  }
+}
+
+function add_row_by_array(data_array, tbl_id, class_name, mouseover) {
+  var rowObj = document.createElement("TR");
+  for (var i = 0; i < data_array.length; i++) {
+    //print_to_out("data_array[" + i + "]:" + data_array[i]);
+    var cellObj = document.createElement("TD");
+    cellObj.className = class_name;
+    if (typeof data_array[i] == "object") {
+      cellObj.appendChild(data_array[i]);
+    }
+    else {
+      var txtNode = document.createTextNode(data_array[i]);
+      cellObj.appendChild(txtNode);
+      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
+    }
+    rowObj.appendChild(cellObj);
+    if (mouseover) {
+      rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
+      rowObj.onmouseout = new Function("this.bgColor='';return true;");
+    }
+  }
+  append_row(rowObj, tbl_id);
+}
+
+function delete_rows(tbl_id, stop_val) {
+  var tblObj = document.getElementById(tbl_id);
+  var rowsArr = tblObj.rows;
+
+  if (rowsArr.length == 0) return 0;
+
+  for (var i = rowsArr.length-1; i >= stop_val; i--) {
+      tblObj.deleteRow(i);
+  }
+  return 1;
+}
+
+var form_fields = new Array("principal", "interest", "years");
+
+function init_form() {
+  clear_box();
+  var new_obj = new Object();
+  new_obj['principal'] = 100000;
+  new_obj['interest']  = 7;
+  new_obj['years']     = 30;
+
+  var form_obj = document.forms[0];
+  var inputs = form_obj.getElementsByTagName("input");
+
+  for (var argname in new_obj) {
+    //print_to_box("'" + argname + "' in obj is '" + new_obj[argname] + "'\n");
+    var data = document.getElementById(argname);
+
+    if (data)
+      data.value = new_obj[argname];
+    else
+      print_to_box("cannot find field entry for '" + argname + "'\n");
+  }
+  print_to_box("\n");
+}
+
+</SCRIPT>
+</HEAD>
+<BODY onload="init_form();">
+
+<H4 class='declared' name='top'>Mortgage Calc</H4>
+
+<FORM>
+
+<TABLE name="input_table">
+<TBODY>
+  <TR>
+    <TD>
+      Principal:&nbsp;
+    </TD>
+    <TD>
+      <input id="principal" name="principal" type="text" size="12"/>&nbsp;
+    </TD>
+  </TR>
+  <TR>
+    <TD>
+      Interest:&nbsp;
+    </TD>
+    <TD>
+      <input id="interest" name="interest" type="text" size="4"/>&nbsp;%
+    </TD>
+  </TR>
+  <TR>
+    <TD>
+      Number of Years:
+    </TD>
+    <TD>
+      <input id="years" name="years" type="text" size="4"/>&nbsp;
+    </TD>
+  </TR>
+
+
+</TBODY>
+</TABLE>
+<br/>
+
+<input type="button" onclick="calculate();" value="Calculate" accesskey="C"></input>
+<br/>
+<br/>
+<TABLE border="1">
+  <TBODY id="data_tbl_0">
+  </TBODY>
+</TABLE>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<textarea name="statusbox" rows="8" cols="88"></textarea>
+<br/>
+<textarea name="output" rows="8" cols="88"></textarea><br />
+<br />
+
+</FORM>
+
+</BODY>
+</HTML>

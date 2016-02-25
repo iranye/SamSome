@@ -1,0 +1,236 @@
+<HTML><HEAD><TITLE>Linked Lists of LOve</TITLE>
+<link type="text/css" rel="stylesheet" href="fonts.css">
+<style type='text/css'>
+.programmed{
+  color: blue;
+  font-family: helvetica;
+  font-weight: bold;
+  font-size: 10px;
+}
+</style>
+<SCRIPT language="JavaScript" type="text/javascript" src="CharSets.js"></SCRIPT>
+<SCRIPT language="Javascript" type="text/javascript">
+// Javascript Linked List Demo program.
+// Written by Mark Banner.
+// http://www.standard8.demon.co.uk/
+
+function item() {
+  this.data = 0
+  this.next = null
+}
+
+// Adds a new element onto the start of the list
+function cons(n, list) {
+    var temp = new item()
+    temp.data = n
+    temp.next = list
+    return temp
+}
+
+function create(l) {
+  for(var i = 0; i < 4; i++) {
+    l = cons(i, l)
+  }
+  return l
+}
+
+// Goes down the list displaying it, until it gets to the end
+function test_list() {
+  print_to_box("the list\n");
+  var list = null;
+  list = create(list);
+  displaylist(list);
+}
+
+function displaylist(l) {
+  if (!l) {
+    print_to_box("the end\n");
+  }
+  else {
+    print_to_box(l.data + "\n")
+    displaylist(l.next);
+  }
+}
+
+function print_to_box(s) {
+  var txt_area = document.getElementById("statusbox");
+  txt_area.value += s;
+}
+
+// Begin unicode-processing
+var MAX_PER_LINE = 7;
+var line_end = MAX_PER_LINE;
+
+function addNode(el, text) {
+  var txtNode = document.createTextNode(text);
+  el.appendChild(txtNode);
+  if (!line_end) {
+    var childEl = document.createElement("br");
+    el.appendChild(childEl);
+    line_end = MAX_PER_LINE;
+  }
+  else {
+    line_end--;
+  }
+}
+
+function unicode_demo() {
+  var div_obj = document.getElementById('unicode');
+  div_obj.className = 'roman';
+
+  var unicode_char = "";
+  unicode_char = "[00FF: " + "\u00FF" + "]";
+
+  addNode(div_obj, unicode_char);
+  unicode_char = "[0080: " + "\u0080" + "]";
+  addNode(div_obj, unicode_char);
+  unicode_char = "[0081: " + "\u0081" + "]";
+  addNode(div_obj, unicode_char);
+}
+
+function show_chars() {
+  var range_select = document.getElementById("range_select");
+  var div_obj = document.getElementById('unicode');
+  div_obj.className = 'courier';
+  div_obj.innerHTML = "";
+  line_end = MAX_PER_LINE;
+  //var selection = job_select.options[index].innerHTML;
+
+  var index = range_select['selectedIndex'];
+  if (!index) { return; }
+  //print_to_box("index: " + index + "\n");
+  CharSets[index](div_obj);
+  //var selection = job_select.options[index].innerHTML;
+
+  //print_to_box("range_select: " + range_select.value + "\n");
+}
+
+
+
+function font_demo() {
+  var div_obj = document.getElementById('font');
+  div_obj.className = 'Agency_FB';
+
+  var test_text = "The very large fox rapidly exterminated the three lazy dogs in a fiery blaze of fury!";
+
+  addNode(div_obj, test_text);
+}
+
+function show_font() {
+  var font_select = document.getElementById("font_select");
+  var index = font_select['selectedIndex'];
+  if (!index) { return; }
+
+  //print_to_box("font index: " + index + "\n");
+  //CharSets[index](div_obj);
+
+  var test_text = "The very large fox rapidly exterminated the three lazy dogs in a fiery blaze of fury!";
+  var txt_area = document.getElementById("fontsbox").value;
+
+  if (txt_area.length > 0) {
+    test_text = txt_area;
+  }
+  //print_to_box("test_text: " + test_text + "\n");
+
+  var selection = font_select.options[index].innerHTML;
+  selection = selection.replace(/ /, "_");
+  //print_to_box("selection: " + selection + "\n");
+
+  var div_obj = document.getElementById('fonted_text');
+  div_obj.className = selection;
+  div_obj.innerHTML = "";
+  line_end = 0;
+
+  addNode(div_obj, test_text);
+
+}
+
+function pop_drop() {
+  var font_select = document.getElementById("font_select");
+
+  //font_select.length = 1;
+  for (var i = 0; i < font_select.length; i++) {
+    print_to_box("font_select.options[" + i + "]: " + font_select.options[i].value + "\n");
+    //font_select.options[font_select.length] = new Option(CasesArray[i].toString());
+  }
+
+}
+
+
+function ClipBoard()
+{
+/*
+Copied = statusbox.createTextRange();
+Copied.execCommand("Copy");
+
+statusbox.innerText = statusbox.innerText;
+Copied = statusbox.createTextRange();
+Copied.execCommand("Copy");
+
+holdtext.innerText = copytext.innerText;
+holdtext.innerText = "foobargarden";
+*/
+
+Copied = document.forms[0].statusbox.createTextRange();
+Copied.execCommand("Copy");
+}
+
+</SCRIPT>
+</HEAD>
+<BODY><SPAN ID="copytext" STYLE="display:none;">
+foobizarios
+</SPAN>
+<!--
+This text will copied to the clipboard. Try it!
+<SPAN ID="copytext" STYLE="height:150;width:162;background-color:pink"></SPAN>
+<TEXTAREA ID="holdtext" STYLE="display:none;"></TEXTAREA>
+-->
+
+<H2>Linked List</H2>
+<TEXTAREA ID="holdtext" rows="20" cols="48"></TEXTAREA>
+<BUTTON onClick="ClipBoard();">Copy to Clipboard</BUTTON>
+<form>
+<input type="button" onclick="test_list();" value="l" />
+<input type="button" onclick="font_demo();" value="f" />
+<input type="button" onclick="unicode_demo();" value="u" accesskey="Q"/>
+<input type="button" onclick="show_font();" value="s" />
+
+<select name="range_select" id="range_select" onchange="show_chars();" accesskey="T">
+  <option value="--Range Select--">--Range Select--</option>
+  <option value="U0080_00FF">U0080_00FF</option>
+  <option value="U0100_0180">U0100_0180</option>
+  <option value="U0181_0200">U0181_0200</option>
+  <option value="U0201_0280">U0201_0280</option>
+  <option value="U0281_0300">U0281_0300</option>
+  <option value="U0301_0380">U0301_0380</option>
+  <option value="U0381_0400">U0381_0400</option>
+  <option value="U0401_0480">U0401_0480</option>
+  <option value="U0481_0500">U0481_0500</option>
+  <option value="U0501_0580">U0501_0580</option>
+  <option value="U0581_0600">U0581_0600</option>
+  <option value="U0601_0680">U0601_0680</option>
+  <option value="U0700_0780">U0700_0780</option>
+  <option value="U0781_0800">U0781_0800</option>
+  <option value="U0801_0880">U0801_0880</option>
+</select>
+<select name="font_select" id="font_select" onchange="show_font();">
+  <option value="--Font Select--">--Font Select--</option>
+  <option value="Agency FB">Agency FB</option>
+  <option value="Arial">Arial</option>
+  <option value="Arial Black">Arial Black</option>
+  <option value="Arial Narrow">Arial Narrow</option>
+  <option value="Arial Rounded MT Bold">Arial Rounded MT Bold</option>
+</select>
+<input type="button" onclick="pop_drop();" value="Populate Drop Down" accesskey="Z" />
+
+</br>
+</br>
+
+<DIV id="unicode"></DIV>
+<DIV id="fonted_text"></DIV>
+</br>
+<TEXTAREA id="statusbox" rows="20" cols="48"></TEXTAREA>
+<TEXTAREA id="fontsbox" rows="20" cols="48"></TEXTAREA>
+</form>
+
+</BODY>
