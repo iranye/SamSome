@@ -29,6 +29,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="chapter_04.py" />
+    <Compile Include="chapter_05.py" />
     <Compile Include="PythonWebScrape.py" />
     <Compile Include="py_lib.py">
       <SubType>Code</SubType>
