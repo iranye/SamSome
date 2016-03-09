@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace GeneralPractice
@@ -12,11 +13,115 @@ namespace GeneralPractice
         {
             //TypeVarianceStuff();
             //RefsOfCollectionsStuff();
-            DailyLinq();
+            //DailyLinq();
             //LinqStuff();
             //MoreLinqStuff();
+            FuzzyStrCompare();
         }
 
+        private static void FuzzyStrCompare()
+        {
+            //string original = "21-01_The Rolling Stones_Miss You.mp3";
+            //string wantToExclude = "39_03_The Rolling Stones_Miss You.mp3";
+            string original = "abdac";
+            string wantToExclude = "abcd";
+
+            const float threshold = .80F;
+            bool fuzzyEqual = AreFuzzyEqual(original, wantToExclude, threshold);
+            Console.WriteLine("{0} is{1}fuzzy equal to {2}", original, fuzzyEqual ? " " : " not ", wantToExclude);
+        }
+
+        private static bool AreFuzzyEqual(string original, string compareStr, float matchingThreshold)
+        {
+            original = MassageString(original);
+            Console.WriteLine(original);
+            compareStr = MassageString(compareStr);
+            Console.WriteLine(compareStr);
+
+            //if (original.Contains(compareStr) || compareStr.Contains(original))
+            //{
+            //    return true;
+            //}
+
+            char[] origArr = original.ToCharArray();
+
+            IEnumerable<char> origQuery =
+                from c in origArr
+                orderby c descending
+                select c;
+
+            char[] compareStrArr = compareStr.ToCharArray();
+            IEnumerable<char> compQuery =
+                from c in compareStrArr
+                orderby c descending
+                select c;
+
+            int origLen = origArr.Length;
+            int compLen = compareStrArr.Length;
+
+            Stack<char> matchesStack = new Stack<char>();
+            Stack<char> origStack = new Stack<char>();
+            Stack<char> compStack = new Stack<char>();
+
+            foreach (char origChar in origQuery)
+            {
+                origStack.Push(origChar);
+            }
+
+            foreach (char compChar in compQuery)
+            {
+                compStack.Push(compChar);
+            }
+
+            // aabcd vs abcd
+            while (origStack.Count > 0)
+            {
+                char origPopped = origStack.Pop();
+                char compPopped = compStack.Pop();
+                while (origPopped < compPopped && origStack.Count > 0)
+                {
+                    origPopped = origStack.Pop();
+                }
+                if (origPopped == compPopped)
+                {
+                    matchesStack.Push(origPopped);
+                }
+            }
+
+            //for (int i = 0, j = 0; i < origLen && j < compLen; i++, j++)
+            //{
+            //    if (origArr[i] == compareStrArr[j])
+            //    {
+            //        charStack.Push(origArr[i]);
+            //    }
+            //    else
+            //    {
+            //        int newInd = compareStr.IndexOf(origArr[i]);
+            //        j = newInd - 1;
+            //    }
+            //    i--;
+            //}
+            float comparisonQuotient = (float)matchesStack.Count / origLen;
+            Console.WriteLine("comparisonQuotient: {0}", comparisonQuotient);
+            return !(comparisonQuotient < matchingThreshold);
+        }
+
+        private static string MassageString(string original)
+        {
+            string newString = original;
+            newString = newString.Replace(" ", "");
+            newString = newString.Replace("_", "");
+            newString = newString.Replace("-", "");
+
+            Regex pat = new Regex(@"[\d]+(.*)");
+            Match match = pat.Match(newString);
+            if (match.Success)
+            {
+                newString = match.Groups[1].Value;
+            }
+            return newString.ToLower();
+        }
+            
         private static void RefsOfCollectionsStuff()
         {
             List<Vector2> vectors = new List<Vector2>
