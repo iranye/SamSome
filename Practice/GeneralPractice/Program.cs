@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GeneralPractice
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
@@ -19,7 +19,7 @@ namespace GeneralPractice
             FuzzyStrCompare();
         }
 
-        private static void FuzzyStrCompare()
+        public static void FuzzyStrCompare()
         {
             //string original = "21-01_The Rolling Stones_Miss You.mp3";
             //string wantToExclude = "39_03_The Rolling Stones_Miss You.mp3";
@@ -31,7 +31,7 @@ namespace GeneralPractice
             Console.WriteLine("{0} is{1}fuzzy equal to {2}", original, fuzzyEqual ? " " : " not ", wantToExclude);
         }
 
-        private static bool AreFuzzyEqual(string original, string compareStr, float matchingThreshold)
+        public static bool AreFuzzyEqual(string original, string compareStr, float matchingThreshold)
         {
             original = MassageString(original);
             Console.WriteLine(original);
@@ -74,7 +74,7 @@ namespace GeneralPractice
             }
 
             // aabcd vs abcd
-            while (origStack.Count > 0)
+            while (origStack.Count > 0 && compStack.Count > 0)
             {
                 char origPopped = origStack.Pop();
                 char compPopped = compStack.Pop();
@@ -82,38 +82,29 @@ namespace GeneralPractice
                 {
                     origPopped = origStack.Pop();
                 }
+                while (compPopped < origPopped && compStack.Count > 0)
+                {
+                    compPopped = compStack.Pop();
+                }
                 if (origPopped == compPopped)
                 {
                     matchesStack.Push(origPopped);
                 }
             }
 
-            //for (int i = 0, j = 0; i < origLen && j < compLen; i++, j++)
-            //{
-            //    if (origArr[i] == compareStrArr[j])
-            //    {
-            //        charStack.Push(origArr[i]);
-            //    }
-            //    else
-            //    {
-            //        int newInd = compareStr.IndexOf(origArr[i]);
-            //        j = newInd - 1;
-            //    }
-            //    i--;
-            //}
             float comparisonQuotient = (float)matchesStack.Count / origLen;
             Console.WriteLine("comparisonQuotient: {0}", comparisonQuotient);
             return !(comparisonQuotient < matchingThreshold);
         }
 
-        private static string MassageString(string original)
+        public static string MassageString(string original)
         {
             string newString = original;
             newString = newString.Replace(" ", "");
             newString = newString.Replace("_", "");
             newString = newString.Replace("-", "");
 
-            Regex pat = new Regex(@"[\d]+(.*)");
+            Regex pat = new Regex(@"[\d]*(.*)");
             Match match = pat.Match(newString);
             if (match.Success)
             {
@@ -122,7 +113,7 @@ namespace GeneralPractice
             return newString.ToLower();
         }
             
-        private static void RefsOfCollectionsStuff()
+        public static void RefsOfCollectionsStuff()
         {
             List<Vector2> vectors = new List<Vector2>
             {
@@ -154,7 +145,7 @@ namespace GeneralPractice
             }
         }
 
-        private static void DailyLinq()
+        public static void DailyLinq()
         {
             int start = 0;
             const int limit = 12;
@@ -174,7 +165,7 @@ namespace GeneralPractice
             // define and use query syntax (instead of method syntax)
         }
 
-        private static void MoreLinqStuff()
+        public static void MoreLinqStuff()
         {
             int[] numbers = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
             List<Foo> fooList = new List<Foo>();
@@ -198,7 +189,7 @@ namespace GeneralPractice
             }
         }
 
-        private static void LinqStuff()
+        public static void LinqStuff()
         {
             // Data source
             int[] numbers = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
@@ -228,7 +219,7 @@ namespace GeneralPractice
         }
 
         #region TypeVarianceStuff
-        private static void TypeVarianceStuff()
+        public static void TypeVarianceStuff()
         {
             List<Foo> foos = new List<Foo> { new Foo() { X = 1 }, new Foo() { X = 2 }, };
             List<Bar> bars = new List<Bar> { new Bar() { X = 17 }, new Bar() { X = 22 }, };
@@ -238,7 +229,7 @@ namespace GeneralPractice
         }
 
         // http://blogs.msdn.com/b/csharpfaq/archive/2010/02/16/covariance-and-contravariance-faq.aspx
-        private static void PrintX(IEnumerable<IXFieldPrintable> objsWithX)
+        public static void PrintX(IEnumerable<IXFieldPrintable> objsWithX)
         {
             foreach (var objWithX in objsWithX)
             {

@@ -9,6 +9,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsharpPractice", "FsharpPra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformsPractice", "WinformsPractice\WinformsPractice.csproj", "{4E7339A7-D855-469F-995A-44FFCC7C164D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGeneric", "TestGeneric\TestGeneric.csproj", "{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{4E7339A7-D855-469F-995A-44FFCC7C164D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E7339A7-D855-469F-995A-44FFCC7C164D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E7339A7-D855-469F-995A-44FFCC7C164D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
