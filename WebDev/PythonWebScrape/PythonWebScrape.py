@@ -36,6 +36,7 @@ if __name__ == "__main__":
     #get_image()
     #read_using_lambda()
     #read_using_parent()
+    usd_read_products_page()
 
     # chapter_03.py:
     #six_degrees_kevin_bacon()
@@ -48,4 +49,4 @@ if __name__ == "__main__":
     # chapter_05.py
     #get_web_scraping_logo()
     #get_gatherer_image() #does not work (file is corrupted)
-    create_csv()
+    #create_csv()
