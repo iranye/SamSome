@@ -1,4 +1,4 @@
-<HTML><HEAD><TITLE>Schematizer</TITLE>
+<HTML><HEAD><TITLE>Regexer</TITLE>
 <style type='text/css'>
 #table_name{
   font-family: helvetica;
@@ -25,6 +25,7 @@ H2{
 ** Regexer: Batchwise text group and replace tool
 ** Last Modified: 04/07/2016
 **
+** This tool is intended to perform search and replacement operations on a set of lines.
 */
 
 /// General Routines //////////////////////////////////////////////////////
@@ -68,136 +69,7 @@ function save_type_arr(db_obj, typesArr) {
   }
 }
 
-function init_database_types() {
-  var typesArr = new Array();
-
-  var db_obj = new DBObj('access');
-  typesArr.push(new TypeObj("INTEGER", "int", null));
-  typesArr.push(new TypeObj("DATETIME", null, null));
-  typesArr.push(new TypeObj("TEXT", "int", 50));
-
-  save_type_arr(db_obj, typesArr);
-  DBArray.push(db_obj);
-
-  typesArr.length = 0;
-  db_obj = new DBObj('mysql');
-  typesArr.push(new TypeObj("INT", "int", 10));
-  typesArr.push(new TypeObj("VARCHAR", "int", 255));
-  typesArr.push(new TypeObj("DATETIME", null, null));
-  typesArr.push(new TypeObj("DATE", null, null));
-  typesArr.push(new TypeObj("CHAR", "int", 30));
-  typesArr.push(new TypeObj("TINYINT", "int", 3));
-  typesArr.push(new TypeObj("DOUBLE", null, null));
-
-  save_type_arr(db_obj, typesArr);
-  DBArray.push(db_obj);
-}
-
-function populate_radios() {
-  var span_db_types = document.getElementById("db_type_radio");
-  for (i = 0; i < DBArray.length; i++) {
-    //print_to_out("DBArray[i].name: " + DBArray[i].name + "\n");
-    var radioObj = document.getElementById('baseRadioButton').cloneNode(false);
-    radioObj.style.display = '';
-    radioObj.name = "db_type";
-    radioObj.value = DBArray[i].db_name;
-    radioObj.id = "";
-    if (i == -1) {
-      radioObj.checked = true;
-      radioObj.defaultChecked = true;
-    }
-    radioObj.onclick = new Function("select_db(this.value);return true;");
-
-    var labelObj = document.createElement("label");
-    labelObj.onclick = new Function("select_db(this.innerHTML);return true;");
-    var txtNode = document.createTextNode(DBArray[i].db_name);
-    labelObj.appendChild(txtNode);
-
-    span_db_types.appendChild(radioObj);
-    span_db_types.appendChild(labelObj);
-  }
-}
-
 var current_db_obj = null;
-
-function select_db(db_choice) {
-  var formObj = document.forms[0];
-
-  for (var i = 1; formObj.db_type && i < formObj.db_type.length; i++) {
-    if (formObj.db_type[i].value == db_choice)
-      formObj.db_type[i].checked = true;
-  }
-
-  var result = DBArray.lookup_db_type(db_choice);
-  if (result == -1) {
-    print_to_out(db_choice + " not found\n");
-    return;
-  }
-  current_db_obj = DBArray[result];
-  var types = current_db_obj.typeNames();
-
-  var type_choice = document.getElementById("type_select");
-  type_choice.length = 1;
-  for (var i = 0; i < types.length; i++) {
-    print_to_out("types[i]: " + types[i] + "|");
-
-    type_choice.options[type_choice.length] = new Option(types[i]);
-  }
-}
-
-function load_default_aux() {
-  var type_choice = get_select_input("type_select", 1);
-  if (!type_choice) {
-    document.forms[0].aux.value = "";
-    return;
-  }
-  print_to_out("type_choice: " + type_choice + "\n");
-  var default_aux_val = current_db_obj.get_default_aux(type_choice);
-  print_to_out("default_aux_val: " + default_aux_val + "\n");
-
-
-  document.forms[0].aux.value = (default_aux_val) ? default_aux_val : "N/A" ;
-}
-
-function add_field() {
-  var table_choice = get_select_input("table_select", 1);
-  if (!table_choice) {
-    alert ("please select table from Table Select box");
-    return;
-  }
-
-  var found_index = TablesArray.lookup_table(table_choice);
-  if (found_index == -1) {
-    alert ("table not found: '" + table_choice + "'");
-    return;
-  }
-  table_obj = TablesArray[found_index];
-
-  var input = massage_input(document.forms[0].input.value);
-  if (!input) { return; }
-
-  var type_input = get_select_input("type_select", 1);
-  if (!type_input)  {
-    alert ("please select Type from Type Select box");
-    return;
-  }
-
-  var aux = massage_aux(type_input, document.forms[0].aux.value);
-  if (aux == -1) {
-    alert("invalid auxiliary value: '" + document.forms[0].aux.value + "'\n");
-    return;
-  }
-  field_obj = new FieldObj(input, type_input, aux);
-
-  //check for return value (for field already been added)
-  var result = table_obj.addField(field_obj);
-  if (result == -1) {
-    alert("Field: '" + input + "' has already been added to Table: " + table_obj.name);
-    return;
-  }
-  var field_menu = document.getElementById("field_select");
-  field_menu.options[field_menu.length] = new Option(field_obj.field_name);
-}
 
 function massage_aux(type, aux) {
   var found_index = TypesArray.lookup_type(type);
@@ -251,40 +123,9 @@ function massage_input(str) {
   return str;
 }
 
-// print table name and fields to output
-function print_table() {
-  clear_boxes();
-  var table = get_select_input("table_select", 1);
-  if (!table)  {
-    alert ("please select table from Table Select box");
-    return;
-  }
-  var found_index = TablesArray.lookup_table(table);
-  if (found_index == -1) {
-    alert ("table not found: '" + table + "'");
-    return;
-  }
-  table_obj = TablesArray[found_index];
-  print_to_out(table_obj.toString());
-}
-
-
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // show table name for when adding/changing/removing fields
-function show_table() {
-  var table_choice = get_select_input("table_select", 1);
-  reset_table_fields_menu();
-  mode_switch('Add Field')
-
-  if (!table_choice)  {
-    toggle_table("");
-    return;
-  }
-
-  toggle_table(table_choice);
-  populate_fields_menu();
-}
 
 function toggle_table(t) {
   var table_name   = document.getElementById("table_name");
@@ -339,31 +180,6 @@ function populate_fields_menu() {
 function get_field_mode() {
   var field_button   = document.getElementById("field_button");
   return field_button.value;
-}
-
-function mode_switch(mode) {
-  switch (mode) {
-    case "Update" :
-      print_to_out("switching to Update mode\n");
-      var field_choice = get_select_input("field_select", 1);
-      if (!field_choice)  { //if field-select isnt on a field, go back to Add mode
-        mode_switch("Add Field");
-        return;
-      }
-      var UpdateButton = {text_value:mode, func:update_field};
-      toggle_fields_button(UpdateButton);
-      load_form_fields();
-      break;
-    case "Add Field" :
-      print_to_out("switching to Add mode\n");
-      var AddButton = { text_value:"Add Field ", func:add_field };
-      toggle_fields_button(AddButton);
-      break;
-    default :
-      alert('bleh');
-      return;
-  }
-
 }
 
 function load_form_fields() {
@@ -554,7 +370,6 @@ function init_re_strings() {
   dummy_data = "7051220\n" + "7051223\n";
   s += dummy_data;
   push_to_regex_list('sql_keywords', s);
-
 }
 
 function push_to_regex_list(name, sample_string) {
@@ -619,19 +434,6 @@ function eqObj(left, right) {
 }
 
 /// View-Handling Routines //////////////////////////////////////////////////////
-function switch_view(div_tbl) {
-  init_views();
-  if (div_tbl == 'default') return;
-  var view_pick = "div_tbl_" + div_tbl;
-
-  var obj = document.getElementById(view_pick);
-  if (!obj) {
-    print_to_out("error: null object in switch_view\n");
-    return;
-  }
-  obj.style.zIndex = 1;
-}
-
 function init_views() {
   var formObj = document.forms[0];
   var viewsObj = formObj.getElementsByTagName("div");
@@ -683,32 +485,6 @@ function add_row_by_array(data_array, tbl_id, class_name, mouseover) {
   append_row(rowObj, tbl_id);
 }
 
-function add_sort_row(fieldnames, tbl_id, class_name) {
-  var btnNodes = new Array();
-  var rowObj = document.createElement("TR");
-  rowObj.id = "controlRow";
-
-  for (var i = 0; i < fieldnames.length; i++) {
-    var cellObj = document.createElement("TD");
-    cellObj.className = class_name;
-    var btnNode = document.createElement("button");
-    btnNode.value = fieldnames[i];
-    btnNode.nodeValue = fieldnames[i];
-
-    var sort_field = fieldnames[i].charCodeAt(0) - 65;
-    var sort_name = "Sort" + sort_field.toString();
-    //print_to_out("sort_name: " + sort_name + "\n");
-    //btnNode.onclick = new Function('print_to_out("Sorting on " + (this.value.charCodeAt(0) - 65) + "th field");');
-    btnNode.onclick = new Function('sort_on(this.value.charCodeAt(0) - 65);');
-    btnNodes.push(btnNode);
-
-    cellObj.appendChild(btnNode);
-    rowObj.appendChild(cellObj);
-  }
-  append_row(rowObj, tbl_id);
-  return btnNodes;
-}
-
 /// Sorting Routines //////////////////////////////////////////////////////
 var objArr = new Array();
 function btnDefault() { alert("Cant Sort on this yet =("); }
@@ -719,40 +495,6 @@ function check_dates(field_ind) {
     if (!/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}/.test(objArr[i][field_ind])) return false;
   }
   return true;
-}
-
-function sort_on(field_ind) {
-  var date_sort = check_dates(field_ind);
-
-  if (CurrentSort.sort_field != field_ind) {
-    objArr.sort(function(a, b) {
-      if (date_sort) return getDateObj(a[field_ind]).valueOf() - getDateObj(b[field_ind]).valueOf();
-      else return ParseNumb(a[field_ind]) - ParseNumb(b[field_ind]);
-    } );
-    CurrentSort.sort_field = field_ind;
-    CurrentSort.ascending = 1;
-  }
-  else if (CurrentSort.ascending) {
-    objArr.sort(function(a, b) {
-      if (date_sort) return getDateObj(b[field_ind]).valueOf() - getDateObj(a[field_ind]).valueOf();
-      else return ParseNumb(b[field_ind]) - ParseNumb(a[field_ind]);
-    } );
-    CurrentSort.ascending = 0;
-  }
-  else {
-    objArr.sort(function(a, b) {
-      if (date_sort) return getDateObj(a[field_ind]).valueOf() - getDateObj(b[field_ind]).valueOf();
-      else return ParseNumb(a[field_ind]) - ParseNumb(b[field_ind]);
-    } );
-    CurrentSort.ascending = 1;
-  }
-
-  var tbl_pick_id = 'data_tbl_0';
-  delete_rows(tbl_pick_id, 1);
-
-  for (var i = 0; i < objArr.length; i++) {
-    add_row_by_array(objArr[i], tbl_pick_id, 'small', 1);
-  }
 }
 
 function getDateObj(date_str) {
@@ -782,81 +524,6 @@ function ParseNumb(input) {
   return code_val;
 }
 
-function fill_table(choice_obj, input_str) {
-  var tbl_choice = choice_obj.replace(/^.*(\d)/, "$1");
-  if (tbl_choice.length < 1) return;
-  switch_view(tbl_choice);
-
-  var tbl_pick_id = "data_tbl_" + tbl_choice;
-
-  var obj = document.getElementById(tbl_pick_id);
-  if (!obj) {
-    print_to_out("error: null object in switch_view\n");
-    return;
-  }
-
-  clear_box(document.forms[0].outbox);
-  var lines = input_str.split("\n");
-
-  var field_count = 0;
-  objArr.length = 0;
-  for (var i = 0; i < lines.length; i++) {
-    lines[i] = dbl_chomp(lines[i]);
-    if (lines[i].length < 1) {
-      continue;
-    }
-    var fields = lines[i].split("\t");
-
-    if (field_count == 0) field_count = fields.length;
-    else if (field_count != fields.length) {
-      print_to_out("Error, differing field count on line " + i + ": '" + lines[i] + "'\n");
-      //objArr.length = 0;
-      continue;
-    }
-    var tmpArr = new Array();
-    for (var j = 0; j < fields.length; j++) {
-      tmpArr.push(fields[j]);
-    }
-    objArr.push(tmpArr);
-  }
-  print_to_out(field_count + " fields in " + objArr.length + " lines found\n");
-
-  var tmpArr = new Array();
-  for (var i = 0; i < field_count; i++) {
-    //var j = ((i + 65) > 90)
-    tmpArr.push(String.fromCharCode(65 + i));
-  }
-  delete_rows(tbl_pick_id, 0);
-  add_sort_row(tmpArr, tbl_pick_id, 'centered');
-
-  var menuObj = document.getElementById("filter_select");
-  menuObj.length = 1;
-  for (var i = 0; i < tmpArr.length; i++) {
-    menuObj.options[menuObj.length] = new Option(tmpArr[i]);
-  }
-
-  for (var i = 0; i < objArr.length; i++) {
-    add_row_by_array(objArr[i], tbl_pick_id, 'small', 1);
-  }
-}
-
-function set_filter(check_val, filter_str) {
-  //filter_str += "";
-  var filter_field = get_select_input("filter_select", 1);
-  if (!filter_field) return;
-
-  filter_field = filter_field.charCodeAt(0) - 65;
-  var filter_pat = new RegExp(filter_str);
-  var tbl_pick_id = 'data_tbl_0';
-  delete_rows(tbl_pick_id, 1);
-  for (var i = 0; i < objArr.length; i++) {
-    if (!check_val)
-      add_row_by_array(objArr[i], tbl_pick_id, 'small', 1);
-    else if (filter_pat.test(objArr[i][filter_field]))
-      add_row_by_array(objArr[i], tbl_pick_id, 'small', 1);
-  }
-}
-
 function show_unicode(numb_str) {
   var n = parseInt(numb_str);
   if (isNaN(n)) {
@@ -872,117 +539,98 @@ function show_unicode(numb_str) {
 }
 
 function do_inits() {
-  //init_type_select();
   init_re_strings();
   init_views();
-  init_database_types();
-  populate_radios();
+}
+
+function clear_outbox() {
+  document.forms[0].outbox.value = '';
+}
+
+function show_regex_info() {
+  clear_outbox();
+  document.forms[0].outbox.value = 'Character Classes:\r\n';
+  document.forms[0].outbox.value += '\\c\tControl character\r\n';
+  document.forms[0].outbox.value += '\\s\tWhitespace\r\n';
+  document.forms[0].outbox.value += '\\S\tNon-whitespace\r\n';
+  document.forms[0].outbox.value += '\\d\tDigit\r\n';
+  document.forms[0].outbox.value += '\\D\tNon-digit\r\n';
+  document.forms[0].outbox.value += '\\w\tNon-word\r\n';
+  document.forms[0].outbox.value += '\\W\tNon-word\r\n';
+  document.forms[0].outbox.value += '\\x\tHexadecimal Digit\r\n';
+  document.forms[0].outbox.value += '\\O\tOctal Digit\r\n';
+
+  document.forms[0].outbox.value += '\r\n';
+  document.forms[0].outbox.value += 'Groups and Ranges:\r\n';
+  document.forms[0].outbox.value += '.\tAny character EXCEPT new line (\\n)\r\n';
+  document.forms[0].outbox.value += '(a|b)\ta or b\r\n';
+  document.forms[0].outbox.value += '(...)\tGROUP\r\n';
+  document.forms[0].outbox.value += '(?:...)\tPassive (non-capturing) GROUP\r\n';
+  document.forms[0].outbox.value += '[abc]\tRange (a or b or c)\r\n';
+  document.forms[0].outbox.value += '[^abc]\tNOT (a or b or c)\r\n';
+  document.forms[0].outbox.value += '[a-q]\tLower case letter FROM a to q\r\n';
+  document.forms[0].outbox.value += '[A-Q]\tUpper case letter FROM A to Q\r\n';
+  document.forms[0].outbox.value += '[0-7]\tDigit FROM 0 to 7\r\n';
+  document.forms[0].outbox.value += '\\x\t\tGROUP or sub-pattern number "-x"\r\n';
+
+  document.forms[0].outbox.value += '\r\n';
+  document.forms[0].outbox.value += 'String Replacement:\r\n';
+document.forms[0].outbox.value += '$n\tnth non-passive GROUP\r\n';
+document.forms[0].outbox.value += '$2\t"xyz" IN \/^(abc(xyz))$\/\r\n';
+document.forms[0].outbox.value += '$1\t"xyz" IN \/^(?:abc)(xyz)$\/\r\n';
+document.forms[0].outbox.value += '$`\tBefore matched string\r\n';
+document.forms[0].outbox.value += '$+\tLast matched string\r\n';
+document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
+
+  document.forms[0].outbox.value += '\r\n';
+  document.forms[0].outbox.value += 'Anchors:\r\n';
+  document.forms[0].outbox.value += '\\^\tStart of string, or start of line IN multi-line pattern\r\n';
+  document.forms[0].outbox.value += '\\A\tStart of string\r\n';
+  document.forms[0].outbox.value += '\$\tEnd of string, or end of line IN multi-line pattern\r\n';
+  document.forms[0].outbox.value += '\\Z\tEnd of string\r\n';
+  document.forms[0].outbox.value += '\\b\tWord boundary\r\n';
+  document.forms[0].outbox.value += '\\B\tNOT word boundary\r\n';
+  document.forms[0].outbox.value += '\\<\tStart of word\r\n';
+  document.forms[0].outbox.value += '\\>\tEnd of word\r\n';
+
 }
 
 </SCRIPT>
 </HEAD>
-<BODY bgcolor='#005080' onload='do_inits();'>
+<BODY bgcolor='#0088AF' onload='do_inits();'>
 
-<H2>Table Schema</H2>
+<H2>Regexer: Search and Replace</H2>
 <form>
-<span id="db_type_radio">
-<input type="radio" id="baseRadioButton" name="db_type" style="display: none;">
-</span>
-<input type="button" onclick="init_database_types();" value="init_database_types"></input>
-<input type="button" onclick="populate_radios();" value="populate_radios"></input>
-<!--
-<input type="radio" name="db_type" value="access" checked/><label>MS Access</label>
-<input type="radio" name="db_type" value="mysql"/><label>MySQL</label>
-<div id="div_tab_1" class="div_tab_1" onclick="switch_view('1');">&nbsp;Table 1</div>
-<div id="div_tbl_1" name="view" class="div_tbl_1">
-  <TABLE border="1">
-    <TBODY id="data_tbl_1">
-    </TBODY>
-  </TABLE>
-</div>
 
-
--->
-
-
-<TABLE>
-<TBODY>
-  <TR>
-    <TD><input type="button" onclick="print_table();" value="Print SQL" accesskey="Q"></input></TD>
-    <TD><input type="button" onclick="add_table();" value="New Table(s)" accesskey="W"></input></TD>
-    <TD><select name="table_select" id="table_select" onchange="show_table();">
-        <option>-- Table Select --</option>
-        </select>
-    </TD>
-    <TD><select name="field_select" id="field_select" onchange="mode_switch('Update');">
-        <option>-- Table Fields --</option>
-        </select>
-    </TD>
-  </TR>
-</TBODY>
-</TABLE>
-
-<DIV ID="table_name">Table Name</DIV>
-<TABLE>
-<TBODY>
-  <TR>
-    <TD><input name="input" type="text" onfocus="clear_box(this);" value="New Table/Field"></input></TD>
-    <TD><select name="type_select" id="type_select" onchange="load_default_aux();" >
-        <option>-- Type Select --</option>
-      </select>
-    </TD>
-    <TD><input name="aux" type="text" ></input></TD>
-    <TD><input id="field_button" type="button" value="Add Field" onclick="add_field();" accesskey="Z"></input></TD>
-  </TR>
-  <TR>
-  </TR>
-</TBODY>
-</TABLE>
-<input id="table_fill" type="button" value="Fill Table 0" onclick="fill_table(this.value, document.forms[0].inbox.value);" accesskey="G"></input>
-<select name="filter_select" id="filter_select" >
-  <option>-- Field --</option>
-</select>
-<input name="filter0" type="text" value="Filter" onclick='if (this.value == "Filter") this.value="";'></input>
-<input type="checkbox" onclick="set_filter(this.checked, document.forms[0].filter0.value);" ></input>
-<BR />
-<BR />
-<input name="unicode" type="text" size="4"></input><input type="button" value="U" onclick='show_unicode(document.forms[0].unicode.value);'></input>
-<div class="default_tab" onclick="switch_view('default');">&nbsp;XXX</div>
-<div id="div_tab_0" class="div_tab_0" onclick="switch_view('0');">&nbsp;Table 0</div>
-
-<div id="div_tbl_0" name="view" class="div_tbl_0">
-  <TABLE border="1">
-    <TBODY id="data_tbl_0">
-    </TBODY>
-  </TABLE>
-</div>
-
-
-<BR />
+<p>Input regex and substitution string into the first line (delimited with ~~), then the text to process on the lines below it (Click Run to see samples)</p>
 <textarea name="inbox" rows="14" cols="98"></textarea>
 <BR />
 <textarea class="toggle" name="outbox" rows="14" cols="98"></textarea><br />
 
-<input type="radio" name="regex" value="generic">Generic</input>
+<input type="radio" name="regex" value="generic" checked>Generic</input>
 <input type="radio" name="regex" value="mrobo">Multi-Robocopy</input>
 <input type="radio" name="regex" value="rn">Bulk Rename</input>
 <input type="radio" name="regex" value="exp_fold_rn">RN Export Fldrs</input>
 <input type="radio" name="regex" value="cast_varchar">CAST</input>
 <input type="radio" name="regex" value="perl_print">perl_print</input>
-<input type="radio" name="regex" value="js_print" checked>js_print</input>
+<input type="radio" name="regex" value="js_print">js_print</input>
 <input type="radio" name="regex" value="robo_boxes">Robo Boxes</input>
 <input type="checkbox" id="sql_code" Checked>SQL</input>
 
 </br>
 <input type="button" onclick="ClipBoard();" accesskey="C" value="To Clipboard" ></input>
 <input type="button" onclick="dump_obj(field_button);" value="Test" accesskey="S"></input>
-<input type="button" onclick="document.forms[0].outbox.value = '';" value="Clear" accesskey="B"></input>
-<input type="button" onclick="clear_boxes();" value="Clear Both"></input>
+<input type="button" onclick="clear_outbox();" value="Clear" accesskey="B"></input>
+<input type="button" onclick="clear_boxes();" value="Clear Both" accesskey="0"></input>
 <input type="button" onclick="run_sub();" value="Run" accesskey="R"></input>
 <input type="button" onclick="pretty_print(document.forms[0].inbox.value);" value="Pretty Print" accesskey="E"></input>
-<input type="button" onclick='alert("put regex and substitution string on first line (delimited with ~~), then the text to process on the lines below it (SEE SAMPLE)");run_sub();' value="Help"></input>
+<input type="button" onclick='show_regex_info();'";' value="Regex Info" accesskey="Q"></input>
 
 <BR />
+<BR />
+
+<input name="unicode" type="text" size="4"></input><input type="button" value="U" onclick='show_unicode(document.forms[0].unicode.value);'></input>
+Enter a character and click the button to see it's numerical value.
 </form>
 
 </BODY>
