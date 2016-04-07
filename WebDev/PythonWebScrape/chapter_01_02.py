@@ -99,9 +99,10 @@ def read_using_parent():
     print(price_el.get_text())
 
 def usd_read_products_page():
-    #bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/rotary/kit/E4T")
+    #bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/rotary/kit/EC35")    
+    bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/rotary/kit/E4T")
     #bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/modules/EM1")
-    bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/modules/EM2")    
+    #bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/modules/EM2")
     
     if bsObj == None:
         return
