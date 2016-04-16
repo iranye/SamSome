@@ -6,28 +6,51 @@ using System.Threading.Tasks;
 
 namespace PathProblem
 {
+    public class Point : IComparable<Point>
+    {
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int pathSum { get; set; }
+
+        public int CompareTo(Point other)
+        {
+            int ret = -1;
+            if (this.X < other.X || this.Y < other.Y)
+                ret = -1;
+            else if (this.X > other.X || this.Y > other.Y)
+                ret = 1;
+            else
+            {
+                ret = 0;
+            }
+            return ret;
+        }
+    }
+
     class Program
     {
         private static int mMaxMoves;
         private static int mBoundary;
         private static int[,] mGrid;
         private static List<Tuple<int, int>> mVisited = new List<Tuple<int, int>>();
+        private static List<Point> PointList = new List<Point>();
         private const int ILLEGAL_MOVE = -1;
         
         static void Main(string[] args)
         {
-            initalizePuzzleSmall();
+            //initalizePuzzleSmall();
             //initalizePuzzleMedium();
-            //initalizePuzzleMain();
+            initalizePuzzleMain();
             int maxSum = 0;
 
             for (int i = 0; i < mBoundary; i++)
             {
                 for (int j = 0; j < mBoundary; j++)
                 {
-                    int sum = getPathSum(new Tuple<int, int>(i, j), 1);
+                    int sum = getPathSum(new Tuple<int, int>(i, j), 1, PointList);
                     if (maxSum < sum)
                     {
+                        Console.WriteLine("maxSum: {0}", maxSum);
                         maxSum = sum;
                     }
                     mVisited.Clear();
@@ -36,22 +59,33 @@ namespace PathProblem
             Console.WriteLine("maxSum: {0}", maxSum);
         }
 
-        private static bool MoveIsLegal(Tuple<int, int> position)
+        private static bool MoveIsLegal(Tuple<int, int> position, List<Point> pointList)
         {
+            Point p = new Point { X = position.Item1, Y = position.Item2 };
+            bool alreadyVisited = pointList.Contains(p);
+            foreach (var el in pointList)
+            {
+                if (el.CompareTo(p) == 0)
+                {
+                    alreadyVisited = true;
+                    break;
+                }
+            }
             return !(
                        (position.Item1 < 0) || (position.Item2 < 0)
                     || (position.Item1 >= mBoundary) || (position.Item2 >= mBoundary)
-                    || (mVisited.Contains(position))
+                    || alreadyVisited
                     );
         }
 
         //private static int getPathSum(int i, int j, int moves)
-        private static int getPathSum(Tuple<int, int> position, int moves)
+        private static int getPathSum(Tuple<int, int> position, int moves, List<Point> pointList)
         {
-            mVisited.Add(position);
+            pointList.Add(new Point { X = position.Item1, Y = position.Item2 });
 
             if (moves >= mMaxMoves)
             {
+                pointList.RemoveAt(pointList.Count - 1);
                 return mGrid[position.Item1, position.Item2];
             }
             List<Tuple<int, int>> legalMoves = new List<Tuple<int, int>>();
@@ -60,29 +94,30 @@ namespace PathProblem
             var up    = new Tuple<int, int>(position.Item1 - 1, position.Item2);
             var down  = new Tuple<int, int>(position.Item1 + 1, position.Item2);
             int rightSum = -1;
-            if (MoveIsLegal(right))
+            if (MoveIsLegal(right, pointList))
             {
                 legalMoves.Add(right);
-                rightSum = getPathSum(right, moves + 1);
+                rightSum = getPathSum(right, moves + 1, pointList);
             }
             int leftSum = -1;
-            if (MoveIsLegal(left))
+            if (MoveIsLegal(left, pointList))
             {
                 legalMoves.Add(left);
-                leftSum = getPathSum(left, moves + 1);
+                leftSum = getPathSum(left, moves + 1, pointList);
             }
             int upSum = -1;
-            if (MoveIsLegal(up))
+            if (MoveIsLegal(up, pointList))
             {
                 legalMoves.Add(up);
-                upSum = getPathSum(up, moves + 1);
+                upSum = getPathSum(up, moves + 1, pointList);
             }
             int downSum = -1;
-            if (MoveIsLegal(down))
+            if (MoveIsLegal(down, pointList))
             {
                 legalMoves.Add(down);
-                downSum = getPathSum(down, moves + 1);
+                downSum = getPathSum(down, moves + 1, pointList);
             }
+            pointList.RemoveAt(pointList.Count - 1);
             return mGrid[position.Item1, position.Item2] + MaxSum(rightSum, leftSum, upSum, downSum);
         }
 
@@ -111,18 +146,18 @@ namespace PathProblem
             mGrid = new int[mBoundary, mBoundary];
             mGrid[0, 0] = 1;
             mGrid[0, 1] = 2;
-            mGrid[0, 2] = 5;
+            mGrid[0, 2] = 3;
             mGrid[1, 0] = 1;
-            mGrid[1, 1] = 3;
-            mGrid[1, 2] = 4;
+            mGrid[1, 1] = 1;
+            mGrid[1, 2] = 9;
             mGrid[2, 0] = 1;
-            mGrid[2, 1] = 1;
+            mGrid[2, 1] = 6;
             mGrid[2, 2] = 1;
         }
 
         private static void initalizePuzzleMain()
         {
-            mMaxMoves = 40;
+            mMaxMoves = 7;
             mBoundary = 12;
             mGrid = new int[mBoundary, mBoundary];
             mGrid[0, 0] = 45;
