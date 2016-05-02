@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<TITLE>WMI</TITLE>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#FF0000" VLINK="#800000" ALINK="#FF00FF" >
+
+<P>
+wmi - a lightweight Python wrapper around Microsoft's WMI interface
+
+Windows Management Instrumentation (WMI) is Microsoft's answer to
+the DMTF's Common Information Model. It allows you to query just
+about any conceivable piece of information from any computer which
+is running the necessary agent and over which have you the
+necessary authority.
+
+The implementation is by means of COM/DCOM and most of the examples
+assume you're running one of Microsoft's scripting technologies.
+Fortunately, Mark Hammond's pywin32 has pretty much all you need
+for a workable Python adaptation. I haven't tried any of the fancier
+stuff like Async calls and so on, so I don't know if they'd work.
+
+Since the COM implementation doesn't give much away to Python
+programmers, I've wrapped it in some lightweight classes with
+some getattr / setattr magic to ease the way. In particular:
+
+<ul>
+<li>
+The _wmi_namespace object itself will determine its classes
+and allow you to return all instances of any of them by
+using its name as an attribute. As an additional shortcut,
+you needn't specify the Win32_; if the first lookup fails
+it will try again with a Win32_ on the front:
+
+<pre class="code">
+disks = wmi.WMI ().Win32_LogicalDisk ()
+</pre>
+
+In addition, you can specify what would become the WHERE clause
+as keyword parameters:
+
+<pre class="code">
+fixed_disks = wmi.WMI ().Win32_LogicalDisk (DriveType = 3)
+</pre>
+</li>
+
+<li>
+The objects returned by a WMI lookup are wrapped in a Python
+class which determines their methods and classes and allows
+you to access them as though they were Python classes. The
+methods only allow named parameters.
+
+<pre class="code">
+for p in wmi.WMI ().Win32_Process ():
+  if p.Name.lower () == 'notepad.exe':
+    p.Terminate (Result=1)
+</pre>
+</li>
+
+<li>
+ Doing a print on one of the WMI objects will result in its
+ GetObjectText_ method being called, which usually produces
+ a meaningful printout of current values.
+ The repr of the object will include its full WMI path,
+ which lets you get directly to it if you need to.
+</li>
+
+<li>
+You can get the associators and references of an object as
+ a list of python objects by calling the associators () and
+ references () methods on a WMI Python object.
+ NB Don't do this on a Win32_ComputerSystem object; it will
+ take all day and kill your machine!
+
+<pre class="code">
+for p in wmi.WMI ().Win32_Process ():
+  if p.Name.lower () == 'notepad.exe':
+    for r in p.references ():
+      print r.Name
+</pre>
+</li>
+
+<li>
+WMI classes (as opposed to instances) are first-class
+objects, so you can get hold of a class, and call
+its methods or set up a watch against it.
+
+<pre class="code">
+process = wmi.WMI ().Win32_Process
+process.Create (CommandLine="notepad.exe")
+</pre>
+
+</li>
+
+<li>
+To make it easier to use in embedded systems and py2exe-style
+executable wrappers, the module will not force early Dispatch.
+To do this, it uses a handy hack by Thomas Heller for easy access
+to constants.
+</li>
+
+<li>
+Typical usage will be:
+
+<pre class="code">
+import wmi
+
+vodev1 = wmi.WMI ("vodev1")
+for disk in vodev1.Win32_LogicalDisk ():
+  if disk.DriveType == 3:
+    space = 100 * long (disk.FreeSpace) / long (disk.Size)
+    print "%s has %d%% free" % (disk.Name, space)
+</pre>
+</li>
+
+</ul>
+
+Many thanks, obviously to Mark Hammond for creating the win32all
+extensions, but also to Alex Martelli and Roger Upole, whose
+c.l.py postings pointed me in the right direction.
+Thanks especially in release 1.2 to Paul Tiemann for his code
+contributions and robust testing.
+
+(c) Tim Golden - mail at timgolden.me.uk 5th June 2003
+Licensed under the (GPL-compatible) MIT License:
+http://www.opensource.org/licenses/mit-license.php
+
+For change history see CHANGELOG.TXT
+</BODY>
+</HTML>

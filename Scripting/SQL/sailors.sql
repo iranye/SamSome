@@ -1,0 +1,254 @@
+CREATE TABLE S1([sid] INTEGER PRIMARY KEY, [sname] CHAR(20), [rating] INTEGER, [age] REAL);
+CREATE TABLE S2([sid] INTEGER PRIMARY KEY, [sname] CHAR(20), [rating] INTEGER, [age] REAL);
+CREATE TABLE S3([sid] INTEGER PRIMARY KEY, [sname] CHAR(20), [rating] INTEGER, [age] REAL);
+CREATE TABLE Sailors([sid] INTEGER PRIMARY KEY, [sname] CHAR(20), [rating] INTEGER, [age] REAL);
+
+CREATE TABLE Boats([bid] INTEGER PRIMARY KEY, [bname] CHAR(20), [color] CHAR(20));
+
+CREATE TABLE Reserves([sid] INTEGER, [bid] INTEGER, [rday] DATETIME, 
+FOREIGN KEY (sid) REFERENCES Sailors,  FOREIGN KEY (bid) REFERENCES Boats,
+PRIMARY KEY (sid, bid, rday));
+
+CREATE TABLE R2([sid] INTEGER, [bid] INTEGER, [rday] DATETIME, 
+FOREIGN KEY (sid) REFERENCES S3,  FOREIGN KEY (bid) REFERENCES B1,
+PRIMARY KEY (sid, bid, rday));
+
+INSERT INTO S1(sid, sname, rating, age) VALUES (22, 'Dustin', 7, 45.0);
+INSERT INTO S1(sid, sname, rating, age) VALUES (32, 'Lubber', 8, 55.5);
+INSERT INTO S1(sid, sname, rating, age) VALUES (58, 'Rusty', 20, 35.0);
+
+INSERT INTO S2(sid, sname, rating, age) VALUES (28, 'yuppy', 9, 35.0);
+INSERT INTO S2(sid, sname, rating, age) VALUES (31, 'Lubber', 8, 55.5);
+INSERT INTO S2(sid, sname, rating, age) VALUES (44, 'guppy', 5, 35.0);
+INSERT INTO S2(sid, sname, rating, age) VALUES (58, 'Rusty', 10, 35.0);
+
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (22, 'Dustin', 7, 45.0);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (29, 'Brutus', 1, 33.0);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (31, 'Lubber', 8, 55.5);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (32, 'Andy', 8, 25.5);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (58, 'Rusty', 10, 35.0);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (64, 'Horatio', 7, 35.0);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (71, 'Zorba', 10, 16.0);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (74, 'Horatio', 9, 35.0);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (85, 'Art', 3, 25.5);
+INSERT INTO Sailors(sid, sname, rating, age) VALUES (95, 'Bob', 3, 63.5);
+
+INSERT INTO Boats(bid, bname, color) VALUES (101, 'Interlake', 'blue');
+INSERT INTO Boats(bid, bname, color) VALUES (102, 'Interlake', 'red');
+INSERT INTO Boats(bid, bname, color) VALUES (103, 'Clipper', 'green');
+INSERT INTO Boats(bid, bname, color) VALUES (104, 'Marine', 'red');
+
+INSERT INTO R1(sid, bid, rday) VALUES (22, 101, '10/10/1998');
+INSERT INTO R1(sid, bid, rday) VALUES (58, 103, '11/12/1998');
+
+INSERT INTO Reserves(sid, bid, rday) VALUES (22, 101, '10/10/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (22, 102, '10/10/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (22, 103, '10/08/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (22, 104, '10/07/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (31, 102, '11/10/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (31, 103, '11/06/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (31, 104, '11/12/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (64, 101, '09/05/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (64, 102, '09/08/1998');
+INSERT INTO Reserves(sid, bid, rday) VALUES (74, 103, '09/08/1998');
+---------------------------------------------------------------
+SELECT * FROM Sailors
+SELECT * FROM Boats
+SELECT * FROM Reserves
+---------------------------------------------------------------
+(Qz) names of sailors who have only reserved green boats
+SELECT S.sname
+FROM Sailors S
+WHERE S.sid IN (
+  SELECT R.sid
+  FROM Reserves R
+  WHERE R.sid IN(
+    SELECT S1.sid
+    FROM Sailors S1
+    WHERE S1.sid NOT IN (
+	SELECT R1.sid
+	FROM Reserves R1
+	WHERE R1.bid NOT IN (
+		SELECT B.bid
+		FROM Boats B
+		WHERE B.color='green'))))
+
+
+(Q1) Find the names of sailors who have reserved boat number 103.
+SELECT S.sname
+FROM Sailors S, Reserves R
+WHERE S.sid=R.sid AND R.bid=103
+
+SELECT S.sname
+FROM Sailors S
+WHERE S.sid IN (
+	SELECT R.sid
+	FROM Reserves R
+	WHERE R.bid=103)
+
+*p147: Good programming style:
+SELECT S.sname
+FROM Sailors S
+WHERE EXISTS (
+	SELECT *
+	FROM Reserves R
+	WHERE R.bid=103 AND R.sid=S.sid)
+
+(Q2) Find the names of sailors who have reserved a red boat.
+SELECT S.sname
+FROM Sailors S
+WHERE S.sid IN (
+	SELECT R.sid
+	FROM Reserves R
+	WHERE R.bid IN (
+		SELECT B.bid
+		FROM Boats B
+		WHERE B.color='red'))
+
+(Q4) names of sailors who have reserved at least one boat.
+SELECT S.sname
+FROM Sailors S, Reserves R
+WHERE S.sid=R.sid
+
+(Q5) names of sailors who have reserved a red or a green boat.
+SELECT S.sname
+FROM Sailors S, Reserves R, Boats B
+WHERE S.sid=R.sid AND R.bid=B.bid
+	AND (B.color='red' OR B.color='green')
+
+SELECT S.sname
+FROM Sailors S, Reserves R, Boats B
+WHERE S.sid=R.sid AND R.bid=B.bid AND B.color='red'
+UNION
+SELECT S2.sname
+FROM Sailors S2, Reserves R2, Boats B2
+WHERE S2.sid=R2.sid AND R2.bid=B2.bid AND B2.color='green'
+
+(Q6) Find the names of sailors who have reserved both a red boat
+and a green boat.
+SELECT S.sname
+FROM Sailors S, Reserves R1, Boats B1, Reserves R2, Boats B2
+WHERE S.sid=R1.sid AND R1.bid=B1.bid
+    AND S.sid=R2.sid AND R2.bid=B2.bid
+    AND B1.color='red' AND B2.color='green'
+
+(Q6) Alternate (incorrect for two diff sailors names Horatio)
+SELECT S.sname
+FROM Sailors S, Reserves R, Boats B
+WHERE S.sid=R.sid AND R.bid=B.bid AND B.color='red'
+INTERSECT
+SELECT S2.sname
+FROM Sailors S2, Reserves R2, Boats B2
+WHERE S2.sid=R2.sid AND R2.bid=B2.bid AND B2.color='green'
+
+SELECT S.sname
+FROM Sailors S, Reserves R, Boats B
+WHERE S.sid=R.sid AND R.bid=B.bid AND B.color='red'
+AND S.sid IN(
+	SELECT S2.sid
+	FROM Sailors S2, Reserves R2, Boats B2
+	WHERE S2.sid=R2.sid AND R2.bid=B2.bid AND B2.color='green')
+
+
+(Q9) Find the names of sailors who have reserved all boats.
+SELECT S.sname
+FROM Sailors S
+WHERE NOT EXISTS (
+	SELECT B.bid
+	FROM Boats B
+	WHERE NOT EXISTS (
+		SELECT R.bid
+		FROM Reserves R
+		WHERE R.bid=B.bid AND R.sid=S.sid))
+
+(Q11) Find all sailors with a rating above 7.
+SELECT S.sid, S.sname, S.rating, S.age
+FROM Sailors AS S
+WHERE S.rating > 7
+
+(Q15) Names and Ages of all sailors (from Sailors)
+SELECT DISTINCT S.sname, S.age 
+FROM  Sailors S
+
+(Q16) sids of sailors who have reserved a red boat
+SELECT R.sid
+FROM  Boats B, Reserves R
+WHERE B.bid=R.bid AND B.color='red'
+
+(Q17) Compute increments for the ratings of persons who have sailed two different
+boats on the same rday.
+SELECT S.sname, S.rating+1 AS rating
+FROM Sailors S, Reserves R1, Reserves R2
+WHERE S.sid=R1.sid AND S.sid=R2.sid
+      AND R1.rday=R2.rday AND R1.bid <> R2.bid
+
+(Q18) Find the ages of sailors whose name begins and ends with B
+and has at least three characters.
+SELECT S.age
+FROM Sailors S
+WHERE S.sname LIKE 'B_%B'
+
+(Q19) Find the sids of all sailors who have reserved red boats but not green boats.
+SELECT S.sid
+FROM Sailors S, Reserves R, Boats B
+WHERE S.sid=R.sid AND R.bid=B.bid AND B.color='red'
+EXCEPT
+SELECT S2.sid
+FROM Sailors S2, REserves R2, Boats B2
+WHERE S2.sid=R2.sid AND R2.bid=B2.bid AND B2.color='green'
+
+(Q20) Find all sids of sailors who have a rating of 10 or reserved boat 104
+SELECT S.sid
+FROM Sailors S
+WHERE S.rating=10
+UNION
+SELECT R.sid
+FROM Reserves R
+WHERE R.bid=104
+
+(Q22) Find sailors whose rating is better than some sailor called Horatio.
+SELECT S.sid
+FROM Sailors S
+WHERE S.rating > ANY (
+	SELECT S2.rating
+	FROM Sailors S2
+	WHERE S2.sname='HORATIO')
+
+(Q22) Find sailors whose rating is better than all sailors called Horatio.
+SELECT S.sid
+FROM Sailors S
+WHERE S.rating > ALL (
+	SELECT S2.rating
+	FROM Sailors S2
+	WHERE S2.sname='HORATIO')
+
+(Q23) Find the sailors with the highest rating.
+SELECT S.sid
+FROM Sailors S
+WHERE S.rating >= ALL (
+	SELECT S2.rating
+	FROM Sailors S2)
+
+(Q31) Find the age of the youngest sailor for each rating level.
+SELECT S.rating, MIN(S.age) as minage
+FROM Sailors S
+GROUP BY S.rating
+
+Find age of youngest sailor with age >= 18, for each rating with at least 2 such sailors
+SELECT S.rating, MIN(S.age) as minage
+FROM Sailors S
+WHERE S.age >= 18
+GROUP BY S.rating
+HAVING COUNT (*) > 1
+
+SELECT S.rating, MIN(S.age) as minage
+FROM Sailors S
+WHERE S.age >= 18
+GROUP BY S.rating
+HAVING COUNT (*) > 1
+
+Demonstrate that the FD S.age -> S.rating does NOT hold
+SELECT S.age, COUNT(S.rating) violation_count
+FROM Sailors S
+GROUP BY S.age
+HAVING COUNT(DISTINCT S.rating)>1

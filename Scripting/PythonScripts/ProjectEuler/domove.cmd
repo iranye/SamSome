@@ -1,0 +1,9 @@
+move euler1.py euler001.py
+move euler2.py euler002.py
+move euler3.py euler003.py
+move euler4.py euler004.py
+move euler5.py euler005.py
+move euler6.py euler006.py
+move euler7.py euler007.py
+move euler8.py euler008.py
+move euler9.py euler009.py

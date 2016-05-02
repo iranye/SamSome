@@ -1,0 +1,12 @@
+//need to learn the language better to move this and have it directly in the function
+let mutable result = 0
+let Solution =
+	(*
+		Easy brute force method. Gen' the list, filter, then add them up.
+		Easier then Pi.
+	*)
+
+	let nums = [0..999].Filter (fun x -> x % 3 = 0 || x % 5 = 0)
+	nums.Iterate (fun x -> result <- result + x)
+	result
+

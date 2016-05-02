@@ -1,0 +1,1709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.activequerybuilder.com/schemas/metadata.xsd">
+  <default_database>
+    <item name="Northwind" case_sens="0"/>
+  </default_database>
+  <default_schemas>
+    <item name="dbo" case_sens="0"/>
+  </default_schemas>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Alphabetical list of products" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="ProductID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="SupplierID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="CategoryID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="QuantityPerUnit" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitPrice" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitsInStock" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitsOnOrder" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="ReorderLevel" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="Discontinued" case_sens="0"/>
+        </name>
+        <type>5</type>
+      </field>
+      <field>
+        <name>
+          <item name="CategoryName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+  </view>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Categories" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CategoryID" case_sens="0"/>
+        </name>
+        <type>14</type>
+      </field>
+      <field>
+        <name>
+          <item name="CategoryName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Description" case_sens="0"/>
+        </name>
+        <type>16</type>
+      </field>
+      <field>
+        <name>
+          <item name="Picture" case_sens="0"/>
+        </name>
+        <type>15</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="CategoryID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Products" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="CategoryID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Category Sales for 1997" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CategoryName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CategorySales" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Current Product List" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="ProductID" case_sens="0"/>
+        </name>
+        <type>14</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+  </view>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Customer and Suppliers by City" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="City" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CompanyName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ContactName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Relationship" case_sens="0"/>
+        </name>
+        <type>1</type>
+      </field>
+    </fields>
+  </view>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="CustomerCustomerDemo" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CustomerID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CustomerTypeID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+  </table>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="CustomerDemographics" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CustomerTypeID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CustomerDesc" case_sens="0"/>
+        </name>
+        <type>16</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="CustomerTypeID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="CustomerCustomerDemo" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="CustomerTypeID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Customers" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CustomerID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CompanyName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ContactName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ContactTitle" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Address" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="City" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Region" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="PostalCode" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Country" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Phone" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Fax" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="CustomerID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="CustomerCustomerDemo" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="CustomerID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="CustomerID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Orders" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="CustomerID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Employees" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="EmployeeID" case_sens="0"/>
+        </name>
+        <type>14</type>
+      </field>
+      <field>
+        <name>
+          <item name="LastName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="FirstName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Title" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="TitleOfCourtesy" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="BirthDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="HireDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="Address" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="City" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Region" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="PostalCode" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Country" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="HomePhone" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Extension" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Photo" case_sens="0"/>
+        </name>
+        <type>15</type>
+      </field>
+      <field>
+        <name>
+          <item name="Notes" case_sens="0"/>
+        </name>
+        <type>16</type>
+      </field>
+      <field>
+        <name>
+          <item name="ReportsTo" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="PhotoPath" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="EmployeeID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Employees" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="ReportsTo" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="EmployeeID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="EmployeeTerritories" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="EmployeeID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="EmployeeID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Orders" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="EmployeeID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="EmployeeTerritories" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="EmployeeID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="TerritoryID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+  </table>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Invoices" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="ShipName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipAddress" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipCity" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipRegion" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipPostalCode" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipCountry" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CustomerID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CustomerName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Address" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="City" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Region" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="PostalCode" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Country" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Salesperson" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="OrderDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="RequiredDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShippedDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipperName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitPrice" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="Quantity" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="Discount" case_sens="0"/>
+        </name>
+        <type>6</type>
+      </field>
+      <field>
+        <name>
+          <item name="ExtendedPrice" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="Freight" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Order Details" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitPrice" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="Quantity" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="Discount" case_sens="0"/>
+        </name>
+        <type>6</type>
+      </field>
+    </fields>
+  </table>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Order Details Extended" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitPrice" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="Quantity" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="Discount" case_sens="0"/>
+        </name>
+        <type>6</type>
+      </field>
+      <field>
+        <name>
+          <item name="ExtendedPrice" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Order Subtotals" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="Subtotal" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Orders" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>14</type>
+      </field>
+      <field>
+        <name>
+          <item name="CustomerID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="EmployeeID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="OrderDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="RequiredDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShippedDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipVia" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="Freight" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipAddress" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipCity" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipRegion" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipPostalCode" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipCountry" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="OrderID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Order Details" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="OrderID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Orders Qry" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="CustomerID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="EmployeeID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="OrderDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="RequiredDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShippedDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipVia" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="Freight" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipAddress" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipCity" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipRegion" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipPostalCode" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShipCountry" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CompanyName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Address" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="City" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Region" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="PostalCode" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Country" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+  </view>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Product Sales for 1997" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CategoryName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductSales" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Products" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="ProductID" case_sens="0"/>
+        </name>
+        <type>14</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="SupplierID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="CategoryID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="QuantityPerUnit" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitPrice" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitsInStock" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitsOnOrder" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="ReorderLevel" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="Discontinued" case_sens="0"/>
+        </name>
+        <type>5</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="ProductID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Order Details" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="ProductID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Products Above Average Price" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitPrice" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Products by Category" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CategoryName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="QuantityPerUnit" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="UnitsInStock" case_sens="0"/>
+        </name>
+        <type>2</type>
+      </field>
+      <field>
+        <name>
+          <item name="Discontinued" case_sens="0"/>
+        </name>
+        <type>5</type>
+      </field>
+    </fields>
+  </view>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Quarterly Orders" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CustomerID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="CompanyName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="City" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Country" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+  </view>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Region" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="RegionID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="RegionDescription" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="RegionID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Territories" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="RegionID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Sales by Category" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="CategoryID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="CategoryName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ProductSales" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Sales Totals by Amount" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="SaleAmount" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="CompanyName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ShippedDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+    </fields>
+  </view>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Shippers" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="ShipperID" case_sens="0"/>
+        </name>
+        <type>14</type>
+      </field>
+      <field>
+        <name>
+          <item name="CompanyName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Phone" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="ShipperID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Orders" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="ShipVia" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Summary of Sales by Quarter" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="ShippedDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="Subtotal" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <view>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Summary of Sales by Year" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="ShippedDate" case_sens="0"/>
+        </name>
+        <type>11</type>
+      </field>
+      <field>
+        <name>
+          <item name="OrderID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+      <field>
+        <name>
+          <item name="Subtotal" case_sens="0"/>
+        </name>
+        <type>8</type>
+      </field>
+    </fields>
+  </view>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Suppliers" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="SupplierID" case_sens="0"/>
+        </name>
+        <type>14</type>
+      </field>
+      <field>
+        <name>
+          <item name="CompanyName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ContactName" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="ContactTitle" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Address" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="City" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Region" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="PostalCode" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Country" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Phone" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="Fax" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="HomePage" case_sens="0"/>
+        </name>
+        <type>16</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="SupplierID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="Products" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="SupplierID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+  <table>
+    <database>
+      <item name="Northwind" case_sens="0"/>
+    </database>
+    <schema name="dbo" case_sens="0"/>
+    <name name="Territories" case_sens="0"/>
+    <system>0</system>
+    <visible>1</visible>
+    <fields>
+      <field>
+        <name>
+          <item name="TerritoryID" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="TerritoryDescription" case_sens="0"/>
+        </name>
+        <type>24</type>
+      </field>
+      <field>
+        <name>
+          <item name="RegionID" case_sens="0"/>
+        </name>
+        <type>3</type>
+      </field>
+    </fields>
+    <relations>
+      <relation>
+        <key_fields>
+          <field_name>
+            <item name="TerritoryID" case_sens="0"/>
+          </field_name>
+        </key_fields>
+        <child_database>
+          <item name="Northwind" case_sens="0"/>
+        </child_database>
+        <child_schema name="dbo" case_sens="0"/>
+        <child_name name="EmployeeTerritories" case_sens="0"/>
+        <child_fields>
+          <field_name>
+            <item name="TerritoryID" case_sens="0"/>
+          </field_name>
+        </child_fields>
+      </relation>
+    </relations>
+  </table>
+</metadata>
