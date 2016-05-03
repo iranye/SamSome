@@ -1,0 +1,212 @@
+
+<question>
+What is INNER JOIN?
+</question>
+<answer>
+Gets records in the left table that have a matching record in right table.
+</answer>
+
+<question>
+What does LEFT JOIN get?  What about RIGHT JOIN?
+</question>
+<answer>
+All records in the LEFT table regardless of whether there's a match in the right.
+RIGHT JOIN gets records in the RIGHT table regardless of whether there's a match in the LEFT.
+http://stackoverflow.com/questions/4715677/difference-between-left-join-and-right-join-in-sql-server
+</answer>
+
+<question>
+What does FULL OUTER JOIN (AKA FULL JOIN) get?
+</question>
+<answer>
+All records in the LEFT AND RIGHT tables regardless of whether there's a match.
+</answer>
+
+<question>
+What are WHERE and HAVING claused used for?
+</question>
+<answer>
+WHERE Defines the condition to be met for the rows to be returned.
+HAVING Specifies a search condition for a group or an aggregate, typically used in a GROUP BY clause. When GROUP BY is not used, HAVING behaves like a WHERE clause.
+</answer>
+
+<question>
+Write queries to get the following:
+A) ServerName
+B) Product Version
+C) Product Level
+D) Edition
+E) EngineEdition
+F) What do the results from EngineEdition mean?
+</question>
+<answer>
+A) SELECT @@SERVERNAME
+B) SELECT  SERVERPROPERTY('Productversion')
+C) SERVERPROPERTY ('Productlevel')
+D) SERVERPROPERTY ('Edition')
+E) SERVERPROPERTY ('EngineEdition')
+F) 2 means Standard or Workgroup,
+3 means either Enterprise, Enterprise Evaluation, or Workgroup (fewer features),
+4 means Express
+</answer>
+
+<question>
+What is the difference between:
+char
+varchar
+nvarchar
+</question>
+<answer>
+char is fixed-length
+varchar is variable-length
+nvarchar is variable-length but also supports unicode
+</answer>
+
+What is a UDF (User Defined Function) more suited for, string manipulation or quick table lookups?
+string manipulation.  The execution estimator always evaluates UDFs as 0 cost, so a table lookup of any kind could lead to undesireable results, especially if any of the tables have a lot of data.
+
+<question>
+Given the following table create operation, create an index to enforce uniqueness on Name:
+CREATE TABLE dbo.Sailor
+(SailorID INT NOT NULL 
+IDENTITY(1, 1),
+Name VARCHAR (50) NOT NULL,
+CONSTRAINT [pk_Sailor] 
+PRIMARY KEY CLUSTERED 
+(SailorID ASC)
+)
+</question>
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Sailor] ON [dbo].[Sailor] ([Name] ASC)
+
+Write the T-SQL for a proc that takes a SailorID and prints the corresponding name.
+CREATE PROCEDURE ShowSailor @SailorID int
+AS
+SELECT NAME FROM Sailor 
+WHERE SailorID = @SailorID
+
+Write the T-SQL to create table Reservation that includes a foreign key to SailorID.
+CREATE TABLE Reservation(
+RID INT NOT NULL IDENTITY(1,1),
+SID INT NOT NULL,
+BID INT NOT NULL,
+IsActive BIT NOT NULL DEFAULT 0,
+CONSTRAINT pk_Reservation PRIMARY KEY
+CLUSTERED(RID ASC),
+CONSTRAINT fk_Sailor FOREIGN KEY
+(SID) REFERENCES Sailor (SailorID)
+)
+
+Using the Sailor and Reservation tables, create a View to show active reservations.
+CREATE VIEW [dbo].[vwActiveReservations]
+AS
+SELECT SID, BID
+FROM dbo.Reservation
+WHERE IsActive = 1
+
+<question>
+Write the T-SQL for a proc that takes SailorID and @SailorName and sets @SailorName to corresponding Sailor.  Give an example of how would this be used?
+</question>
+CREATE PROCEDURE SetSailor @SailorID int, 
+@SailorName varchar(50) OUTPUT
+AS
+SELECT @SailorName=NAME
+FROM Sailor WHERE SailorID = @SailorID
+Usage example:
+DECLARE @SName varchar(50)
+EXEC SetSailor 2, @SName OUTPUT
+
+Update the SetSailor proc to assign 'NO MATCH' if there is no corresponding SailorID.
+Replace the Select statement in the proc with the following:
+SELECT @SailorName=ISNULL(NAME, 'no match') FROM Sailor WHERE SailorID = @SailorID
+
+Write a T-SQL Case statement using Sailor table to output 'NULLZ' in the case where Name is Null, 'A MATCH' in the Case where Name has 'ne' in it, otherwise it outputs 'NOT NULLZ'
+SELECT SailorID, CASE 
+WHEN NAME IS NULL THEN 'NULLZ' 
+WHEN NAME LIKE '%ne%' THEN 'A Match'
+ELSE 'NOT NULLZ' END FROM sailor
+
+<question>
+In T-SQL, what does COALESCE do?
+What is one way that COALESCE is used?
+Give an example using a modified Sailor table that allows NULL for Name.
+</question>
+Returns the first nonnull expression among its arguments.
+Concatenate multiple rows into a single string.
+DECLARE @SList VARCHAR(1000)
+SELECT @SList = coalesce(@SList + ', ', '') + ISNULL(NAME, 'NULL') from Sailor
+SELECT @SList
+
+<question>
+A) What is the purpose of SET TRANSACTION ISOLATION LEVEL {
+READ UNCOMMITED
+| READ COMMITED
+| REPEATABLE READ
+| SNAPSHOT
+| SERIALIZABLE }?
+B) What is the difference between SET TRANSACTION ISOLATION LEVEL READ UNCOMMITED and nolock?
+</question>
+A) Controls the locking and row versioning behavior of Transact-SQL statements issued by a connection to SQL Server.
+B) The difference is scoping-nolock is placed on a per table basis whereas the SET TRANSACTION ... can be placed as a block.
+
+<question>
+A) Write the T-SQL to list db objects containing a replaceable search string.
+B) What is a limitation of this query?
+</question>
+A) Select * from sysobjects
+Where [id] IN (
+SELECT [id] FROM syscomments 
+WHERE [text] LIKE '%&lt;SearchString,,&gt;%'
+)
+B) syscomments is divided into 4000 character chunks, so if the search term spans the chunk boundary, it won't be found.
+
+What is an alternative that returns an nvarchar(max) that doesn't get segmented?
+SELECT * from sys.all_objects
+where object_definition(object_id) like '%&lt;SearchString,,&gt;%'
+
+Write a query to search for temp tables named '#temp'.
+SELECT * FROM [tempdb].dbo.sysobjects WHERE name LIKE '%#temp%'
+
+What are OLAP and OLTP?
+OLAP (online analytical processing) is an approach to allow users to interactively analyze multi-dimensional data from multiple perspectives.  The design allows for rapid execution.  OLTP (online transaction processing) is the more traditional approach, used for data entry and retrieval.
+
+<question>
+What is deadlock?
+What does SQL Server do about them?
+</question>
+Deadlocks happen when two processes have locks on separate objects and each process is trying to acquire a lock on the other's object.
+SQL Server will end the deadlock by automatically choosing one process and aborting the other, allowing the other to continue.
+The aborted transaction gets rolled back and an error message is sent.
+
+What are some ways to reduce the chance of deadlocks on SQL servers?
+Normalize the database
+Access server objects in the same order each time
+Collect all user input prior to starting a transaction
+Avoid cursors
+Reduce lock time as much as possible
+use (NOLOCK) hint
+If appropriate, use as low of an isolation level as possible.
+Consider bound connections
+
+<question>
+What is Normalization?
+What are the two main goals of normalization?
+</question>
+The process of efficiently organizing data in a database. 
+The goals are eliminating redundant data
+ensuring data dependencies make sense 
+(only storing related data in a table).
+
+What are the aims of each of the three forms 1NF, 2NF, 3NF?
+1) No repeating elements or groups of elements
+2) No partial dependencies on a concatenated key
+3) No dependencies on non-key attributes
+
+What is a View?
+A virtual table whose contents are from a query.
+
+What is a trigger?
+A special kind of stored procedure that automatically executes when an event occurs in the database server.
+
+What is a stored procedure?
+Prepared SQL code that you save so you can reuse the code over and over again.
+

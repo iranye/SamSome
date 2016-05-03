@@ -1,0 +1,242 @@
+Tachycardia
+A heartbeat that is too fast.
+
+sinus node or sinoatrial
+The group of cells where the heart's electrical signal begins
+
+bigeminy
+When normal sinus beats alternate with premature ventricular beats
+
+Trigeminy
+A cardiac arrhythmia characterized by the occurrence of three heartbeats in a repeating pattern: two normal beats coupled to an ectopic beat, or two ectopic beats coupled to a normal beat
+
+PPV
+Positive Predictive Values
+
+AF
+Atrial Fibrilation
+
+S-ECG
+Subcutaneous electrocardiogram
+From the S-ECG, it is possible to extract the heartbeats and the inter-beat (R-R) intervals, the heart intervals.
+
+UP
+Unified Platform
+
+AHA
+American Heart Association
+
+PVC
+Premature Ventricular Contraction
+
+VFL
+Ventricular Flutter
+
+Stability Limit
+Programmable values: 6.25%, 12.5%, 18.75%
+Default: 12.5%
+
+Detection Packet Size
+Programmable Values: 8, 16, 24, 32
+Default: 8
+
+Termination Packet Size
+Programmable Values: 8, 16, 24, 32
+Default: 16
+
+AF Compare Limit
+Programmable Values: 1, 2, ..., n-1 (n = programmed Termination Packet Size)
+Default: 5
+
+Termination Compare Limit
+Programmable Values: 1, 2, ..., n-1 ( n = programmed Termination Packet Size )
+Default 1
+
+AF Packet Hysteresis
+Programmable Values: 1, 2, 3, 4
+Default: 2
+
+Termination Packet Hysteresis
+Programmable Values: 1, 2, 3, 4
+Default: 2
+
+1&deg;
+First-order [filter] reduces frequency amplitude by 20 dB per decade in the stopband
+
+2&deg;
+Second-order [filter] reduces frequency amplitude by 40 dB per decade in the stopband
+
+ACL
+The Auto Cycle Length feature that adjusts ASC TPR based on amplitude and average cardiac internal
+
+ADC
+Analog-to-Digital Converter
+
+ALC
+Automatic Lead Check
+
+ACED
+Advanced Cardiac Event Detection algorithm
+
+AID
+Auto implant (lead) detect
+
+ALC
+Automatic lead (failure) detection
+
+ASC
+Automatic Sensitivity Control Module
+
+AS0
+The ASC module specifically for right ventricular (BioMonitor channel B) input
+
+BDET
+The BioMonitor QRS detection implementation
+
+BIPL
+Bipolar [differential sense amplifier input configuration]
+
+BP
+bandpass
+
+BW
+Butterworth frequency response maximally flat in passband and -20 dB per decade in stopband
+
+CIC
+Controller integrated circuit
+
+CMPEST
+An estimate of a channel formed from its raw input and estimators of that input
+
+CLS
+Closed Loop Stimulation
+
+CU
+Communication Unit
+
+DETFLT
+A narrowband version of the combination signal passed to AS0 for sense detection
+
+DHP
+Detection Holdoff Period [ASC]
+
+DLY0
+The leading delay pipe position (newest sample) used in temporal estimator of DLY1
+
+DLY1
+The middle delay pipe position used in spatial estimator of DLY1 and target of the estimators
+
+DLY2
+The trailing delay pipe position (oldest sample) used in temporal estimator of DLY1
+
+DMM
+Digital multimeter
+
+ERI
+Elective replacement indicator
+
+ESP
+Embedded Simulation Platform (virtual mode)
+
+HP
+Highpass filter
+
+ILR
+Implantable loop recorder
+
+ISR
+Interrupt Service Routine (handler)
+
+LAT/LATFLT
+Lower Absolute Threshold [ASC]
+
+LIM
+Lead Impedance Measurement
+
+LLP
+Low-Level Programmer
+
+LP
+Lowpass filter
+
+&micro;V
+microVolts
+
+MMIC
+Mixed-Mode IC [Maple]
+
+MSW
+Mode Switch
+
+NC
+Noise condition [ASC]
+
+NSW
+Noise window duration [ASC]
+
+NTO
+Noise Timeout [ASC]
+
+ODO
+NASPE/BPEG code for chambers: paced=none, sensed=dual, response=none
+
+OVO
+NASPE/BPEG code for chambers: paced=none, sensed=ventricular, response=none
+
+PDW
+Peak Detection Window [ASC]
+
+PMT
+Pacemaker Timer
+
+Prospect/CMBPRS
+An output waveform made by using one of the weight variations for combining channels
+
+Greek Omega Symbol
+Ohms
+
+Q1.14
+Fixed-point arithmetic format: 1 sign bit (implicit), 1 integer bits, 14 fractional bits, total 16bits
+
+QRS
+The effect of a single ventricular depolarization event seen in the SECG waveform
+
+RA
+Right Atrium: the hardware specific identifier for the input channel 'A'
+
+RV
+Right Ventricle: the hardware specific identifier for the input channel 'B'
+
+RTT
+Real-Time telemetry
+
+SAT
+Stratos Advanced Tester:
+pacemaker power supply, controller, and signal interface
+
+S19
+The Motorola S-record format ASCII text encoding for binary data.
+
+MKS/SI
+[Mortice Kern] Source Integrity revision control system
+
+SNPFLT
+A wideband version of the combination signal pass to the system for recording
+
+TPR
+Threshold Percentage Reduction Time [ASC]
+
+TT
+Target Threshold [ASC]
+
+ULD
+Upper Lower Delay [ASC]
+
+UP
+Unified Platform
+
+UPT
+Unified Pacemaker Time (PMT)
+
+WADB
+Werksausgangprogramm [factory outgoing settings] string database

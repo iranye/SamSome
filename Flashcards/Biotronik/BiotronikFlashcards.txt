@@ -1,0 +1,246 @@
+ACL
+The Auto Cycle Length feature that adjusts ASC TPR based on amplitude and average cardiac internal
+
+ADC
+Analog-to-Digital Converter
+
+ALC
+Automatic Lead Check
+
+ACED
+Advanced Cardiac Event Detection algorithm
+
+AID
+Auto implant (lead) detect
+
+ALC
+Automatic lead (failure) detection
+
+ASC
+Automatic Sensitivity Control Module
+
+AS0
+The ASC module specifically for right ventricular (BioMonitor channel B) input
+
+BDET
+The BioMonitor QRS detection implementation
+
+BIPL
+Bipolar [differential sense amplifier input configuration]
+
+BP
+Bandpass
+
+Breadboard
+Functional large-scale model of the product developed mainly for testing
+
+BW
+Butterworth frequency response maximally flat in passband and -20 dB per decade in stopband
+
+CIC
+Controller integrated circuit
+
+CLS
+Closed Loop Stimulation
+
+CRM
+Cardiac Rhythm Management
+
+CRT-T
+Cardiac Resynchronization Therapy, Triple chamber Rate responsive Telemetry
+
+CU
+Communication Unit
+
+DDDR
+???
+
+DHP
+Detection Holdoff Period [ASC]
+
+DMM
+Digital multimeter
+
+DPM
+Daily Periodic Message (TDPM = Time (of the sending of a) DPM)
+
+DUT
+Device Under Test
+
+ERI
+Elective replacement indicator
+
+ESP
+Embedded Simulation Platform (virtual mode)
+
+HarVE
+Harmonized Validation Environment
+
+HIS
+Hermes Interface Shell
+
+HMI
+Home Monitoring Inerval (e.g., 24 Hours) THMI = Terminated HMI
+
+HP
+Highpass filter
+
+Holter Monitor
+A wearable device for continuous recording of a patient's EKG (ECG)
+
+ICD
+Implantable cardioverter-defibrilator
+
+ICS3000
+Biotronik Physician programmer hardware
+
+IEGM
+Intra-cardiac Electrogram
+
+ILR
+Implantable loop recorder
+
+Inhibiting
+If a sense is detected (the heart muscle contracted on its own) and it does so at the right time and frequency, the pacemaker forgoes pacing
+
+IPG
+Implantable Pulse Generator
+
+ISR
+Interrupt Service Routine (handler)
+
+LAT/LATFLT
+Lower Absolute Threshold [ASC]
+
+LDTU
+Long Distance Telemetry Unit
+
+LIM
+Lead Impedance Measurement
+
+LLP
+Low-Level Programmer: allows access to the implant memory
+
+LP
+Lowpass filter
+
+MICS
+Medical Implant Communications Service
+
+MSK/IM
+[Mortice Kern System] Integrity Manager
+
+MKS/REP
+[Mortice Kern System] Requirements Engineering Platform management tool
+
+MKS/SI
+[Mortice Kern System] Source Integrity revision control system
+
+MMIC
+Mixed-Mode IC [Maple]
+
+MSW
+Mode Switch
+
+NC
+Noise condition [ASC]
+
+NSW
+Noise window duration [ASC]
+
+NTO
+Noise Timeout [ASC]
+
+Pacemakers send out (A) and are inhibited by (B).  Heart simulators send out (B) and are inhibited by (A).  What are (A) and (B)?
+(A) = paces
+(B) = senses
+
+PEMS
+Programmable Electronic Medical Systems
+
+PDW
+Peak Detection Window [ASC]
+
+PGH wand
+Biotronik Physician programmer wand (programmer head)
+
+PMT
+Pacemaker Timer
+
+PPM
+Paces Per Minute is what measures Pace Rate
+(same as BPM)
+
+PPV
+Positive Predictive Values
+
+Q1.14
+Fixed-point arithmetic format: 1 sign bit (implicit), 1 integer bits, 14 fractional bits, total 16bits
+
+QRS
+The effect of a single ventricular depolarization event seen in the SECG waveform
+
+RA
+Right Atrium: the hardware specific identifier for the input channel 'A'
+
+RFup
+Remote Follow Up
+
+RSN
+Review Serial Number
+
+RV
+Right Ventricle: the hardware specific identifier for the input channel 'B'
+
+RTT
+Real-Time telemetry
+
+SAT
+Stratos Advanced Tester:
+pacemaker power supply, controller, and signal interface
+
+S19
+The Motorola S-record format ASCII text encoding for binary data.
+
+S-ECG
+Subcutaneous electrocardiogram
+From the S-ECG, it is possible to extract the heartbeats and the inter-beat (R-R) intervals, the heart intervals.
+
+SMS
+Short Message Service
+
+SNPFLT
+A wideband version of the combination signal pass to the system for recording
+
+Telbox
+Tool that contains the electronic components of the ICS3000 for ECG and pgh wand support
+
+TPR
+Threshold Percentage Reduction Time [ASC]
+
+TT
+Target Threshold [ASC]
+
+ULD
+Upper Lower Delay [ASC]
+
+UP
+Unified Platform
+
+UPT
+Unified Pacemaker Time (PMT)
+
+UTE
+Unified Test Environment
+
+VCM
+Ventricle Capture Management
+
+VEB
+Verification Summary Report: serves as test plan and summary report
+
+VER
+Verification/Validation Result: serves as the report of the test results
+
+WADB
+Werksausgangprogramm [factory outgoing settings] string database

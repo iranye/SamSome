@@ -1,0 +1,274 @@
+<question>
+What is Contravariance?
+</question>
+Means you can either use the type specified or any type that is less derived
+
+<question>
+What are some of the new features in C# 4.0?
+</question>
+Dynamic Binding
+Type variance with generic interfaces and delegates
+Optional Parameters
+Named Arguments
+COM Interoperability improvements
+Task Parallel Library
+CountdownEvent and Barrier (For Synchronization)
+SemaphoreSlim
+
+<question>
+[C# 4.0 in a Nutshell, pg 20]
+What are some things that are stored in a type's metadata?
+</question>
+Key to the object's type
+lock state
+garbage collection flag
+
+<question>
+What are Generics?
+When were they introduced?
+What is the benefit of Generics?
+</question>
+Generics is a construct that allows you to define type-safe data structures, without committing to actual data types.
+Introduced in C# 2.0
+Generics allows you to reuse what would otherwise be type-specific code.
+
+<question>
+[C# 4.0 in a Nutshell, pg 33]
+How would you define an A) 3x3 2D int array?  
+B) A jagged array?
+</question>
+A) int[,] matrix = new int[3,3];
+B) int [][] matrix = new int [3][];
+
+How would you determine whether a type is a value type or a reference type using its default value?
+Only reference types have a default value of null
+
+<question>
+[C# 4.0 in a Nutshell, pg 41]
+What is an example of using an optional parameter and params array in a function signature?
+</question>
+static int Sum(int n, bool b=false, params int[] ints)
+
+<question>
+[C# 4.0 in a Nutshell, pg 43]
+A) Given the function void Foo(int x, int y) {...}, is the following call: Foo(y:2, x:1) legal?  
+B) How about this one: Foo(x:1, 2)?
+</question>
+A) Yes
+B) No, positional parameters must come before named arguments.
+
+<question>
+[C# 4.0 in a Nutshell, pg 67, 70]
+In what version of C# was object initializers and automatic properties introduced?
+</question>
+C# 3.0
+
+<question>
+[C# 4.0 in a Nutshell, pg 71]
+Implement a simple prime number indexer
+</question>
+public class Primes    { 
+       public int[] PrimeNumbers 
+= { 2, 3, 5, 7, 11, 13, 17, 19 };
+public int this[int nthPrim]        {            
+  get { return PrimeNumbers[nthPrim]; }            
+  private set { PrimeNumbers[nthPrim] = value; }        
+  }    
+}
+
+<question>
+[C# 4.0 in a Nutshell, pg 77]
+What is Polymorphism?
+What is an example of Polymorphism?
+</question>
+In subtype polymorphism, functions written to operate on elements of a supertype can also operate on elements of a subtype.
+One example is when a variable of type x refers to an object that sublclasses x.  For example the following method, Display, uses polymorphism,
+void Display(Vehicle vehicle) { Console.Write(vehicle); }
+var car = new Car();
+var scooter = new Scooter();
+Display(car); Display(scooter);
+
+<question>
+[C# 4.0 in a Nutshell, pg 79]
+What does the as operator do?
+</question>
+Performs a downcast (subclass from base class cast) that evaluates to null instead of throwing an InvalidCastException, which is what a normal cast would do if the cast failed.
+
+<question>
+What does the following C# code do?
+var saveText = lastSaveTime ?? "";
+</question>
+sets saveText to lastSaveTime if it's not null, otherwise it gets set to "";
+
+<question>
+[C# 4.0 in a Nutshell, pg 83]
+If a subclass omits the base keyword from the contructor, do any of the base class contstructors get called?
+public Subclass (int x) instead of:
+public Subclass (int x) : base (x)
+</question>
+Yes, the parameterless contructor in the base class gets implicitly called.  If this is missing from the base class, the subclass is required to use the : base(...) construct.
+
+<question>
+[C# 4.0 in a Nutshell, pg 88]
+What is the Finalize() method of System.Object used for?
+protected override void Finalize();
+</question>
+Garbage collection
+
+<question>
+[C# 4.0 in a Nutshell, pg 112]
+What is covariance?
+</question>
+a type X is covariant if X&lt;S&gt; allows a reference conversion to X&lt;B&gt; where S subclasses B.
+For example, the following shows List type as covariant:
+IEnumerable&lt;string&gt; stringList = new List&lt;string&gt;();
+IEnumerable&lt;object&gt; objects = stringList;
+
+What is the definition for a function Map, that is an extension method for IEnumerable&lt;T&gt; that performs a mapping (Func&lt;T,R&gt;) and returns an IEnumerable&lt;R&gt;?
+static IEnumerable&lt;R&gt; Map&lt;T,R&gt;(
+this IEnumerable&lt;T&gt; list, Func&lt;T,R&gt; mapping) {
+foreach (var el in list) {
+yield return mapping(el)
+}
+
+<question>
+Given the following, what is the output from the WriteLine statement?
+public delegate int MonadicFunc(int i);
+public delegate int BinaryFunc(int i, int j);
+
+MonadicFunc square = i =&gt; i * i;
+BinaryFunc sum = (i, j) =&gt; i + j;
+WriteLine(sum(square(3), 17));
+</question>
+26
+
+<question>
+Convert the following into a LINQ-expresion
+foreach (var p in primes) {
+if (pCandidate % p == 0) return false;
+}
+return true;
+</question>
+return primes.All(p =&gt; pCandidate % p != 0);
+
+<question>
+[C# 4.0 in a Nutshell, pg 267]
+Given the class which implements IEnumerable&lt;int&gt;:
+class IntColl : IEnumerable&lt;int&gt; {
+int[] numbs = {7, 3, 6, 4};
+A) Which two functions must be implemented for the interface?
+B) Implement the generic version using the numbs array.
+C) Implement the non-generic version.
+</question>
+A) IEnumerator&lt;int&gt; GetEnumerator()
+and IEnumerator IEnumerable.GetEnumerator()
+B) foreach (var n in numbs) yield return n;
+C) return GetEnumerator();
+
+<question>
+[C# 4.0 in a Nutshell, pg 298]
+Subclassing System.Collections.ObjectModel.Collection
+gives the subclass the following data member:
+protected IList&lt;T&gt; Items { get; }.
+What are the four virtual methods also included?
+</question>
+void ClearItems();
+void InsertItem (int index, T item);
+void RemoveItem (int index);
+void SetItem (int index, T item);
+
+<question>
+[C# 4.0 in a Nutshell, pg 301]
+What is the most common use for KeyedCollection&lt;,&gt;?
+</question>
+Providing a collection of items accessible by both index and by name.  For example:
+zoo.Animal.Add(new Animal("Kangaroo", 10));
+zoo.Animal.Add(new Animal("Zebra", 12));
+WriteLine(zoo.Animals[0].Popularity);  //prints 10
+WriteLine(zoo.Animals["Zebra"].Popularity);  //prints 12
+zoo.Animals["Zebra"].Name = "Mr Stripy";
+
+<question>
+[C# 4.0 in a Nutshell, pg 311]
+In what version of C# and Framework version was LINQ introduced?
+</question>
+C# 3.0 and Framework 3.5
+
+<question>
+[C# 4.0 in a Nutshell, pg 312]
+Given the string array:
+string[] names = { "Tom", "Dick", "Harry" };
+
+Write a linq query to get short names (e.g., less than 5 characters)
+</question>
+var shortNames = names.Where(n =&gt; n.Length &lt; 5);
+
+<question>
+[C# 4.0 in a Nutshell, pg 317]
+True or False.  A lambda expression in a query operator works on the input sequence as a whole.
+</question>
+False.  It works on individual elements in the sequence.
+
+<question>
+[C# 4.0 in a Nutshell, pg 317]
+What is the name of the function being defined here?
+public static IEnumerable&lt;TSource&gt; ?????&lt;TSource&gt;
+(this IEnumerable&lt;TSource&gt; source
+, Func&lt;TSource, bool&gt; predicate) {
+foreach (TSource element in source) {
+if (predicate(element)) yield return element;
+}
+}
+</question>
+Enumerable.Where
+
+<question>
+[C# 4.0 in a Nutshell, pg 317]
+What is the equivalent Func delegate for the lambda:
+TSource =&gt; bool
+</question>
+Func&lt;TSource, bool&gt;
+
+<question>
+[C# 4.0 in a Nutshell, pg 320]
+What does the following code print out?
+string[] names 
+= {"Tom", "Jackson", "Andrew", "Nick"};
+var query =
+from n in names
+where n.Contains("n")
+orderby n.Length
+select n.ToUpper();
+foreach (var name in query) Write(name + " ");
+</question>
+ANDREW JACKSON
+
+Define a regex that tests if a string starts with a number and provide usage for it.
+var startsWithNumb = new Regex("^[0-9]");
+if startsWithNumb.IsMatch(str)
+Console.WriteLine("it's a match");
+
+<question>
+Define and use a regex with grouping parentheses to parse the string:
+10135A Configuring  Managing
+Into the following strings:
+"10135A", "Configuring  Managing"
+</question>
+var re = new Regex
+(@"^([0-9]{5}[a-z])\s+(.*)", RegexOptions.IgnoreCase);
+var match = re.Match(dataStr);
+if (match.Success) {
+Console.WriteLine(match.Groups[1].Value);
+Console.WriteLine(match.Groups[2].Value);
+}
+
+<question>
+Convert the following LINQ to Sql into an equivalent methods chain.
+public IQueryable&lt;Sailor&gt; FindAllSailors() {
+return from sailor in _dataContext.Sailors                   orderby sailor.Name
+select sailor;
+}
+</question>
+return _dataContext.Sailors.OrderBy(
+sailor =&gt; sailor.Name);
+

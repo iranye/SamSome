@@ -1,0 +1,192 @@
+Read blogs
+
+Testing deck program:
+- against normal deck operations e.g., deal cards (with fail condition of too many players)
+
+Design patterns:
+- Singleton
+- Factory
+
+- Drills:
+  - Stuff that's on my resume
+  - Foundation:
+    - C# type-system,.Net Framework,CLR
+  - Core Framework:
+    - LINQ, XML, Networking, Regex, Parellelism, extension methods
+  - Applied Technology:
+    - ASP.NET (MVC)
+  - Concepts:  
+    - Inheritance, Polymorphism, Encapsulation
+    - 
+
+The C# type-system is:
+  - unified: all types ultimately share a common base type.
+  - type-safe: instances of types can interact only through allowable protocols
+  - statically typed (albeit with dynamic typing in 4.0), which means types are checked at compile-time rather than run-time.
+
+The .Net Framework is made up of:
+  - The CLR, which provides a language-neutral platform including: 
+    - The runtime for executing Managed Code (Intermediate Language (IL), in an assembly or exe).
+    - When the CLR loads an assembly, the IL is converted into native code (e.g., x86) via the JIT compiler.
+    - The garbage collector
+    - Static (Compile-time) type-checking (e.g., fail on: int x = "5") and runtime type-checking (e.g., when down-casting)
+  - Libraries, some examples are:
+    - System.dll
+    - System.Xml.dll
+    - System.Core.dll
+
+
+Boxing
+Delegates
+Serialization [XML, Binary, etc]
+Threading
+Concurrency (necessary for asynchronous programming)
+SSIS
+Mock frameworks
+
+LANGUAGES:
+C#
+LINQ
+C++
+Visual C++
+VB6
+VB.Net
+Java
+Ruby
+VBScript
+Python
+Iron Python
+Perl
+awk/sed/grep
+Tcl/Tk
+C
+Assembler
+
+WEB:
+JSON
+Javascript
+JScript
+Silverlight
+ASP
+ASP.NET
+ASP.NET MVC Framework
+jQuery
+HTML
+HTML5
+DHTML
+XHTML
+CSS
+AJAX (or AJAJ)
+PHP
+Drupal
+
+UNIT TESTING:
+Rhino Mocks and Stubs
+NUnit
+Test Driven Design
+
+OTHER:
+XML
+XSLT
+XAML
+Windows Workflow
+WCF Services
+WPF
+Windows Azure
+WinForms
+WIN32 API
+Apache Lucene/Lucene.NET/Tika
+Ghostscript
+Winforms
+Win Services
+Web Services
+SOAP
+MFC
+ODBC
+JDK
+J2EE
+EJB
+JSP
+COM/DCOM/COM+
+WebDAV
+IMAP
+MAPI
+TSO/SPF
+FoxPro
+Websphere
+ICE Debugger
+ISAPI
+TAPI
+Sockets
+Lotus Domino/Notes
+
+DATABASE:
+MS-SQL
+SSRS
+SSIS
+MySQL
+Linq to SQL or Entity Framework
+Oracle
+Oracle Developer
+Oracle Hyperion
+Forms
+PL/SQL
+Sybase
+Sybase Power Designer
+Informatica
+Erwin
+Popkin
+Allfusion
+Ascential
+Cognos
+
+METHODS:
+Code Complete
+Pair Programming
+Agile
+Waterfall
+OOP/OOD
+SDLC
+Scrum
+IDEF1X
+Metastorm
+BPMN
+MS Project
+Sharepoint
+JAD sessions (Joint Application Dev)
+
+QA and CMS:
+MS Test
+Quality CTR
+Quick Test Pro
+Winrunner
+Loadrunner
+VSS
+TFS
+Automation Design
+Clearcase
+Clearquest
+Android
+
+CONTINUOUS INTEGRATION:
+Cruise Control (.NET)
+Team City
+NAnt
+MSBuild
+
+SOURCE CONTROL:
+Subversion
+Mercurial
+VSS
+Git
+
+OPERATING SYSTEMS
+Unix
+Linux
+HPUX
+AIX
+Solarix
+Win XP
+Windows 7
+Win Mobile
+Mac OS

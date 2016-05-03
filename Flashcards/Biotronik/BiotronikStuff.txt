@@ -1,0 +1,104 @@
+Open questions:
+What is the purpose of a Change Package?
+What is the maple processor?
+What is the Evia?
+8200549 UTE Work Instruction says ESP & Sniffer are mainly for testing pacemaker products, does that mean ILR testing cannot be applied?
+How do you tell what version of FW is installed on a test station?
+What ISO Certifications should I be familiar with? (e.g., ISO 13485 Certification)
+What does it mean to CheckPoint a folder in MKS?
+
+Things covered:
+- Some of the Project Documents used and what part of the Project phase they fall into: Planning, Execution, Validation, Closure
+- Software development models e.g., Waterfall, Spiral, Incremental (what MSEI typically uses), Agile.
+- Hardware used for testing, e.g., ESP, PGH Wand vs Testing Wand(which has controlled messaging coil and magnet), LLP
+- What is the process of designing and implementing a verification test
+- The various VEBs: Essential, Planning, Reporting
+
+What do the following things mean and how do they fit into the process?
+CDA - Critical Design Assessment
+PFH - Pflichtenheft - Replaced by SRS
+SAD - Software Architectural Design specification
+SDO - Subsystem Design Output
+SRS - Software Requirements Specification
+SRN - Software Release Notice
+DSP - Design Specification
+DSR - Design Rule Specification
+PGH - Allows communication between PC and Wand 
+RDI - Review Design Input
+RDO - Review Design Output
+RSN - Review Serial Number
+SDD - 
+SDO - Subsystem Design Output: milestone review held at the end of implementation phase for each subsystem
+SDV - Software Development Verification (Unit test and software integration)
+SOP - Standard Operating Procedure?
+SRS - Software Requirement Specification(s)
+SWV - Software Verification
+VEB - Verification Summary Report, serves as both test plan and summary
+VER - Verification/Validation Result (one-to-one with Attachment)
+WPV - Work Product Verification
+UTE - Unified Test Environment
+
+Environment:
+ESP - Embedded Simulation Platform provides:
+    - pacing platform simulations for pacemaker products
+    - simulation that generates 4 channel ECG, motion, dynamic impedance and respiration signals
+    - engineering programmer to program the target implant
+    - sniffer tool to monitor and record pacemaker breadboard behavior using the patient simulation and engineering programmer to define the environmental conditions
+HarVE is 
+SAT - Stratos Advanced Tester provides interfaces for automated testing (pacemaker power supply, controller, and signal interface)
+    - Creates/Measures event stimulus events
+ICS3000 - Biotronik Physician programmer hardware
+Breadboard - functional large-scale model of the implant, used for testing
+Telbox - Tool containing the electronic components of ICS3000 for ECG and pgh wand support
+Pgh wand - Physician programmer wand (programming head)
+Wand controller - does the following:
+    - enables/disables pgh wand communication
+    - enables/disables magnet on the pgh wand
+    - reset the telbox
+    - enables automated tests to perform actions equivalent to user placing or removing the wandLLP - Low Level Programmer allows access to implant memory, moreso than Physicians programmer since LLP not bound by conflict rulesThings to investigate.  How much should I focus on?
+- MKS API (i.e., build automation)
+- VAPI-XP scripting
+- Tracing requirements in QC
+- Checkpoints at different levels in MKS, e.g., what does it mean to CP a folder/project?
+- Change Package
+- RSN Disposition options: What does disposition C mean?  When does it get used?
+- Verification vs Validation
+- ISO 13485 Certification
+
+Project Phases:
+Planning: Project planning, RAN, Essential VEB (Issue found previously that should be address this round), System PFH, Architecture, SRS, RDI, MILESTONE=RDI Approval
+Execution: SW Design Analysis & Arch Design, SAD(s), WPV records, CDA, Subsystem Interface spec, Subsystem planning VEB(s), TSP, SW Source Code, Test Source code, Subsystem executed VEB(s), SDO, RDO, MILESTONE=RDO Approval
+Validation: MILESTONE=Verification Approval
+Closure: Archive
+
+What goes into designing and writing tests:
+- TSP:
+    - Identify which requirements will need to be verified
+    - Research the details of the DUT e.g., read the provided DSPs, subsystem PFHs, etc.
+    - Identify hardware used to run the tests
+    - The first letter of every word in UC and TC names shall be capitalized
+    - Each section focuses on specific aspects of the test
+    - Tolerances should only go in the Pass Fail Criteria
+    - Avoid use of the word "should" as it may imply that something only "might" happen.  Use "shall" instead to convey that something must happen (fails otherwise)
+    - Avoid using numbered bullets as this might not carry over correctly into REP
+    - Prior to updating a TSP to address RSN items, turn on track-changes so that final review can clearly see that the items have been addressed
+- TSP Review:
+    - Once the TSP is ready to be reviewed, set up a review meeting 2-4 days into the future that includes specific engineers
+    - Each of the included engineers will review the TSP and add items (if any) to the RSN that explains items to be addressed
+    - Prior to the meeting the test engineer goes over the RSN items and tries to identify what to do about the RSN item and updates the RSN accordingly
+        - This typically falls into one of: will fix, will investigate, or leave as is
+    - Clarify at the meeting what is to be done for each RSN item
+    - TSP is updated per RSN items
+    - Engineers that added the RSN items either confirm the changes or make further comments on what to fix, eventually confirming their items
+    - Once all RSN are confirmed, the TSP goes to final review
+    - Once the TSP passes final review, it's approved for implementation
+- Tests are implemented using C#, nUnit, and ran on test stations and must pass no less than 3 times
+- Input.xls file is created which instructs on how to set up for formal testing in Quality Center- Implementation Review:
+    - same process as TSP Review
+VEB for Primus CRT
+    - Includes:
+        - ROM version
+        - Software modifications from specific version to specific version and Regression analysis
+        - More recent version has ~30 more pages, indicating not all the VERs were included in the older revision
+    - VEB initially checked into MKS as planning VEB, then updated as project progresses to become the reporting VEB, which includes conclusion statement.Utilities fall into one of shared code, compiled code, and scripts and are used at either the single-group level (e.g. IIV) or shared among groups as a UTE utility
+    - Once a shared code utility has been vetted, it may become a Compiled code utility
