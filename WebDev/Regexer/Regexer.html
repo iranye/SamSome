@@ -201,7 +201,7 @@ function update_field() {
 function run_sub() {
   var input = document.forms[0].inbox.value;
   input = (document.getElementById("sql_code").checked) ? sql_sub(input) : input;
-
+  var increment = document.getElementById("numbering").value;
   var sample = get_regex_string();
 
   var lines = input.split("\n");
@@ -232,6 +232,7 @@ function run_sub() {
   }
 
   var pattern = new RegExp(re);
+  var incrementPat = new RegExp("###");
 
   for (var i = 1; i < lines.length; i++) {
     var line = dbl_chomp(lines[i]);
@@ -239,7 +240,12 @@ function run_sub() {
         continue;
     }
     line = line.replace(pattern, new_text);
+    if (!isNaN(increment))
+    {
+      line = line.replace(incrementPat, increment);
+    }
     print_to_out(line + "\n");
+    increment++;
   }
 }
 
@@ -616,6 +622,7 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 <input type="radio" name="regex" value="js_print">js_print</input>
 <input type="radio" name="regex" value="robo_boxes">Robo Boxes</input>
 <input type="checkbox" id="sql_code" Checked>SQL</input>
+<input type="text" size="4" id="numbering" ></input>Start Number
 
 </br>
 <input type="button" onclick="ClipBoard();" accesskey="C" value="To Clipboard" ></input>
