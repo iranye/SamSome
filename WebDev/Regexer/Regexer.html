@@ -243,9 +243,9 @@ function run_sub() {
     if (!isNaN(increment))
     {
       line = line.replace(incrementPat, increment);
+      increment++;
     }
     print_to_out(line + "\n");
-    increment++;
   }
 }
 
