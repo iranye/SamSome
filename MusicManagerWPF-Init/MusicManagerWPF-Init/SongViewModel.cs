@@ -1,12 +1,13 @@
-
 using System.ComponentModel;
+using System.Windows.Input;
+using MicroMvvm;
 
 namespace MusicManagerWPF_Init
 {
     /// <summary>
     /// This class is a view model of a song.
     /// </summary>
-    public class SongViewModel : INotifyPropertyChanged
+    public class SongViewModel : ObservableObject
     {
         /// <summary>
         /// Constructs the default instance of a SongViewModel
@@ -16,7 +17,8 @@ namespace MusicManagerWPF_Init
             mSong = new Song { ArtistName = "Unknown", SongTitle = "Unknown" };
         }
         
-        Song mSong; 
+        Song mSong;
+        private int mCount = 0;
 
         public Song Song
         {
@@ -43,15 +45,30 @@ namespace MusicManagerWPF_Init
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void RaisePropertyChanged(string propertyName)
+        public string SongTitle
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
+            get { return Song.SongTitle; }
+            set
             {
-                handler(this, new PropertyChangedEventArgs(propertyName));
+                if (Song.SongTitle != value)
+                {
+                    Song.SongTitle = value;
+                    RaisePropertyChanged("SongTitle");
+                }
             }
         }
+
+        void UpdateArtistNameExecute()
+        {
+            ++mCount;
+            ArtistName = string.Format("Elvis ({0})", mCount);
+        }
+
+        bool CanUpdateArtistNameExecute()
+        {
+            return true;
+        }
+
+        public ICommand UpdateArtistName { get { return new RelayCommand(UpdateArtistNameExecute, CanUpdateArtistNameExecute);} }
     }
 }

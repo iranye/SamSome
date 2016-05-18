@@ -53,8 +53,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="RelayCommand.cs" />
+    <Compile Include="AlbumViewModel.cs" />
     <Compile Include="Song.cs" />
+    <Compile Include="SongDatabase.cs" />
     <Compile Include="SongViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -92,6 +93,12 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="MicroMvvm\MicroMvvm.csproj">
+      <Project>{b0fed38c-1531-4149-81b2-48492ea991e2}</Project>
+      <Name>MicroMvvm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

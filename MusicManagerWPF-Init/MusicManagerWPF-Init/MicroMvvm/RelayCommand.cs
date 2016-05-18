@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace MusicManagerWPF_Init
+namespace MicroMvvm
 {
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
         readonly Func<Boolean> mCanExecute;
         readonly Action mExecute;
