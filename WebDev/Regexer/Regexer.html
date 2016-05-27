@@ -153,10 +153,15 @@ function add_table_row(one, two, three) {
 ///////////////////////////////////////////////////////////////////////////////////////
 
 // show table name for when adding/changing/removing fields
-function toggle_table(table_id) {
+function toggle_table(table_id, visible_option) {
   var table_obj = document.getElementById(table_id);
-  // print_to_out("toggle table visibility: \n");
+  print_to_out("visible_option: " + visible_option + "\n");
 
+  if (visible_option.length > 1)
+  {
+    table_obj.style.visibility = visible_option;
+    return;
+  }
   var visible = table_obj.style.visibility == "visible" ? "yes" : "no";
   if (visible == "yes") // if (table_obj.style.visibility == visible)
   {
@@ -174,6 +179,88 @@ function reset_table_fields_menu() {
   var table_fields_menu = document.getElementById("field_select");
   table_fields_menu['selectedIndex'] = 0;
   table_fields_menu.length = 1;
+}
+
+/// Table-Alter Routines //////////////////////////////////////////////////////
+function append_row(rowObj, table_id) {
+  var tblObj = document.getElementById(table_id);
+  var rowsArr = tblObj.rows;
+  tblObj.appendChild(rowObj);
+}
+
+function add_row_by_array(data_array, table_id) {
+  toggle_table(table_id, "visible");
+
+  var rowObj = document.createElement("TR");
+  var cellObjIdToUpdate = "c" + Math.floor((Math.random() * 1000) + 1);
+  print_to_out("cellObjIdToUpdate: " + cellObjIdToUpdate + "\n");
+
+  for (var i = 0; i < data_array.length; i++) {
+    print_to_out("data_array[" + i + "]:" + data_array[i] + "\n");
+    var cellObj = document.createElement("TD");
+    if (typeof data_array[i] == "object") {
+      cellObj.appendChild(data_array[i]);
+    }
+    else {
+      var txtNode = document.createTextNode(data_array[i]);
+      cellObj.appendChild(txtNode);
+      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
+    }
+    cellObj.id = cellObjIdToUpdate;
+    rowObj.appendChild(cellObj);
+    rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
+    rowObj.onmouseout = new Function("this.bgColor='';return true;");
+  }
+
+  // Add a cell to do operations on adjacent cell
+  var cellObj = document.createElement("TD");
+  var buttonObj = document.createElement("button");
+  buttonObj.value = "2CB and strikethrough";
+  buttonObj.onclick = toggle_cell(cellObjIdToUpdate);
+  rowObj.appendChild(cellObj);
+  append_row(rowObj, table_id);
+}
+
+function toggle_cell(cell_id)
+{
+  var cellObj = document.getElementById(cell_id);
+  print_to_out("setting to strikethrough: " + cell_id + "\n");
+  cellObj.innerText.style = "strikethrough";
+}
+
+function add_row(data_array, tbl_id, class_name, mouseover) {
+  var rowObj = document.createElement("TR");
+  for (var i = 0; i < data_array.length; i++) {
+    //print_to_out("data_array[" + i + "]:" + data_array[i]);
+    var cellObj = document.createElement("TD");
+    cellObj.className = class_name;
+    if (typeof data_array[i] == "object") {
+      cellObj.appendChild(data_array[i]);
+    }
+    else {
+      var txtNode = document.createTextNode(data_array[i]);
+      cellObj.appendChild(txtNode);
+      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
+    }
+    rowObj.appendChild(cellObj);
+    if (mouseover) {
+      rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
+      rowObj.onmouseout = new Function("this.bgColor='';return true;");
+    }
+  }
+  append_row(rowObj, tbl_id);
+}
+
+function delete_rows(tbl_id, stop_val) {
+  var tblObj = document.getElementById(tbl_id);
+  var rowsArr = tblObj.rows;
+
+  if (rowsArr.length == 0) return 0;
+
+  for (var i = rowsArr.length-1; i >= stop_val; i--) {
+      tblObj.deleteRow(i);
+  }
+  return 1;
 }
 
 //populate stored fields menu for selected table
@@ -223,71 +310,6 @@ function toggle_fields_button(button_obj) {
 
 function update_field() {
   print_to_out("updating field!\n");
-}
-
-/// Table-Alter Routines //////////////////////////////////////////////////////
-function append_row(rowObj, tbl_id) {
-  var tblObj = document.getElementById(tbl_id);
-  var rowsArr = tblObj.rows;
-  tblObj.appendChild(rowObj);
-}
-
-function add_row(data_array, tbl_id, class_name, mouseover) {
-  var rowObj = document.createElement("TR");
-  for (var i = 0; i < data_array.length; i++) {
-    //print_to_out("data_array[" + i + "]:" + data_array[i]);
-    var cellObj = document.createElement("TD");
-    cellObj.className = class_name;
-    if (typeof data_array[i] == "object") {
-      cellObj.appendChild(data_array[i]);
-    }
-    else {
-      var txtNode = document.createTextNode(data_array[i]);
-      cellObj.appendChild(txtNode);
-      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
-    }
-    rowObj.appendChild(cellObj);
-    if (mouseover) {
-      rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
-      rowObj.onmouseout = new Function("this.bgColor='';return true;");
-    }
-  }
-  append_row(rowObj, tbl_id);
-}
-
-function delete_rows(tbl_id, stop_val) {
-  var tblObj = document.getElementById(tbl_id);
-  var rowsArr = tblObj.rows;
-
-  if (rowsArr.length == 0) return 0;
-
-  for (var i = rowsArr.length-1; i >= stop_val; i--) {
-      tblObj.deleteRow(i);
-  }
-  return 1;
-}
-
-function add_row_by_array(data_array, tbl_id, class_name, mouseover) {
-  var rowObj = document.createElement("TR");
-  for (var i = 0; i < data_array.length; i++) {
-    //print_to_out("data_array[" + i + "]:" + data_array[i]);
-    var cellObj = document.createElement("TD");
-    cellObj.className = class_name;
-    if (typeof data_array[i] == "object") {
-      cellObj.appendChild(data_array[i]);
-    }
-    else {
-      var txtNode = document.createTextNode(data_array[i]);
-      cellObj.appendChild(txtNode);
-      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
-    }
-    rowObj.appendChild(cellObj);
-    if (mouseover) {
-      rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
-      rowObj.onmouseout = new Function("this.bgColor='';return true;");
-    }
-  }
-  append_row(rowObj, tbl_id);
 }
 
 /// Regex quick-substitution section //////////////////////////////////////////////////////
@@ -692,8 +714,8 @@ Enter a character and click the button to see it's numerical value.
 
 <BR />
 <BR />
-<input type="button" onclick='add_table_row("one", "two", "three");' value="Add Table Row(s)"></input>
-<input type="button" onclick='toggle_table("work_table");' value="Toggle Work Table" accesskey="Z"></input>
+<input type="button" onclick='add_row_by_array(["one", "two"], "work_table");' value="Add Table Row(s)"></input>
+<input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table" accesskey="Z"></input>
 
 <TABLE id="work_table" border="1" style="width:80%">
 <TR>
