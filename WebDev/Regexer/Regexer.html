@@ -1,0 +1,734 @@
+<HTML><HEAD><TITLE>Regexer</TITLE>
+<style type='text/css'>
+#table_name{
+  font-family: helvetica;
+  font-weight: bold;
+  font-size: 14px;
+  visibility: hidden;
+}
+#feld_select{
+  visibility: hidden;
+}
+H2{
+  color: black;
+  font-family: helvetica;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+td{
+  border: 1px solid black;
+}
+
+#work_table{
+  border: 1px solid black;
+  visibility: hidden;
+}
+
+</style>
+<LINK href="style.css" rel="stylesheet" type="text/css">
+<SCRIPT type="text/javascript" src="objects.js"></SCRIPT>
+<SCRIPT type="text/javascript">
+/*
+** Ira Nye
+** Regexer: Batchwise text group and replace tool
+** Last Modified: 04/07/2016
+**
+** This tool is intended to perform search and replacement operations on a set of lines.
+*/
+
+/// General Routines //////////////////////////////////////////////////////
+String.prototype.startswith = function(c) { return (c == this.charAt(0)); }
+
+function dump_obj(obj) {
+  for (var argname in obj) { print_to_out(argname + " in obj is " + obj[argname] + "\n"); }
+}
+
+function dbl_chomp(s) {
+  var chomped_s = s.replace(/^\s*/, "");
+  chomped_s = chomped_s.replace(/\s*$/, "");
+
+  return chomped_s;
+}
+
+function get_select_input(menu_id, start_ind) {
+  var select_input = document.getElementById(menu_id);
+
+  var index = select_input['selectedIndex'];
+  if (index < start_ind) { return null; }
+
+  return select_input[index].innerHTML;
+}
+
+function ClipBoard() {
+  Copied = document.forms[0].outbox.createTextRange();
+  Copied.execCommand("Copy");
+}
+
+function clear_boxes() { document.forms[0].inbox.value = ""; document.forms[0].outbox.value = ""; }
+function clear_box(o) { o.value = ""; }
+
+function print_to_in(s)  { document.forms[0].inbox.value += s; }
+function print_to_out(s) { document.forms[0].outbox.value += s; }
+
+//Field Management Functions///////////////////////////////
+function save_type_arr(db_obj, typesArr) {
+  for (var i = 0; i < typesArr.length; i++) {
+    db_obj.addType(typesArr[i]);
+  }
+}
+
+var current_db_obj = null;
+
+function massage_aux(type, aux) {
+  var found_index = TypesArray.lookup_type(type);
+  var new_aux = -1;
+
+  if (found_index == -1) {
+    alert ("type not found: '" + type + "'");
+    return -1;
+  }
+  var type_obj = TypesArray[found_index];
+  if (!type_obj.expected_aux) { return null; }
+
+  switch(type_obj.expected_aux) {
+    case "int" :
+      new_aux = parseInt(aux);
+      if (isNaN(new_aux) || new_aux <= 0) { return -1; }
+      break;
+    default: return -1;
+  }
+  return new_aux;
+}
+
+//Table Management Functions///////////////////////////////
+function add_table() {
+  var input = massage_input(document.forms[0].input.value);
+  if (!input) { return; }
+
+  //print_to_out("adding table: " + input + "\n");
+  var found = TablesArray.lookup_table(input);
+  if (found != -1) {
+    alert ("table already exists: '" + input + "'");
+    return;
+  }
+
+  var new_table = new TableObj(input);
+  TablesArray.push(new_table);
+
+  var table_menu = document.getElementById("table_select");
+  table_menu.options[table_menu.length] = new Option(new_table.name);
+  table_menu['selectedIndex'] = table_menu.length - 1;
+  reset_table_fields_menu();
+}
+
+var input_description = "New Table/Field";
+
+function massage_input(str) {
+  if ((str == input_description) || (str == "") || (str.match(" "))) {
+    alert ("invalid table/field name: '" + str + "'");
+    return null;
+  }
+  return str;
+}
+
+function add_table_row(one, two, three) {
+  var table_list = document.getElementById("table_list");
+  print_to_out("toggle visible: \n");
+
+  var visible = table_list.style.visibility == "visible" ? "yes" : "no";
+  print_to_out("visible: " + visible + "\n");
+  if (visible == "yes") // if (table_list.style.visibility == visible)
+  {
+    print_to_out("visible. setting to hidden\n");
+    table_list.style.visibility = "hidden";
+  }
+  else
+  {
+    print_to_out("hidden. setting to visible\n");
+    table_list.style.visibility = "visible";
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////
+
+// show table name for when adding/changing/removing fields
+function toggle_table(table_id, visible_option) {
+  var table_obj = document.getElementById(table_id);
+  print_to_out("visible_option: " + visible_option + "\n");
+
+  if (visible_option.length > 1)
+  {
+    table_obj.style.visibility = visible_option;
+    return;
+  }
+  var visible = table_obj.style.visibility == "visible" ? "yes" : "no";
+  if (visible == "yes") // if (table_obj.style.visibility == visible)
+  {
+    // print_to_out("visible. setting to hidden\n");
+    table_obj.style.visibility = "hidden";
+  }
+  else
+  {
+    // print_to_out("hidden. setting to visible\n");
+    table_obj.style.visibility = "visible";
+  }
+}
+
+function reset_table_fields_menu() {
+  var table_fields_menu = document.getElementById("field_select");
+  table_fields_menu['selectedIndex'] = 0;
+  table_fields_menu.length = 1;
+}
+
+/// Table-Alter Routines //////////////////////////////////////////////////////
+function append_row(rowObj, table_id) {
+  var tblObj = document.getElementById(table_id);
+  var rowsArr = tblObj.rows;
+  tblObj.appendChild(rowObj);
+}
+
+function add_row_by_array(data_array, table_id) {
+  toggle_table(table_id, "visible");
+
+  var rowObj = document.createElement("TR");
+  var cellObjIdToUpdate = "c" + Math.floor((Math.random() * 1000) + 1);
+  print_to_out("cellObjIdToUpdate: " + cellObjIdToUpdate + "\n");
+
+  for (var i = 0; i < data_array.length; i++) {
+    print_to_out("data_array[" + i + "]:" + data_array[i] + "\n");
+    var cellObj = document.createElement("TD");
+    if (typeof data_array[i] == "object") {
+      cellObj.appendChild(data_array[i]);
+    }
+    else {
+      var txtNode = document.createTextNode(data_array[i]);
+      cellObj.appendChild(txtNode);
+      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
+    }
+    cellObj.id = cellObjIdToUpdate;
+    rowObj.appendChild(cellObj);
+    rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
+    rowObj.onmouseout = new Function("this.bgColor='';return true;");
+  }
+
+  // Add a cell to do operations on adjacent cell
+  var cellObj = document.createElement("TD");
+  var buttonObj = document.createElement("button");
+  buttonObj.value = "2CB and strikethrough";
+  buttonObj.onclick = toggle_cell(cellObjIdToUpdate);
+  rowObj.appendChild(cellObj);
+  append_row(rowObj, table_id);
+}
+
+function toggle_cell(cell_id)
+{
+  var cellObj = document.getElementById(cell_id);
+  print_to_out("setting to strikethrough: " + cell_id + "\n");
+  cellObj.innerText.style = "strikethrough";
+}
+
+function add_row(data_array, tbl_id, class_name, mouseover) {
+  var rowObj = document.createElement("TR");
+  for (var i = 0; i < data_array.length; i++) {
+    //print_to_out("data_array[" + i + "]:" + data_array[i]);
+    var cellObj = document.createElement("TD");
+    cellObj.className = class_name;
+    if (typeof data_array[i] == "object") {
+      cellObj.appendChild(data_array[i]);
+    }
+    else {
+      var txtNode = document.createTextNode(data_array[i]);
+      cellObj.appendChild(txtNode);
+      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
+    }
+    rowObj.appendChild(cellObj);
+    if (mouseover) {
+      rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
+      rowObj.onmouseout = new Function("this.bgColor='';return true;");
+    }
+  }
+  append_row(rowObj, tbl_id);
+}
+
+function delete_rows(tbl_id, stop_val) {
+  var tblObj = document.getElementById(tbl_id);
+  var rowsArr = tblObj.rows;
+
+  if (rowsArr.length == 0) return 0;
+
+  for (var i = rowsArr.length-1; i >= stop_val; i--) {
+      tblObj.deleteRow(i);
+  }
+  return 1;
+}
+
+//populate stored fields menu for selected table
+function populate_fields_menu() {
+  var table_choice = get_select_input("table_select", 1);
+
+  var table_fields_menu = document.getElementById("field_select");
+  if (table_fields_menu.style.visibility == "hidden") { return; }
+
+  reset_table_fields_menu();
+
+  var found_index = TablesArray.lookup_table(table_choice);
+  if (found_index == -1) {
+    alert ("table not found: '" + table_choice + "'");
+    return;
+  }
+  var table_obj = TablesArray[found_index];
+
+  var FieldsForMenu = new Array();
+  if (table_obj.list) {
+    var current = table_obj.list;
+    while (current) {
+      FieldsForMenu.push(current.data.toString());
+      current = current.next;
+    }
+  }
+  for (var i = 0; i < FieldsForMenu.length; i++) {
+    table_fields_menu.options[table_fields_menu.length] = new Option(FieldsForMenu[i].toString());
+  }
+}
+
+function get_field_mode() {
+  var field_button   = document.getElementById("field_button");
+  return field_button.value;
+}
+
+function load_form_fields() {
+  print_to_out("loading form!\n");
+}
+
+//toggle field for either Add or Update operations
+function toggle_fields_button(button_obj) {
+  var field_button     = document.getElementById("field_button");
+  field_button.value   = button_obj.text_value;
+  field_button.onclick = button_obj.func;
+}
+
+function update_field() {
+  print_to_out("updating field!\n");
+}
+
+/// Regex quick-substitution section //////////////////////////////////////////////////////
+function run_sub() {
+  var input = document.forms[0].inbox.value;
+  input = (document.getElementById("sql_code").checked) ? sql_sub(input) : input;
+  var increment = document.getElementById("numbering").value;
+  var sample = get_regex_string();
+
+  var lines = input.split("\n");
+  if (lines[0].match("~~")) {
+    var a = lines[0].split("~~");
+
+    var re = dbl_chomp(a[0]);
+    if (!re.length) {
+      print_to_in(sample);
+      //print_to_out(input, document.forms[0].inbox);
+      return;
+    }
+
+    var new_text = dbl_chomp(a[1]);
+    if (!new_text.length) {
+      print_to_in(sample);
+      print_to_in(input);
+      return;
+    }
+  }
+  else {
+    print_to_out(input);
+    clear_box(document.forms[0].inbox);
+    clear_box(document.forms[0].outbox);
+    print_to_in(sample);
+    print_to_out(input);
+    return;
+  }
+
+  var pattern = new RegExp(re);
+  var incrementPat = new RegExp("###");
+
+  for (var i = 1; i < lines.length; i++) {
+    var line = dbl_chomp(lines[i]);
+    if (line.length == 0) { // skip whitespace-only lines
+        continue;
+    }
+    line = line.replace(pattern, new_text);
+    if (!isNaN(increment))
+    {
+      line = line.replace(incrementPat, increment);
+      increment++;
+    }
+    print_to_out(line + "\n");
+  }
+}
+
+function get_regex_string(){
+  var formObj = document.forms[0];
+
+  for (i = 0; i < formObj.regex.length; i++) {
+    if ( formObj.regex[i].checked ) {
+      var regex_pick = formObj.regex[i].value
+
+      var index = RegexList.lookup_regex(regex_pick);
+      if (index == -1) {
+        var e = "regex not found: " + regex_pick + "\n";
+        return e;
+      }
+      return RegexList[index].sample_string;
+    }
+  }
+}
+
+function sql_sub(str) {
+  var lines = str.split("\n");
+  for (var i = 0; i < lines.length; i++) {
+    if (lines[i].match("^--")) { continue; }
+    lines[i] = lines[i].replace(/\band\b/gi, "AND");
+    lines[i] = lines[i].replace(/\bas\b/gi, "AS");
+    lines[i] = lines[i].replace(/\bapply\b/gi, "APPLY");
+    lines[i] = lines[i].replace(/\bbegin\b/gi, "BEGIN");
+    lines[i] = lines[i].replace(/\bbetween\b/gi, "BETWEEN");
+    lines[i] = lines[i].replace(/\bby\b/gi, "BY");
+    lines[i] = lines[i].replace(/\bcast\b/gi, "CAST");
+    lines[i] = lines[i].replace(/\bcommit\b/gi, "COMMIT");
+    lines[i] = lines[i].replace(/\bcopy\b/gi, "COPY");
+    lines[i] = lines[i].replace(/\bcount\b/gi, "COUNT");
+    lines[i] = lines[i].replace(/\bdeclare\b/gi, "DECLARE");
+    lines[i] = lines[i].replace(/\bdelete\b/gi, "DELETE");
+    lines[i] = lines[i].replace(/\bdistinct\b/gi, "DISTINCT");
+    lines[i] = lines[i].replace(/\bdrop\b/gi, "DROP");
+    lines[i] = lines[i].replace(/\bexcept\b/gi, "EXCEPT");
+    lines[i] = lines[i].replace(/\bexec\b/gi, "EXEC");
+    lines[i] = lines[i].replace(/\bexists\b/gi, "EXISTS");
+    lines[i] = lines[i].replace(/\bfrom\b/gi, "FROM");
+    lines[i] = lines[i].replace(/\bgroup\b/gi, "GROUP");
+    lines[i] = lines[i].replace(/\bin\b/gi, "IN");
+    lines[i] = lines[i].replace(/\binsert\b/gi, "INSERT");
+    lines[i] = lines[i].replace(/\bint\b/gi, "INT");
+    lines[i] = lines[i].replace(/\bintersect\b/gi, "INTERSECT");
+    lines[i] = lines[i].replace(/\binto\b/gi, "INTO");
+    lines[i] = lines[i].replace(/\bjoin\b/gi, "JOIN");
+    lines[i] = lines[i].replace(/\bleft\b/gi, "LEFT");
+    lines[i] = lines[i].replace(/\bnolock\b/gi, "NOLOCK");
+    lines[i] = lines[i].replace(/\bnot\b/gi, "NOT");
+    lines[i] = lines[i].replace(/\bon\b/gi, "ON");
+    lines[i] = lines[i].replace(/\border\b/gi, "ORDER");
+    lines[i] = lines[i].replace(/\boutput\b/gi, "OUTPUT");
+    lines[i] = lines[i].replace(/\bpivot\b/gi, "PIVOT");
+    lines[i] = lines[i].replace(/\brollback\b/gi, "ROLLBACK");
+    lines[i] = lines[i].replace(/\bselect\b/gi, "SELECT");
+    lines[i] = lines[i].replace(/\bselect\b/gi, "SELECT");
+    lines[i] = lines[i].replace(/\bset\b/gi, "SET");
+    lines[i] = lines[i].replace(/\btable\b/gi, "TABLE");
+    lines[i] = lines[i].replace(/\btran\b/gi, "TRAN");
+    lines[i] = lines[i].replace(/\bunion\b/gi, "UNION");
+    lines[i] = lines[i].replace(/\bupdate\b/gi, "UPDATE");
+    lines[i] = lines[i].replace(/\buse\b/gi, "USE");
+    lines[i] = lines[i].replace(/\bwhere\b/gi, "WHERE");
+    lines[i] = lines[i].replace(/\bwith\b/gi, "WITH");
+  }
+return lines.join("\n");
+}
+
+// populate associative array of sample regexes, e.g., RegexList['mrobo'] = "sample string"
+function init_re_strings() {
+  //multi-robocopy commands
+  var s = '(.+)~~echo robocopy \"$1\" \"c:\\temp\\targetdir\\$1\" /mir /tee /v > \"$1.bat\"\n';
+  var dummy_data = "00068618\n00068622\n00068620\n";
+  s += dummy_data;
+  push_to_regex_list('mrobo', s);
+
+  //Bulk rename (of files)
+  s = '(.+).txt~~move \"$1.txt\" \"$1.lfp\"\n';
+  dummy_data = "James Garfield.txt\nJohn Q. Addams.txt\nChester Arthur.txt\n";
+  s += dummy_data;
+  push_to_regex_list('rn', s);
+
+  //Rename export folder to remove date-numbering
+  var d           = new Date();
+  var month_string = d.getMonth() + 1;
+  var year = d.getFullYear();
+  var date_string = "'" + d.getFullYear() + '-' + month_string + '-' + d.getDate() + " ";
+  //s = '(^.+[Export|Viewer])(\\d+)~~move "$1$2" "$1"\n';
+
+  s='(^.+)(' + year + '\\d+)~~move "$1$2" "$1"\n';
+  dummy_data = "2860 Foobizzarre Internal Export20061206190629\n";
+  dummy_data += "2860 Tiff Viewer20061206190904\n";
+  s += dummy_data;
+  push_to_regex_list('exp_fold_rn', s);
+
+  s='(.+)~~CAST($1 AS VARCHAR) + \',\' AS "$1"\n';
+  dummy_data = "MediaID\n";
+  s += dummy_data;
+  push_to_regex_list('cast_varchar', s);
+
+  s='(.+)~~$1,\n';
+  dummy_data = "foo\n";
+  dummy_data += "bar\n";
+  s += dummy_data;
+  push_to_regex_list('generic', s);
+
+  s='(.+)~~print "$1: ", $$$1, "\\n";\n';
+  dummy_data = "string\n";
+  s += dummy_data;
+  push_to_regex_list('perl_print', s);
+
+  s='(.+)~~print_to_out("$1: " + $1 + "\\n");\n';
+  dummy_data = "string\n";
+  s += dummy_data;
+  push_to_regex_list('js_print', s);
+
+  s='(\\d+)\\s([bB]ox\\s*\\d+) - Original~~REM mkdir media$1 | move "job62\\$2" "media$1\\$2"\n';
+  dummy_data = "2024390 box 370 - Original\n";
+  dummy_data += "2024391 box 371 - Original\n";
+  dummy_data += "2022498 Box054 - Original\n";
+  s += dummy_data;
+  push_to_regex_list('robo_boxes', s);
+
+  s='()~~insert into tblQueueHTML (ItemIdentityID, ProcessingFlag) values($1, 0)\n';
+  dummy_data = "7051220\n" + "7051223\n";
+  s += dummy_data;
+  push_to_regex_list('sql_keywords', s);
+}
+
+function push_to_regex_list(name, sample_string) {
+  var regex_add = new RegexObj(name, sample_string);
+  RegexList.push(regex_add);
+}
+
+/// Pretty-Print assignment statement section //////////////////////////////////////////////////////
+function pretty_print(assign_st) {
+  var equals_pat = / = /;
+  var eqArr = new Array();
+  var eq_obj;
+  var max_left = 0;
+
+  clear_box(document.forms[0].outbox);
+  var lines = get_lines(assign_st);
+  if (!lines) { alert("nothing to process!"); return; }
+  for (var i = 0; i < lines.length; i++) {
+    var eq = lines[i].split(equals_pat);
+    //print_to_out("eq.length: " + eq.length + "\n");
+
+    if (eq.length != 2) { continue; }
+    var lft = eq[0]; //dbl_chomp(eq[0]);
+    var rt  = dbl_chomp(eq[1]);
+    eq_obj  = new eqObj(lft, rt);
+    eqArr.push(eq_obj);
+
+    if (max_left < lft.length) { max_left = lft.length; }
+  }
+  for (i = 0; i < eqArr.length; i++) {
+    eq_obj = eqArr[i];
+    var lft_filler = get_filler(max_left, eq_obj.left);
+    //print_to_out("lft_filler: '" + lft_filler + "'\n");
+    print_to_out(eq_obj.left + lft_filler + "= " + eq_obj.right + "\n");
+  }
+}
+
+function get_lines(pgraph) {
+  var lines = pgraph.split(/\n/);
+  var massaged_lines = new Array();
+  for (var i = 0; i < lines.length; i++) {
+    var line = lines[i];
+    //line = line.replace(/^\s*/, "");
+    line = line.replace(/\s*$/, "");
+    if (line == "") { continue; }
+    massaged_lines.push(line);
+  }
+  if (massaged_lines.length == 0) { return null; }
+  return massaged_lines;
+}
+
+function get_filler(eq_stop, str) {
+  var spaces  = new Array(" ");
+  for (var i = eq_stop; i > str.length; i--) { spaces.push(" "); }
+  return spaces.join("");
+}
+
+//Constructor function 9600-016.Fios Journey
+function eqObj(left, right) {
+  this['left']  = left;
+  this['right'] = right;
+}
+
+/// View-Handling Routines //////////////////////////////////////////////////////
+function init_views() {
+  var formObj = document.forms[0];
+  var viewsObj = formObj.getElementsByTagName("div");
+  for (var argname in viewsObj) {
+    if (/div_tbl_[\d]/.test(argname))
+      viewsObj[argname].style.zIndex = -5;
+  }
+}
+
+/// Sorting Routines //////////////////////////////////////////////////////
+var objArr = new Array();
+function btnDefault() { alert("Cant Sort on this yet =("); }
+var CurrentSort = { sort_field: -1, ascending: 1 };
+
+function check_dates(field_ind) {
+  for (var i = 0; i < objArr.length; i++) {
+    if (!/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}/.test(objArr[i][field_ind])) return false;
+  }
+  return true;
+}
+
+function getDateObj(date_str) {
+  if (!/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}.\d{3}/.test(date_str)) return 0;
+  var date_time = date_str.split(" ");
+  var dt_fields = date_time[0].split("-");
+
+  if (dt_fields.length != 3) {
+    print_to_out("Error parsing date in getDateObj()\n");
+    return 0;
+  }
+
+  var h_m_s = date_time[1].replace(/(^.*)\.\d{3}/, "$1");
+  var tmpArr = h_m_s.split(":");
+  tmpArr.push(date_time[1].replace(/^.*\.(\d{3})/, "$1"));
+  return new Date(dt_fields[0], dt_fields[1], dt_fields[2], tmpArr[0], tmpArr[1], tmpArr[2], tmpArr[3]);
+}
+
+//returns a numeric value even for non-numeric characters
+function ParseNumb(input) {
+  if (input.length == 0) return 0;
+  if (!/[\D]+/.test(input)) return parseInt(input);
+  var code_val = 0;
+  for (var i = 0; i < input.length; i++) {
+    code_val += input.charCodeAt(i) - 32; // + 10^i;
+  }
+  return code_val;
+}
+
+function show_unicode(numb_str) {
+  var n = parseInt(numb_str);
+  if (isNaN(n)) {
+    // print_to_out("NaN\n");
+    str = String(numb_str);
+    u = str.charCodeAt(0);
+    print_to_out("n: " + numb_str + " => " + u.toString(10) + ", 0x" + u.toString(16) + "\n");
+
+    return;
+  }
+  print_to_out(n.toString(10) + ", 0x" + n.toString(16) + " => " + String.fromCharCode(n) + "\n");
+
+}
+
+function do_inits() {
+  init_re_strings();
+  init_views();
+}
+
+function clear_outbox() {
+  document.forms[0].outbox.value = '';
+}
+
+function show_regex_info() {
+  clear_outbox();
+  document.forms[0].outbox.value = 'Character Classes:\r\n';
+  document.forms[0].outbox.value += '\\c\tControl character\r\n';
+  document.forms[0].outbox.value += '\\s\tWhitespace\r\n';
+  document.forms[0].outbox.value += '\\S\tNon-whitespace\r\n';
+  document.forms[0].outbox.value += '\\d\tDigit\r\n';
+  document.forms[0].outbox.value += '\\D\tNon-digit\r\n';
+  document.forms[0].outbox.value += '\\w\tWord\r\n';
+  document.forms[0].outbox.value += '\\W\tNon-word\r\n';
+  document.forms[0].outbox.value += '\\x\tHexadecimal Digit\r\n';
+  document.forms[0].outbox.value += '\\O\tOctal Digit\r\n';
+
+  document.forms[0].outbox.value += '\r\n';
+  document.forms[0].outbox.value += 'Groups and Ranges:\r\n';
+  document.forms[0].outbox.value += '.\tAny character EXCEPT new line (\\n)\r\n';
+  document.forms[0].outbox.value += '(a|b)\ta or b\r\n';
+  document.forms[0].outbox.value += '(...)\tGROUP\r\n';
+  document.forms[0].outbox.value += '(?:...)\tPassive (non-capturing) GROUP\r\n';
+  document.forms[0].outbox.value += '[abc]\tRange (a or b or c)\r\n';
+  document.forms[0].outbox.value += '[^abc]\tNOT (a or b or c)\r\n';
+  document.forms[0].outbox.value += '[a-q]\tLower case letter FROM a to q\r\n';
+  document.forms[0].outbox.value += '[A-Q]\tUpper case letter FROM A to Q\r\n';
+  document.forms[0].outbox.value += '[0-7]\tDigit FROM 0 to 7\r\n';
+  document.forms[0].outbox.value += '\\x\t\tGROUP or sub-pattern number "-x"\r\n';
+
+  document.forms[0].outbox.value += '\r\n';
+  document.forms[0].outbox.value += 'String Replacement:\r\n';
+document.forms[0].outbox.value += '$n\tnth non-passive GROUP\r\n';
+document.forms[0].outbox.value += '$2\t"xyz" IN \/^(abc(xyz))$\/\r\n';
+document.forms[0].outbox.value += '$1\t"xyz" IN \/^(?:abc)(xyz)$\/\r\n';
+document.forms[0].outbox.value += '$`\tBefore matched string\r\n';
+document.forms[0].outbox.value += '$+\tLast matched string\r\n';
+document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
+
+  document.forms[0].outbox.value += '\r\n';
+  document.forms[0].outbox.value += 'Anchors:\r\n';
+  document.forms[0].outbox.value += '\\^\tStart of string, or start of line IN multi-line pattern\r\n';
+  document.forms[0].outbox.value += '\\A\tStart of string\r\n';
+  document.forms[0].outbox.value += '\$\tEnd of string, or end of line IN multi-line pattern\r\n';
+  document.forms[0].outbox.value += '\\Z\tEnd of string\r\n';
+  document.forms[0].outbox.value += '\\b\tWord boundary\r\n';
+  document.forms[0].outbox.value += '\\B\tNOT word boundary\r\n';
+  document.forms[0].outbox.value += '\\<\tStart of word\r\n';
+  document.forms[0].outbox.value += '\\>\tEnd of word\r\n';
+
+}
+
+</SCRIPT>
+</HEAD>
+<BODY bgcolor='#0088AF' onload='do_inits();'>
+
+<H2>Regexer: Search and Replace</H2>
+<form>
+
+<p>Input regex and substitution string into the first line (delimited with ~~), then the text to process on the lines below it (Click Run to see samples)</p>
+<textarea name="inbox" rows="14" cols="98"></textarea>
+<BR />
+<textarea class="toggle" name="outbox" rows="14" cols="98"></textarea><br />
+
+<input type="radio" name="regex" value="generic" checked>Generic</input>
+<input type="radio" name="regex" value="mrobo">Multi-Robocopy</input>
+<input type="radio" name="regex" value="rn">Bulk Rename</input>
+<input type="radio" name="regex" value="exp_fold_rn">RN Export Fldrs</input>
+<input type="radio" name="regex" value="cast_varchar">CAST</input>
+<input type="radio" name="regex" value="perl_print">perl_print</input>
+<input type="radio" name="regex" value="js_print">js_print</input>
+<input type="radio" name="regex" value="robo_boxes">Robo Boxes</input>
+<input type="checkbox" id="sql_code" Checked>SQL</input>
+<input type="text" size="4" id="numbering" ></input>Start Number
+
+</br>
+<input type="button" onclick="ClipBoard();" accesskey="C" value="To Clipboard" ></input>
+<input type="button" onclick="dump_obj(field_button);" value="Test" accesskey="S"></input>
+<input type="button" onclick="clear_outbox();" value="Clear" accesskey="B"></input>
+<input type="button" onclick="clear_boxes();" value="Clear Both" accesskey="0"></input>
+<input type="button" onclick="run_sub();" value="Run" accesskey="R"></input>
+<input type="button" onclick="pretty_print(document.forms[0].inbox.value);" value="Pretty Print" accesskey="E"></input>
+<input type="button" onclick='show_regex_info();'";' value="Regex Info" accesskey="Q"></input>
+<BR />
+<BR />
+
+<input name="unicode" type="text" size="4"></input><input type="button" value="U" onclick='show_unicode(document.forms[0].unicode.value);'></input>
+
+Enter a character and click the button to see it's numerical value.
+
+<BR />
+<BR />
+<input type="button" onclick='add_row_by_array(["one", "two"], "work_table");' value="Add Table Row(s)"></input>
+<input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table" accesskey="Z"></input>
+
+<TABLE id="work_table" border="1" style="width:80%">
+<TR>
+  <TD>Jill</TD>
+  <TD>Smith</TD>
+  <TD>50</TD>
+</TR>
+<TR>
+  <TD>Eve</TD>
+  <TD>Jackson</TD>
+  <TD>94</TD>
+</TR>
+</TABLE>
+</form>
+
+</BODY>

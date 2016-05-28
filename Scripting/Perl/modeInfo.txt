@@ -1,0 +1,6 @@
+mode.Key: ODO
+mode.Value.PrimaryChamber: Ventricle
+mode.Value.SecondaryChamber: Atrium
+mode.Key: AOO
+mode.Value.PrimaryChamber: Atrium
+mode.Value.SecondaryChamber: NotApplicable

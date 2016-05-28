@@ -1,0 +1,51 @@
+Isolated Storage (Azure)
+Markup Extensions (Silverlight)
+Win32
+What are bindings for (WCF)
+What is an abstract class
+What is an interface
+What are two advantages that Microsoft gained by releasing the CLR
+What is an index for (MS-SQL)
+What is the difference between a Clustered and Non-Clustered index
+What are the benefits of Generics (Increase type safety and reduce casting and boxing)
+What are the benefits of closures
+
+lst.FindAll(delegate(int n) { return n < limit; }) is equivalent to lst.FindAll(n => n < limit);
+
+
+Snippets:
+public static IEnumerable<R> Map<T, R>(this IEnumerable<T> lst, Func<T,R> mapping) { ... }
+
+int fileSizeThreshold;
+if (!int.TryParse(fileSizeThresholdArg, out fileSizeThreshold))
+    throw new UsageException("file size threshold must be an integer [/n]");const string sqlTemplate = "select itemId from tblItem where itemIdentityId = {0}";
+string sql = string.Format(sqlTemplate, itemIdentityId);
+var htmlFileOutputs = HtmlOutputFiles.Aggregate("", (a, b) => a + b);
+
+Before:
+private static List<HtmlOutputFile> ReadHtmlFileTags(IEnumerable<XElement> descendants)
+{
+    var htmlOutputFiles = new List<HtmlOutputFile>();
+    var data = from item in descendants.Elements("HtmlOutputFile")
+               select new HtmlOutputFile
+               {
+                   FilePath = item.Element("FilePath").Value,
+                   FileSize = item.Element("FileSize").Value
+               };
+    foreach (var htmlfile in data)
+        htmlOutputFiles.Add(htmlfile);
+    return htmlOutputFiles;
+}
+After:
+private static List<HtmlOutputFile> ReadHtmlFileTagsWithLinq(IEnumerable<XElement> descendants)
+{
+    var data = from item in descendants.Elements("HtmlOutputFile")
+               select new HtmlOutputFile
+               {
+                   FilePath = item.Element("FilePath").Value,
+                   FileSize = item.Element("FileSize").Value
+               };
+    return data.ToList();
+}
+
+

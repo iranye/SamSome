@@ -1,0 +1,6 @@
+"C:\Program Files\R\R-2.15.1\bin\R.exe"
+
+C:\SourceHttp\Ruby>Rscript weight_n_height.R
+C:\SourceHttp\Ruby>R CMD BATCH weight_n_height.R
+> installed.packages()
+> peter <- list(name='Peter', age=30, glasses=TRUE)

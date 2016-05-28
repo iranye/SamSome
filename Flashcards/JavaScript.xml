@@ -1,0 +1,17 @@
+<question>
+What is the difference between function statments and function expressions?
+</question>
+function statements are defined at parse time and called before their declaration due to hoisting.  Function expressions are defined at run time and do not require a name.
+
+<question>
+What is an IIFE?
+</question>
+Immediately Invoked Function Expression is a self-executing anonymous function that does not use hoisting thus protecting the global namespace from being polluted.
+
+<question>
+What is the syntax for an IIFE?
+</question>
+function(){
+// code goes here
+}();
+

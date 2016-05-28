@@ -1,0 +1,37 @@
+Write a recursive or iterative factorial function.
+factRecursive(n)
+if n &gt; 1 return n * factRecursive(n - 1)
+
+Read from or write to a file
+Types of files: unicode, ASCII text, binary
+
+Print to the screen
+Hello World!
+
+Do math
+What are numeric types?
+
+Read from or write to a database
+Explore MS-SQL, Oracle, PostgreSQL, MySQL, SQLite, CouchDB
+
+Implement a stack
+last in, last out, push, pop
+
+Sorting
+Mergesort, Heapsort, BubbleSort
+
+Regular Expressions
+Matching and Capturing.
+
+Try Catch Finally clauses
+where supported
+
+Multi-threading
+Where supported
+
+Extend built-in types as base classes
+E.g., C# Extension methods
+
+
+
+

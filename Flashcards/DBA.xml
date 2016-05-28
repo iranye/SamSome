@@ -1,0 +1,42 @@
+<question>
+[DBA Survivor, page 14]
+What information does aDBA needs to have?
+</question>
+a list of database servers
+database backups are running
+restores from backups work
+a list of customers
+the "most important" databases
+recovery plan
+
+<question>
+[DBA Survivor, page 36]
+What are the different kinds of RAID systems and what are their strengths (one of performance, fault tolerance, or redundancy)?
+</question>
+RAID 0, disk striping gives performance
+RAID 1, mirroring, gives fault tolerance and redundancy
+RAID 5, striping with parity, gives fault tolerance and performance (greater than RAID 1, but less than RAID 0)
+RAID 1+0, mirroring with striping, gives fault tolerance and highest performance of any RAID, but costs more to buy extra disks
+
+<question>
+[DBA Survivor, page 41]
+What are basic needs when it comes to file system storage?
+</question>
+Placement of database files
+Placement of transaction log files
+Placement of your tempdb database files
+Placement of your database backups
+
+<question>
+[DBA Survivor, page 43]
+What is a SAN?
+</question>
+A Storage Area Network is a RAID array of bundled physical disks that are partitioned out into logical units (LUNs).
+
+<question>
+[DBA Survivor, page 45]
+What is a spindle?
+</question>
+A SAN administrator's slang for an individual drive that is combined together with other drives to make arrays.
+For example, if there are ten disks in an array and were to build five logical volumes on the ten, each volume would have ten spindles.
+

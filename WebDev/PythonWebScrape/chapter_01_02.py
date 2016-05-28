@@ -1,4 +1,4 @@
-import re
+﻿import re
 from py_lib import get_bs_obj
 
 def read_html_h1():
@@ -98,5 +98,19 @@ def read_using_parent():
     price_el = bsObj.find("img",{"src":"../img/gifts/img1.jpg"}).parent.previous_sibling
     print(price_el.get_text())
 
+def usd_read_products_page():
+    #bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/rotary/kit/EC35")    
+    bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/rotary/kit/E4T")
+    #bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/modules/EM1")
+    #bsObj = get_bs_obj("http://www.usdigital.com/products/encoders/incremental/modules/EM2")
+    
+    if bsObj == None:
+        return
+    
+    select_cpr = bsObj.find("select", {"class":"product_input"})
+    # select all rows including the title row
+    for child in select_cpr.findAll("option"):
+        print("INSERT [dbo].[tmpCPR] ([CPR]) VALUES (N'%s')" % child.get_text().rstrip().lstrip())
+        
 if __name__ == "__main__":
     read_html_h1()

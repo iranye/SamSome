@@ -1,0 +1,118 @@
+use case2748
+use case2659
+
+select * from tblitem (nolock) order by parentitemid, itemtypeid, itemname where mediaid = 2000513 AND parentitemid IS NULL
+select * from tblitem (nolock) where mediaid = 2000331 and parentitemid is null order by parentitemid, itemtypeid, itemname
+
+select itemtypeid, itemname from tblitem (nolock) where mediaid = 2000310 AND ParentItemID IS NULL order by parentitemid, itemtypeid, itemname
+select * from tblitem where mediaid = 2000310
+select * from tblItem (nolock) where itemname = 'bchambers.zip'
+select * from tblitem (nolock) where mediaid = 2000331 order by ItemTypeID
+
+---------------------------------------------
+select * from tlkpFileType (nolock)
+SELECT  FiosFileTypeID     'ID',
+        Description        'File Type'
+FROM	  tlkpFileType WITH(NOLOCK)
+
+SELECT TOP 10 * FROM tblItem WITH(NOLOCK)
+SELECT TOP 10
+	FiosFileTypeID     'FileType',
+	MediaID,
+	ByteCnt            'Bytes',
+	ItemName           'FileName',
+	Path,
+	DateAdded,
+	HashCode
+FROM tblItem WITH(NOLOCK)
+
+SELECT  TOP 10 *
+FROM    tblItem WITH(NOLOCK)
+ORDER   BY ByteCnt
+---------------------------------------------
+SELECT TOP 55 * FROM tblItem WITH(NOLOCK)
+
+USE Case2659
+SELECT 
+LEFT(DateAdded, 33) StrOp,
+DateAdded,
+DATEPART(hour, GETDATE()) 'datepart',
+GETDATE() Now,
+ConvertedFileName + ' is in Media ' + CONVERT(varchar, MediaID) 'Convert',
+ConvertedFileName,
+ByteCnt / 1024.0        'KB',
+ItemTypeID,
+MediaID,
+ItemName
+FROM tblItem WITH(NOLOCK) 
+WHERE
+ItemName LIKE '%¥%'
+---------------------------------------------
+SELECT  ConvertedFileName  'FENS',
+        ItemName           'File Name',
+        ByteCnt            'File Size'
+FROM    tblItem WITH(NOLOCK)
+WHERE   ItemID = 86051
+UNION   ALL
+SELECT  ConvertedFileName,
+        ItemName,
+        ByteCnt
+FROM    tblItem WITH(NOLOCK)
+WHERE   ParentItemID = 86033  
+  AND   ItemName = 'Notes Folder'
+ORDER	  BY ByteCnt
+---------------------------------------------
+SELECT TOP 55 i.MediaID, m.MediaID, i.ConvertedFileName, i.ItemName, m.MediaTitle
+FROM    tblItem i WITH(NOLOCK)
+JOIN    tblMedia m WITH(NOLOCK) ON m.MediaID = i.MediaID
+---------------------------------------------
+
+SELECT  i.ConvertedFileName, i.ItemName, m.MediaTitle, ft.Description
+FROM    tblItem i WITH(NOLOCK)
+JOIN    tblMedia m WITH(NOLOCK) ON m.MediaID = i.MediaID
+JOIN    tlkpFileType ft WITH(NOLOCK) 
+        ON ft.FiosFileTypeID = i.FiosFileTypeID
+---------------------------------------------
+SELECT  HashCode
+FROM    tblItem WITH(NOLOCK)
+WHERE   ISNULL(HashCode,'') <> ''
+GROUP   BY HashCode
+HAVING  COUNT(*) > 10
+---------------------------------------------
+SELECT  HashCode
+INTO    #myHashCodes
+FROM    tblItem WITH(NOLOCK)
+WHERE   ISNULL(HashCode,'') <> ''
+GROUP   BY HashCode
+HAVING  COUNT(*) > 500
+
+SELECT  i.ConvertedFileName
+FROM    tblItem i
+JOIN    #myHashCodes m ON m.HashCode = i.HashCode
+
+
+---------------------------------------------
+SELECT TOP 10 HashCode
+INTO    #fooble
+FROM    tblItem WITH(NOLOCK)
+SELECT * FROM #fooble
+
+SELECT  HashCode
+INTO    #myHashCodes
+FROM    tblItem WITH(NOLOCK)
+WHERE   ISNULL(HashCode,'') <> ''
+GROUP   BY HashCode
+HAVING  COUNT(*) > 500
+
+SELECT  i.ConvertedFileName
+FROM    tblItem i
+JOIN    #myHashCodes m ON m.HashCode = i.HashCode
+
+
+
+---------------------------------------------
+CREATE TABLE fooble
+(
+    Field1 varchar
+
+)

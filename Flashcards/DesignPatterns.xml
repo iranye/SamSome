@@ -1,0 +1,53 @@
+<question>
+[HFDP pg 9]
+Design principle: Separate aspects that ______ from what _________
+</question>
+vary,stays the same
+
+<question>
+[HFDP pg 11]
+Design principle: Program to an ___________, not an implementation
+</question>
+interface
+
+<question>
+[HFDP pg 23]
+What's usually better in OO design?  Inheritance or Composition?
+</question>
+Composition
+
+<question>
+[HFDP pg 24]
+What is the Stategy Pattern?
+</question>
+A family of algorithms that when encapsulated and made interchangeable, allow the algorithms to vary independently from clients that use it.
+
+<question>
+[HFDP pg 51]
+What is the Observer Pattern
+</question>
+Defines a one-to-many dependency between object so that when one object changes state, all of its dependents are notified and updated automatically
+
+<question>
+[HFDP pg 86]
+Fill in the blanks: Classes should be _____ for extension, but _______ for modification.
+</question>
+Open
+Closed
+
+<question>
+[HFDP pg 91]
+What does the Decorator Pattern do?
+</question>
+Attaches additional responsibilities to an object dynamically, providing a flexible alternative to subclassing for extending functionality.
+
+<question>
+
+</question>
+---ANSWER---
+
+<question>
+
+</question>
+---ANSWER---
+

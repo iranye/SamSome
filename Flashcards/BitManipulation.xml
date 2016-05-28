@@ -1,0 +1,19 @@
+<question>
+How do you set the 3 least significant bits to 1?
+</question>
+<answer>
+val OR 00000111
+</answer>
+
+<question>
+How do you set the 3 least significant bits to 0?
+</question>
+<answer>
+val AND 11111000
+</answer>
+
+<question>
+How do you set the 3 least significant bits their inverse?
+</question>
+BLAH BLAH
+

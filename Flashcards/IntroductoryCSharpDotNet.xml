@@ -1,0 +1,184 @@
+<question>
+What other C# questions should be here?
+</question>
+<answer>
+Look up reserved words and see what isn't covered.
+</answer>
+
+<question>
+In the context of methods, what does virtual, override, and new mean?
+</question>
+<answer>
+SEE: http://stackoverflow.com/questions/7308437/c-sharp-virtual-method
+virtual keyword modifies a method, property, indexer, or event declaration allowing it to be overridden in a derived class.
+override modifier is required to extend or modify the abstract or virtual implementation of an inherited method, property, indexer, or event.
+new keyword explicitly hides a member that is inherited from a base class.
+</answer>
+
+<question>
+What's the difference between String and Stringbuilder?
+</question>
+<answer>
+String is immutable, which means that when you create a string you can never change it, rather it will create a new string to store the new value.
+Stringbuilder can be used to simulate a mutable string so is good for when you need to change a string a lot.
+</answer>
+
+<question>
+What is the difference between ref and out usage in method parameters?
+</question>
+For the caller:
+For a ref parameter, the variable has to be definitely assigned already
+For an out parameter, the variable doesn't have to be definitely assigned, but will be after the method returns
+For the method:
+A ref parameter starts off definitely assigned, and you don't have to assign any value to it
+An out parameter doesn't start off definitely assigned, and you have to make sure that any time you return (without an exception) it will be definitely assigned
+
+<question>
+What are the main principles of Object Oriented Programming (up to four)?
+</question>
+Encapsulation
+Polymorphism
+Inheritence
+Data Abstraction
+
+<question>
+What is encapsulation?
+</question>
+The hiding of data implementation by restricting access to accessors andmutators.
+
+<question>
+What is polymorphism?
+</question>
+The ability (in programming) to present the same interface for differing underlying data types.
+
+<question>
+What is inheritance?
+</question>
+It's where objects take on features of existing objects. Typically, one class is the base class that one or more sub-classes inherit from.
+
+<question>
+What is data abstraction?
+</question>
+The development of classes, objects, and types in terms of their interfaces and functionality, instead of their implementation details.
+
+<question>
+What is a library?
+</question>
+A collection of classes
+
+<question>
+What is a class?
+</question>
+A class is a type definition of an Object Oriented Programming object
+
+<question>
+What is the form for String.Format to force at least two digits in various parts of a date string?
+</question>
+String.Format("{0}-{1:00}-{2:00}"
+, DateTime.Now.Year
+,DateTime.Now.Month
+,DateTime.Now.Day
+So Jan 06, 2012 gets represented as "2012-01-06"
+
+<question>
+What is the form for String.Format to force a minimum of 5 zeros left of the decimal, and four to the right?
+</question>
+Console.WriteLine("{0:00000.0000}", 17);
+
+<question>
+[C# 4.0 in a Nutshell, pg 21]
+What is decimal type primarily used for?
+</question>
+financial calculations
+
+<question>
+[C# 4.0 in a Nutshell, pg 36]
+How are the Stack and Heap different?
+</question>
+The Stack is a block of memory for storing local variables and parameters, growing/shrinking as functions are called or return.
+The heap is a block of memory where reference-type instances are stored.  Objects on the heap are garbage-collected whereas stack memory is not.
+Static fields and constants are stored on the heap, but don't get garbage-collected until the app domain is torn down.
+
+<question>
+[C# 4.0 in a Nutshell, pg 38]
+How would you initialize a bool variable to its default value?
+</question>
+bool b = default(bool);
+
+<question>
+What access level does the internal qualifer provide?
+</question>
+Types or members are accessible only within files in the same assembly.
+
+<question>
+What access level does the protected qualifer provide?
+</question>
+Access is limited to the containing class or types derived from the containing class.
+
+<question>
+[C# 4.0 in a Nutshell, pg 82]
+What does the sealed qualifier do in the following example?
+public sealed override int SubclassMethod() {...}
+</question>
+Disallows futher overriding of the method by subclasses of the class it's defined in.
+
+<question>
+[C# 4.0 in a Nutshell, pg 87]
+What is the difference between the GetType() function and typeof?
+</question>
+GetType is evaluated at runtime, typeof at compile time.
+
+<question>
+[C# 4.0 in a Nutshell, pg 89, 92]
+True or False, as with a class, a struct can:
+A) have a parameterless constructor
+B) use field initializers (i.e. before the constructor)
+C) have a constructor that does not initialize all fields
+D) implement interfaces
+E) inherit from a class
+</question>
+A, B, C are False, D and E are True
+
+<question>
+[C# 4.0 in a Nutshell, pg 94]
+What is the default protection level of an implementation of an interface member (by a subclass)?
+</question>
+sealed
+
+<question>
+[C# 4.0 in a Nutshell, pg 95]
+What is one way around the default protection level of an implementation of an interface member?
+</question>
+Use a type of method overloading
+public class MyClass : IDisposable
+{
+void IDisposable.Dispose() { Dispose(); }
+protected virtual void Dispose() { ... }
+}
+
+<question>
+[C# 4.0 in a Nutshell, pg 98]
+In the implementation of the Flags enum:
+[Flags]
+public enum Sides { Left = 1, Right = 2, Top = 4, Bottom = 8 }
+What is the output of Console.WriteLine(
+BorderSides.Left | BorderSides.Right);?
+</question>
+Left, Right
+
+What is the default protection level for both C# class and structs?  They also have the same default protection level for their fields.  What is it?
+both class and struct are internal by default (private if they're nested), and their member fields are private by default.
+
+What is the root namespace for C# .Net?
+There is no "root" namespace.
+There could be any number of namespaces in a given assembly, and nothing requires them to all start from a common root.
+
+<question>
+[C# In Depth ed 1, page 33]
+What is a delegate?
+</question>
+A delegate type is a single-method interface
+A delegate instance is an object implementing that interface
+[From Stackoverflow]
+A type-safe function pointer
+

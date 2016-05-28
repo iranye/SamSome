@@ -1,0 +1,53 @@
+AF
+Atrial Fibrillation: an irregular and often rapid heart rate causing poor blood flow.  Atria are mis-coordinated with Ventricles.
+
+Arrythmia
+Occurs when electrical impulses mis-fire, causing the heart to beat too fast, too slow, or irregularly.  Often harmless.
+
+Asystole
+Absence of heartbeat, cardiac arrest
+
+Atria
+The heart's two upper chambers
+
+AHA
+American Heart Association
+
+Bigeminy
+When normal sinus beats alternate with premature ventricular beats
+
+Bradycardia
+A heartbeat that is too slow
+
+HRV
+Heart Rate Variablilty
+
+HVR
+High Ventricular Rate
+
+HVRR
+High Ventricular Rate Reduction
+
+Myocardial Ischemia
+Occurs when blood flow to the heart is decreased by a partial or complete blockage of an artery
+
+PVC
+Premature Ventricular Contraction
+
+Refractory Period
+The amount of time it takes for an excitable membrane to be ready for a second stimulus once it returns to its resting state following an excitation.
+
+Sinus Node or Sinoatrial
+The group of cells where the heart's electrical signal begins
+
+Tachycardia
+A heartbeat that is too fast.
+
+Trigeminy
+A cardiac arrhythmia characterized by the occurrence of three heartbeats in a repeating pattern: two normal beats coupled to an ectopic beat, or two ectopic beats coupled to a normal beat
+
+Ventricles
+The heart's two lower chambers
+
+VFL
+Ventricular Flutter

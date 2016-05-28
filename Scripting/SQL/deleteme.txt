@@ -1,0 +1,31 @@
+/*
+  for (var argname in selection) {
+    var s = "selection[" + argname + "]:                          " + selection[argname] + "\n";
+    print_to_box(s);
+ }
+  selection += job_select['selectedIndex'].options.value;  //job_select.toString();
+  selection += job_select['selectedIndex'].value;  //job_select.toString();
+
+  for (var argname in job_select) {
+    var s = "job_select[" + argname + "]:                          " + job_select[argname] + "\n";
+    print_to_box(s);
+ }
+}
+
+  for (var argname in case_obj) {
+    //print_to_box(argname + " in case_obj is " + case_obj[argname] + "\n");
+    var form_field = document.getElementById(argname);
+    form_field.value = case_obj[argname];
+  }
+}
+  for (var argname in new_obj) {
+    msg += argname + " in new_obj is " + new_obj[argname] + "\n";
+  }
+          for (var argname in new_obj) {
+            msg += argname + " in new_obj is " + new_obj[argname] + "\n";
+          }
+  var result = p.test(input) ? 1 : 0;
+  if (!result) return "non-case\n";
+
+
+*/

@@ -2,6 +2,7 @@
 from chapter_01_02 import *
 from chapter_03 import *
 from chapter_04 import *
+from chapter_05 import *
 
 def gathering():
     bsObj = get_bs_obj("http://gatherer.wizards.com/Pages/Search/Default.aspx?action=advanced&format=+[\"Standard\"]")
@@ -35,14 +36,17 @@ if __name__ == "__main__":
     #get_image()
     #read_using_lambda()
     #read_using_parent()
+    usd_read_products_page()
 
     # chapter_03.py:
     #six_degrees_kevin_bacon()
     #gathering()
 
     # chapter_04.py:
-    parse_literal_Json()
+    #parse_literal_Json()
     #parse_gmap_Json()
     
-    
-    
+    # chapter_05.py
+    #get_web_scraping_logo()
+    #get_gatherer_image() #does not work (file is corrupted)
+    #create_csv()
