@@ -1,4 +1,4 @@
-<HTML><HEAD><TITLE>Regexer</TITLE>
+<!DOCTYPE HTML><HEAD><TITLE>Regexer</TITLE>
 <style type='text/css'>
 #table_name{
   font-family: helvetica;
@@ -39,6 +39,13 @@ td{
 
 /// General Routines //////////////////////////////////////////////////////
 String.prototype.startswith = function(c) { return (c == this.charAt(0)); }
+
+function print_dump_obj() {
+  var inputObj = document.getElementById("id_input");
+  print_to_in(inputObj.value);
+  var readObj = document.getElementById(inputObj.value);
+  dump_obj(readObj);
+}
 
 function dump_obj(obj) {
   for (var argname in obj) { print_to_out(argname + " in obj is " + obj[argname] + "\n"); }
@@ -155,7 +162,6 @@ function add_table_row(one, two, three) {
 // show table name for when adding/changing/removing fields
 function toggle_table(table_id, visible_option) {
   var table_obj = document.getElementById(table_id);
-  print_to_out("visible_option: " + visible_option + "\n");
 
   if (visible_option.length > 1)
   {
@@ -188,37 +194,56 @@ function append_row(rowObj, table_id) {
   tblObj.appendChild(rowObj);
 }
 
+//function createButton(context, value, func) {
+//  var button = document.createElement("input");
+//  button.type = "button";
+//  button.value = value;
+//  button.onclick = func;
+//  context.appendChild(button);
+//}
+
 function add_row_by_array(data_array, table_id) {
   toggle_table(table_id, "visible");
 
   var rowObj = document.createElement("TR");
-  var cellObjIdToUpdate = "c" + Math.floor((Math.random() * 1000) + 1);
+  var cellObjIdToUpdate = Math.floor((Math.random() * 1000) + 1);
   print_to_out("cellObjIdToUpdate: " + cellObjIdToUpdate + "\n");
+  data_array.push("operations_cell");
 
-  for (var i = 0; i < data_array.length; i++) {
+  for (var i = 0; i < data_array.length; i++, cellObjIdToUpdate++) {
     print_to_out("data_array[" + i + "]:" + data_array[i] + "\n");
     var cellObj = document.createElement("TD");
-    if (typeof data_array[i] == "object") {
-      cellObj.appendChild(data_array[i]);
+    if (data_array[i] == "operations_cell") {
+      print_to_out("adding operations_cell\n");
+
+      var buttonObj = document.createElement("BUTTON");
+      buttonObj.type = "button";
+      var txtNode = document.createTextNode("R");
+      buttonObj.appendChild(txtNode);
+      buttonObj.id = cellObjIdToUpdate;
+      print_to_out("buttonObj.id: " + buttonObj.id + "\n");
+      //buttonObj.onclick = function () { Hi(this) };
+      buttonObj.onclick = Hi;
+      cellObj.appendChild(buttonObj);
     }
     else {
+      cellObj.id = cellObjIdToUpdate;
       var txtNode = document.createTextNode(data_array[i]);
       cellObj.appendChild(txtNode);
-      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
     }
-    cellObj.id = cellObjIdToUpdate;
     rowObj.appendChild(cellObj);
-    rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
-    rowObj.onmouseout = new Function("this.bgColor='';return true;");
+    append_row(rowObj, table_id);
   }
+  rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
+  rowObj.onmouseout = new Function("this.bgColor='';return true;");
 
   // Add a cell to do operations on adjacent cell
-  var cellObj = document.createElement("TD");
-  var buttonObj = document.createElement("button");
-  buttonObj.value = "2CB and strikethrough";
-  buttonObj.onclick = toggle_cell(cellObjIdToUpdate);
-  rowObj.appendChild(cellObj);
-  append_row(rowObj, table_id);
+  //buttonObj.onclick = toggle_cell(cellObjIdToUpdate);
+}
+
+function Hi()
+{
+  print_to_out("this.id: ");
 }
 
 function toggle_cell(cell_id)
@@ -714,9 +739,10 @@ Enter a character and click the button to see it's numerical value.
 
 <BR />
 <BR />
-<input type="button" onclick='add_row_by_array(["one", "two"], "work_table");' value="Add Table Row(s)"></input>
-<input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table" accesskey="Z"></input>
-
+<input type="button" onclick='add_row_by_array(["one", "two"], "work_table");' value="Add Table Row(s)" />
+<input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table" accesskey="Z" />
+<input id="id_input" type="text" size="4">
+<input type="button" onclick='print_dump_obj();' value="Dump" />
 <TABLE id="work_table" border="1" style="width:80%">
 <TR>
   <TD>Jill</TD>
