@@ -47,6 +47,11 @@ td{
 String.prototype.startswith = function(c) { return (c == this.charAt(0)); }
 
 function dump_obj(obj) {
+  if (obj == null)
+  {
+    print_to_out("dump_obj obj is null");
+    return;
+  }
   for (var argname in obj) { print_to_out(argname + " in obj is " + obj[argname] + "\n"); }
 }
 
@@ -121,6 +126,14 @@ function massage_aux(type, aux) {
 }
 
 //Table Management Functions///////////////////////////////
+function clear_table(table_id) {
+  var table_obj = document.getElementById(table_id);
+  // print_to_out("table_obj.rows.length: " + table_obj.rows.length + "\n");
+  if (table_obj.rows.length > 0) {
+    table_obj.innerHTML = "";
+  }
+}
+
 function add_table() {
   var input = massage_input(document.forms[0].input.value);
   if (!input) { return; }
@@ -205,7 +218,8 @@ function append_row(rowObj, table_id) {
   tblObj.appendChild(rowObj);
 }
 
-function add_rows_to_work_table() {
+function add_rows_to_table(table_id) {
+  clear_table(table_id);
   var input = document.forms[0].inbox.value;
   var lines = input.split("\n");
 
@@ -215,16 +229,44 @@ function add_rows_to_work_table() {
         continue;
     }
     // print_to_out(line + "\n");
-    add_row_by_array([line], "work_table");
+    add_row_by_array([line], table_id);
   }
   document.forms[0].inbox.value = "";
+}
+
+function get_new_id(mod) {
+  // print_to_out("getting new id for " + mod + " elements\n");
+  var newId = 0;
+  var maxIds = 1000;
+  var tries = 0
+  do {
+    tries++;
+    newId = Math.floor((Math.random() * maxIds) + 1);
+    // print_to_out("newId start: " + newId + "\n");
+    while((newId % mod) != 0)
+    {
+      newId--;
+    }
+    // print_to_out("newId after mod applied: " + newId + "\n");
+    var obj = document.getElementById(newId);
+    if (obj != null)
+    {
+        print_to_out("newId already taken trying again: " + newId + "\n");
+    }
+  } while(obj != null && tries < (maxIds / mod));
+  if (tries > (maxIds / mod))
+  {
+    print_to_out("too many rows being added to table. cannot determine new cell_id to use");
+  }
+  return newId;
 }
 
 function add_row_by_array(data_array, table_id) {
   toggle_table(table_id, "visible");
 
+
   var rowObj = document.createElement("TR");
-  var cellObjId = Math.floor((Math.random() * 1000) + 1);
+  var cellObjId = get_new_id(data_array.length + 1);
 
   for (var i = 0; i < data_array.length; i++) {
     // print_to_out("data_array[" + i + "]:" + data_array[i] + "\n");
@@ -247,7 +289,7 @@ function add_row_by_array(data_array, table_id) {
   // Add a cell to do operations on adjacent cell
   var cellObj = document.createElement("TD");
   cellObj.id = cellObjId;
-  print_to_out("cellObj.id (button): " + cellObj.id + "\n");
+  // print_to_out("cellObj.id (button): " + cellObj.id + "\n");
   var buttonObj = document.createElement("BUTTON");
   buttonObj.type = "button";
   var txtNode = document.createTextNode("R");
@@ -725,7 +767,7 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 
 </SCRIPT>
 </HEAD>
-<BODY bgcolor='#0088AF' onload='do_inits();'>
+<BODY bgcolor='#0088AF' onload='do_inits();' >
 
 <H2>Regexer: Search and Replace</H2>
 <form>
@@ -763,8 +805,7 @@ Enter a character and click the button to see it's numerical value.
 
 <BR />
 <BR />
-<input type="button" onclick='add_rows_to_work_table();' value="Add Table Row(s)" accesskey="Z"></input>
-<!-- <input type="button" onclick='add_row_by_array(["one", "two"], "work_table");' value="Add Table Row(s)" accesskey="Z"></input> -->
+<input type="button" onclick='add_rows_to_table("work_table");' value="Add Table Row(s)" accesskey="Z"></input>
 <input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table"></input>
 <input type="text"   width="8" id="id_to_dump"></input>
 <input type="button" onclick='dump_obj_by_id();' value="dump_obj" ></input>
