@@ -1,4 +1,4 @@
-<HTML><HEAD><TITLE>Regexer</TITLE>
+<!DOCTYPE HTML><HEAD><TITLE>Regexer</TITLE>
 <style type='text/css'>
 #table_name{
   font-family: helvetica;
@@ -16,6 +16,21 @@ H2{
   font-size: 30px;
 }
 
+td{
+  border: 1px solid black;
+}
+
+#work_table{
+  border: 1px solid black;
+  visibility: hidden;
+}
+
+.deleted{
+  text-decoration: line-through;
+}
+.normal{
+  text-decoration: none;
+}
 </style>
 <LINK href="style.css" rel="stylesheet" type="text/css">
 <SCRIPT type="text/javascript" src="objects.js"></SCRIPT>
@@ -32,7 +47,18 @@ H2{
 String.prototype.startswith = function(c) { return (c == this.charAt(0)); }
 
 function dump_obj(obj) {
+  if (obj == null)
+  {
+    print_to_out("dump_obj obj is null");
+    return;
+  }
   for (var argname in obj) { print_to_out(argname + " in obj is " + obj[argname] + "\n"); }
+}
+
+function dump_obj_by_id() {
+  var dumpThisObj = document.getElementById("id_to_dump");
+  print_to_out("dumpThisObj.value: " + dumpThisObj.value + "\n");
+  dump_obj(document.getElementById(dumpThisObj.value));
 }
 
 function dbl_chomp(s) {
@@ -51,8 +77,15 @@ function get_select_input(menu_id, start_ind) {
   return select_input[index].innerHTML;
 }
 
-function ClipBoard() {
-  Copied = document.forms[0].outbox.createTextRange();
+function ToClipBoard(box) {
+  if (box == "out")
+  {
+    Copied = document.forms[0].outbox.createTextRange();
+  }
+  else if (box == "in")
+  {
+    Copied = document.forms[0].inbox.createTextRange();
+  }
   Copied.execCommand("Copy");
 }
 
@@ -93,6 +126,14 @@ function massage_aux(type, aux) {
 }
 
 //Table Management Functions///////////////////////////////
+function clear_table(table_id) {
+  var table_obj = document.getElementById(table_id);
+  // print_to_out("table_obj.rows.length: " + table_obj.rows.length + "\n");
+  if (table_obj.rows.length > 0) {
+    table_obj.innerHTML = "";
+  }
+}
+
 function add_table() {
   var input = massage_input(document.forms[0].input.value);
   if (!input) { return; }
@@ -123,29 +164,194 @@ function massage_input(str) {
   return str;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////
+function add_table_row(one, two, three) {
+  var table_list = document.getElementById("table_list");
+  print_to_out("toggle visible: \n");
+
+  var visible = table_list.style.visibility == "visible" ? "yes" : "no";
+  print_to_out("visible: " + visible + "\n");
+  if (visible == "yes") // if (table_list.style.visibility == visible)
+  {
+    print_to_out("visible. setting to hidden\n");
+    table_list.style.visibility = "hidden";
+  }
+  else
+  {
+    print_to_out("hidden. setting to visible\n");
+    table_list.style.visibility = "visible";
+  }
+}
 
 // show table name for when adding/changing/removing fields
+function toggle_table(table_id, visible_option) {
+  var table_obj = document.getElementById(table_id);
+  // print_to_out("visible_option: " + visible_option + "\n");
 
-function toggle_table(t) {
-  var table_name   = document.getElementById("table_name");
-  var field_select = document.getElementById("field_select");
-  if (t == "") {
-    table_name.style.visibility   = "hidden";
-    field_select.style.visibility = "hidden";
+  if (visible_option.length > 1)
+  {
+    table_obj.style.visibility = visible_option;
     return;
   }
-
-  table_name.style.visibility   = "visible";
-  field_select.style.visibility = "visible";
-  var s = "Table: " + t;
-  table_name.innerHTML = s;
+  var visible = table_obj.style.visibility == "visible" ? "yes" : "no";
+  if (visible == "yes") // if (table_obj.style.visibility == visible)
+  {
+    // print_to_out("visible. setting to hidden\n");
+    table_obj.style.visibility = "hidden";
+  }
+  else
+  {
+    // print_to_out("hidden. setting to visible\n");
+    table_obj.style.visibility = "visible";
+  }
 }
 
 function reset_table_fields_menu() {
   var table_fields_menu = document.getElementById("field_select");
   table_fields_menu['selectedIndex'] = 0;
   table_fields_menu.length = 1;
+}
+
+/// Table-Alter Routines //////////////////////////////////////////////////////
+function append_row(rowObj, table_id) {
+  var tblObj = document.getElementById(table_id);
+  var rowsArr = tblObj.rows;
+  tblObj.appendChild(rowObj);
+}
+
+function add_rows_to_table(table_id) {
+  clear_table(table_id);
+  var input = document.forms[0].inbox.value;
+  var lines = input.split("\n");
+
+  for (var i = 0; i < lines.length; i++) {
+    var line = dbl_chomp(lines[i]);
+    if (line.length == 0) { // skip whitespace-only lines
+        continue;
+    }
+    // print_to_out(line + "\n");
+    add_row_by_array([line], table_id);
+  }
+  document.forms[0].inbox.value = "";
+}
+
+function get_new_id(mod) {
+  // print_to_out("getting new id for " + mod + " elements\n");
+  var newId = 0;
+  var maxIds = 1000;
+  var tries = 0
+  do {
+    tries++;
+    newId = Math.floor((Math.random() * maxIds) + 1);
+    // print_to_out("newId start: " + newId + "\n");
+    while((newId % mod) != 0)
+    {
+      newId--;
+    }
+    // print_to_out("newId after mod applied: " + newId + "\n");
+    var obj = document.getElementById(newId);
+    if (obj != null)
+    {
+        print_to_out("newId already taken trying again: " + newId + "\n");
+    }
+  } while(obj != null && tries < (maxIds / mod));
+  if (tries > (maxIds / mod))
+  {
+    print_to_out("too many rows being added to table. cannot determine new cell_id to use");
+  }
+  return newId;
+}
+
+function add_row_by_array(data_array, table_id) {
+  toggle_table(table_id, "visible");
+
+
+  var rowObj = document.createElement("TR");
+  var cellObjId = get_new_id(data_array.length + 1);
+
+  for (var i = 0; i < data_array.length; i++) {
+    // print_to_out("data_array[" + i + "]:" + data_array[i] + "\n");
+    var cellObj = document.createElement("TD");
+    if (typeof data_array[i] == "object") {
+      cellObj.appendChild(data_array[i]);
+    }
+    else {
+      var txtNode = document.createTextNode(data_array[i]);
+      cellObj.appendChild(txtNode);
+      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
+    }
+    // print_to_out("cellObjId: " + cellObjId + "\n");
+    cellObj.id = cellObjId++;
+    rowObj.appendChild(cellObj);
+    rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
+    rowObj.onmouseout = new Function("this.bgColor='';return true;");
+  }
+
+  // Add a cell to do operations on adjacent cell
+  var cellObj = document.createElement("TD");
+  cellObj.id = cellObjId;
+  // print_to_out("cellObj.id (button): " + cellObj.id + "\n");
+  var buttonObj = document.createElement("BUTTON");
+  buttonObj.type = "button";
+  var txtNode = document.createTextNode("R");
+  buttonObj.appendChild(txtNode);
+  var cellToUpdateId = cellObjId - 1;
+  buttonObj.onclick = new Function("toggle_cell( " + cellToUpdateId + ");");
+
+  cellObj.appendChild(buttonObj);
+  rowObj.appendChild(cellObj);
+  append_row(rowObj, table_id);
+}
+
+function toggle_cell(cell_id) {
+  var cellObj = document.getElementById(cell_id);
+  document.forms[0].inbox.value = "";
+  print_to_in(cellObj.innerText);
+  ToClipBoard("in");
+
+  if (cellObj.className == "deleted")
+  {
+    cellObj.className = "normal";
+  }
+  else
+  {
+    cellObj.className = "deleted"; 
+  }
+  // print_to_out("cellObj.className: " + cellObj.className + "\n");
+}
+
+function add_row(data_array, tbl_id, class_name, mouseover) {
+  var rowObj = document.createElement("TR");
+  for (var i = 0; i < data_array.length; i++) {
+    //print_to_out("data_array[" + i + "]:" + data_array[i]);
+    var cellObj = document.createElement("TD");
+    cellObj.className = class_name;
+    if (typeof data_array[i] == "object") {
+      cellObj.appendChild(data_array[i]);
+    }
+    else {
+      var txtNode = document.createTextNode(data_array[i]);
+      cellObj.appendChild(txtNode);
+      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
+    }
+    rowObj.appendChild(cellObj);
+    if (mouseover) {
+      rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
+      rowObj.onmouseout = new Function("this.bgColor='';return true;");
+    }
+  }
+  append_row(rowObj, tbl_id);
+}
+
+function delete_rows(tbl_id, stop_val) {
+  var tblObj = document.getElementById(tbl_id);
+  var rowsArr = tblObj.rows;
+
+  if (rowsArr.length == 0) return 0;
+
+  for (var i = rowsArr.length-1; i >= stop_val; i--) {
+      tblObj.deleteRow(i);
+  }
+  return 1;
 }
 
 //populate stored fields menu for selected table
@@ -201,7 +407,7 @@ function update_field() {
 function run_sub() {
   var input = document.forms[0].inbox.value;
   input = (document.getElementById("sql_code").checked) ? sql_sub(input) : input;
-
+  var increment = document.getElementById("numbering").value;
   var sample = get_regex_string();
 
   var lines = input.split("\n");
@@ -232,6 +438,7 @@ function run_sub() {
   }
 
   var pattern = new RegExp(re);
+  var incrementPat = new RegExp("###");
 
   for (var i = 1; i < lines.length; i++) {
     var line = dbl_chomp(lines[i]);
@@ -239,6 +446,11 @@ function run_sub() {
         continue;
     }
     line = line.replace(pattern, new_text);
+    if (!isNaN(increment))
+    {
+      line = line.replace(incrementPat, increment);
+      increment++;
+    }
     print_to_out(line + "\n");
   }
 }
@@ -443,48 +655,6 @@ function init_views() {
   }
 }
 
-/// Table-Alter Routines //////////////////////////////////////////////////////
-function append_row(rowObj, tbl_id) {
-  var tblObj = document.getElementById(tbl_id);
-  var rowsArr = tblObj.rows;
-  tblObj.appendChild(rowObj);
-}
-
-function delete_rows(tbl_id, stop_val) {
-  var tblObj = document.getElementById(tbl_id);
-  var rowsArr = tblObj.rows;
-
-  if (rowsArr.length == 0) return 0;
-
-  for (var i = rowsArr.length-1; i >= stop_val; i--) {
-      tblObj.deleteRow(i);
-  }
-  return 1;
-}
-
-function add_row_by_array(data_array, tbl_id, class_name, mouseover) {
-  var rowObj = document.createElement("TR");
-  for (var i = 0; i < data_array.length; i++) {
-    //print_to_out("data_array[" + i + "]:" + data_array[i]);
-    var cellObj = document.createElement("TD");
-    cellObj.className = class_name;
-    if (typeof data_array[i] == "object") {
-      cellObj.appendChild(data_array[i]);
-    }
-    else {
-      var txtNode = document.createTextNode(data_array[i]);
-      cellObj.appendChild(txtNode);
-      //cellObj.onclick = new Function("select_job(this.parentNode.innerText, 'sql');return true;");
-    }
-    rowObj.appendChild(cellObj);
-    if (mouseover) {
-      rowObj.onmouseover = new Function("this.bgColor='beige';return true;");
-      rowObj.onmouseout = new Function("this.bgColor='';return true;");
-    }
-  }
-  append_row(rowObj, tbl_id);
-}
-
 /// Sorting Routines //////////////////////////////////////////////////////
 var objArr = new Array();
 function btnDefault() { alert("Cant Sort on this yet =("); }
@@ -597,7 +767,7 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 
 </SCRIPT>
 </HEAD>
-<BODY bgcolor='#0088AF' onload='do_inits();'>
+<BODY bgcolor='#0088AF' onload='do_inits();' >
 
 <H2>Regexer: Search and Replace</H2>
 <form>
@@ -616,21 +786,32 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 <input type="radio" name="regex" value="js_print">js_print</input>
 <input type="radio" name="regex" value="robo_boxes">Robo Boxes</input>
 <input type="checkbox" id="sql_code" Checked>SQL</input>
+<input type="text" size="4" id="numbering" ></input>Start Number
 
 </br>
-<input type="button" onclick="ClipBoard();" accesskey="C" value="To Clipboard" ></input>
+<input type="button" onclick="ToClipBoard('out');" accesskey="C" value="To ClipBoard" ></input>
 <input type="button" onclick="dump_obj(field_button);" value="Test" accesskey="S"></input>
 <input type="button" onclick="clear_outbox();" value="Clear" accesskey="B"></input>
 <input type="button" onclick="clear_boxes();" value="Clear Both" accesskey="0"></input>
 <input type="button" onclick="run_sub();" value="Run" accesskey="R"></input>
 <input type="button" onclick="pretty_print(document.forms[0].inbox.value);" value="Pretty Print" accesskey="E"></input>
 <input type="button" onclick='show_regex_info();'";' value="Regex Info" accesskey="Q"></input>
-
 <BR />
 <BR />
 
 <input name="unicode" type="text" size="4"></input><input type="button" value="U" onclick='show_unicode(document.forms[0].unicode.value);'></input>
+
 Enter a character and click the button to see it's numerical value.
+
+<BR />
+<BR />
+<input type="button" onclick='add_rows_to_table("work_table");' value="Add Table Row(s)" accesskey="Z"></input>
+<input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table"></input>
+<input type="text"   width="8" id="id_to_dump"></input>
+<input type="button" onclick='dump_obj_by_id();' value="dump_obj" ></input>
+
+<TABLE id="work_table" border="1" style="width:80%">
+</TABLE>
 </form>
 
 </BODY>
