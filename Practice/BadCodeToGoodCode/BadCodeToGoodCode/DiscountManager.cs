@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BadCodeToGoodCode
 {
@@ -14,7 +10,7 @@ namespace BadCodeToGoodCode
         MostValuableCustomer = 4
     }
 
-    class DiscountManager
+    public class DiscountManager
     {
         public decimal ApplyDiscount(decimal price, AccountStatus accountStatus, int timeOfHavingAccountInYears)
         {
