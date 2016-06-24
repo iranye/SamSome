@@ -201,12 +201,35 @@ What are the aims of each of the three forms 1NF, 2NF, 3NF?
 2) No partial dependencies on a concatenated key
 3) No dependencies on non-key attributes
 
+<question>
 What is a View?
+</question>
 A virtual table whose contents are from a query.
 
+<question>
 What is a trigger?
+</question>
 A special kind of stored procedure that automatically executes when an event occurs in the database server.
 
+<question>
 What is a stored procedure?
+</question>
 Prepared SQL code that you save so you can reuse the code over and over again.
+
+<question>
+What does the ISNULL(x, y) operator do?
+</question>
+Evaluates first expression, and returns that if it's NOT NULL, otherwise returns the second operand (which must have the same type as the expression).
+
+<question>
+What does the NULLIF(x, y) operator do?
+</question>
+Returns first expression is it's not equal to the first.  If both expressions are equal returns NULL (of the type of the first expression)
+
+<question>
+What does the with clause do (i.e., Common Table Expressions)?
+</question>
+Specifies a temporary named result set (the CTE), derived from a simple query that can include recursive references to itself.
+
+
 
