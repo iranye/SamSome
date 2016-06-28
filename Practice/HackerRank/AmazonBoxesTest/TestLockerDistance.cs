@@ -46,7 +46,7 @@ namespace AmazonBoxesTest
             //grid[4][1] = 5;
             //grid[4][2] = 6;
         }
-     
+
         [TestMethod]
         public void TestGetLockerDistanceGrid_MultipleLockers()
         {
@@ -70,6 +70,33 @@ namespace AmazonBoxesTest
             //101
             //212
             //323
+        }
+
+        [TestMethod]
+        public void TestGetLockerDistanceGrid_BigGrid_MultipleLockers()
+        {
+            var sb = new StringBuilder();
+            int cityHorzDistance = 5;
+            int cityVertDistance = 7;
+            var grid = Program.GetLockerDistanceGrid(cityHorzDistance, cityVertDistance, new[] { 2, 4 }, new[] { 3, 7 });
+            for (int i = 0; i < cityVertDistance; i++)
+            {
+                for (int j = 0; j < cityHorzDistance; j++)
+                {
+                    sb.Append(grid[i][j]);
+                }
+                sb.AppendLine();
+            }
+            Console.WriteLine(sb);
+
+            // TODO: Must match this grid:
+            //32345
+            //21234
+            //10123
+            //21234
+            //32323
+            //43212
+            //32101
         }
 
     }
