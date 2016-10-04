@@ -38,7 +38,7 @@ td{
 /*
 ** Ira Nye
 ** Regexer: Batchwise text group and replace tool
-** Last Modified: 04/07/2016
+** Last Modified: 09/21/2016
 **
 ** This tool is intended to perform search and replacement operations on a set of lines.
 */
@@ -352,6 +352,35 @@ function delete_rows(tbl_id, stop_val) {
       tblObj.deleteRow(i);
   }
   return 1;
+}
+
+function dump_done() {
+  //print_to_out("dump_done\n");
+  clear_outbox();
+  var tblObj = document.getElementById('work_table');
+  var rowsArr = tblObj.rows;
+
+  for (var i = 0 ; i < rowsArr.length; i++) {
+    //print_to_out("[" + i + "]\n");
+    var child = rowsArr[i].childNodes[0];
+    if (child.className === "deleted") {
+      print_to_out(child.innerText + "\n");
+    }
+  }
+}
+
+function dump_not_yet_done() {
+  //print_to_out("dump_not_yet_done\n");
+  clear_outbox();
+  var tblObj = document.getElementById('work_table');
+  var rowsArr = tblObj.rows;
+
+  for (var i = 0 ; i < rowsArr.length; i++) {
+    var child = rowsArr[i].childNodes[0];
+    if (child.className !== "deleted") {
+      print_to_out(child.innerText + "\n");
+    }
+  }
 }
 
 //populate stored fields menu for selected table
@@ -769,7 +798,7 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 </HEAD>
 <BODY bgcolor='#0088AF' onload='do_inits();' >
 
-<H2>Regexer: Search and Replace</H2>
+<H2>Regexer: Search and Replace [1.1.0.0]</H2>
 <form>
 
 <p>Input regex and substitution string into the first line (delimited with ~~), then the text to process on the lines below it (Click Run to see samples)</p>
@@ -809,6 +838,8 @@ Enter a character and click the button to see it's numerical value.
 <input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table"></input>
 <input type="text"   width="8" id="id_to_dump"></input>
 <input type="button" onclick='dump_obj_by_id();' value="dump_obj" ></input>
+<input type="button" onclick='dump_done();' value="dump_done" ></input>
+<input type="button" onclick='dump_not_yet_done();' value="dump_not_yet_done" ></input>
 
 <TABLE id="work_table" border="1" style="width:80%">
 </TABLE>

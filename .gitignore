@@ -4,6 +4,7 @@
 obj/
 .hg/
 /__pycache__/
+MvvmExample/
 
 #ignore thumbnails created by windows
 Thumbs.db
