@@ -1,3 +1,8 @@
+<question>
+What's the difference between #temp table and ##temp?
+</question>
+#temp is a local temp table and is visible only to the connection that creates it, and are deleted when the connection is closed.
+##temp is a Global temporary table that's visible to everyone and are deleted when all connections that have referenced them have closed.
 
 <question>
 What is INNER JOIN?
