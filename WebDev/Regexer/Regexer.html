@@ -489,7 +489,7 @@ function get_regex_string(){
 
   for (i = 0; i < formObj.regex.length; i++) {
     if ( formObj.regex[i].checked ) {
-      var regex_pick = formObj.regex[i].value
+      var regex_pick = formObj.regex[i].value;
 
       var index = RegexList.lookup_regex(regex_pick);
       if (index == -1) {
@@ -584,7 +584,7 @@ function init_re_strings() {
   s += dummy_data;
   push_to_regex_list('cast_varchar', s);
 
-  s='(.+)~~$1,\n';
+  s='(.+)~~$1,###\n';
   dummy_data = "foo\n";
   dummy_data += "bar\n";
   s += dummy_data;
@@ -798,7 +798,7 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 </HEAD>
 <BODY bgcolor='#0088AF' onload='do_inits();' >
 
-<H2>Regexer: Search and Replace [1.1.0.0]</H2>
+<H2>Regexer: Search and Replace [1.1.0.1]</H2>
 <form>
 
 <p>Input regex and substitution string into the first line (delimited with ~~), then the text to process on the lines below it (Click Run to see samples)</p>
