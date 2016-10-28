@@ -15,3 +15,21 @@ function(){
 // code goes here
 }();
 
+<question>
+What is a callback?
+</question>
+A function passed to some method as an argument or option. Some callbacks are just events, called to give the user a chance to react when a certain state is triggered.
+
+<question>
+What is closure?
+</question>
+Closures are created whenever a variable that is defined outside the current scope is accessed from within some inner scope.
+
+<question>
+</question>
+
+<question>
+</question>
+
+<question>
+</question>

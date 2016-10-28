@@ -1,4 +1,9 @@
 <question>
+What does CROSS APPLY operator do?
+</question>
+Lets you join a table to a table-valued function or subquery.
+
+<question>
 What's the difference between #temp table and ##temp?
 </question>
 #temp is a local temp table and is visible only to the connection that creates it, and are deleted when the connection is closed.

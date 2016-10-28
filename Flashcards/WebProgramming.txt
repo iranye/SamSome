@@ -2,6 +2,11 @@
 </question>
 
 <question>
+What is the &lt;div&gt; element commonly used for?
+</question>
+Grouping elements in a web page logically to help keep html code organized e.g., elements for navigation.
+
+<question>
 How do you make an image a hyperlink?
 </question>
 Put it inside anchor tags: &lt;a href="foo"&gt;&lt;img src="link-to-png" /&gt;&lt;/a&gt;
