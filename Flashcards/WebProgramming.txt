@@ -71,6 +71,21 @@ Define a &lt;video&gt; tag in HTML5
 </question>
 &lt;video src="big_buck_bunny.mp4" controls&gt;Sorry, your browser does not support the video tag.&lt;/video&gt;
 The &lt;audio&gt; tag can be defined similarly.
+<question>
+Write jQuery to handle toggling and sliding of sub-elements in an HTML page
+</question>
+function main() {
+  $('.skillset').hide();  
+  $('.skillset').fadeIn(1000);
+  $('.projects').hide();
+  $('.projects-button').on('click', function() {
+    // $(this).next().toggle();
+    $(this).next().slideToggle(400);
+    $(this).toggleClass('active');
+    $(this).text('Projects Viewed');
+  });
+}
+$(document).ready(main);
 
 <question>
 [HTML]
@@ -96,6 +111,12 @@ Mobile users could benefit by realizing faster web page response times because s
 
 <question>
 [ASP.NET MVC]
+What are some differences between ASP.NET and ASP.NET MVC?
+</question>
+URL mapping in ASP.NET is usually to a file, whereas in ASP.NET MVC, URLs map to methods on classes (i.e., Controllers).
+
+<question>
+[ASP.NET MVC]
 What is one of the basic tenets of asp.net mvc?
 What are the benefits?
 </question>
@@ -104,9 +125,29 @@ If an application needs to present different views to both a desktop and mobile 
 
 <question>
 [ASP.NET MVC]
+How is URL routing different between ASP.NET and ASP.NET MVC?
+How could this be a benefit?
 What are some differences between ASP.NET and ASP.NET MVC?
 </question>
 URL mapping in ASP.NET is usually to a file, whereas in ASP.NET MVC, URLs map to methods on classes (i.e., Controllers).
+Allows the programmer greater customization through adjustments in controller methods and parameter arguments.
+ Gives the flexibility to optimize a site for search engine optimization (SEO).
+
+<question>
+[ASP.NET 101]
+What is a page directive and what does it do?
+</question>
+Gives APS.NET basic information about how to compile the page.
+Indicates language used, where code file is located.
+
+<question>
+[ASP.NET 102]
+What is the Doctype of an html page for and what are two common doctypes used today?
+</question>
+Indicates the type of markup that you're using to create your web page.
+It influences how a browser interprets your web page.
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
 
 <question>
 [ASP.NET pg 130]
@@ -145,7 +186,7 @@ What is the structure of a web.config file?
 Given the following xml in the web.config file right below &lt;configuration&gt;, how would you access the value part?
 &lt;appSettings&gt;
 &lt;add key="DataFilePath" 
-value="e:\NetworkShare\Docs\Shared" /&gt;
+value="e:NetworkShareDocsShared" /&gt;
 &lt;/appSettings&gt;
 </question>
 WebConfigurationManager.AppSettings["DataFilePath"];
@@ -167,7 +208,7 @@ Using an HTML color name using the ColorTranslator class.
 
 <question>
 [ASP.NET page 181]
-Set the font for a control object ctr to 14pt Verdana Bold, with a fallback to Tahoma then Ariel.
+Set the font for a control object ctrl to 14pt Verdana Bold, with a fallback to Tahoma then Ariel.
 Which fonts are supported on all browsers?
 </question>
 ctrl.Font.Name = "Verdana";
@@ -236,6 +277,23 @@ What is the ViewState?  What is it used for?
 </question>
 View State is a way to store information that gets posted back to the server.
 It's normally used to keep text and other form data in place with each post back and response.
+One example is a hit counter.
+
+<question>
+[ASP.NET page 265]
+What are some of the limitations of using a query string?
+</question>
+Information is limited to simple strings containing URL-legal characters
+Information is visible to both user and eavesdroppers
+Your program must protect against user tampering
+The browser could impose a URL-length limit (e.g., 1KB to 2KB)
+
+<question>
+[ASP.NET]
+What characters are allowed in a URL?  Is it the same for all browsers?
+</question>
+Alphanumeric or $-_.+!*
+Internet Exploder allows other characters in addition.
 
 <question>
 [ASP.NET page 270]
@@ -292,10 +350,33 @@ MenuHost.aspx?product=Books
 Request.Params["product"];
 
 <question>
+[ASP.NET page 370]
+How do you apply html styling in Visual Studio?
+How do you bring up CSS Properties tab?
+</question>
+In design mode:
+Click select the element to apply styling to (e.g., div)
+Choose Format -&gt; New Style
+Click View -&gt; CSS Properties
+
+<question>
 [ASP.NET page 380]
 Where do you link to a stylesheet in an html page?
 Give an example of the tag.
 </question>
 It goes inside the &lt;head&gt; tag.
 &lt;link href="StyleSheet.css" rel="stylesheet" type="text/css" /&gt;
+
+<question>
+[ASP.NET page 647]
+What is the first step in securing your application?
+</question>
+Deciding where you need security and what it needs to protect.
+
+<question>
+[ASP.NET page 648]
+What is a SQL Injection attack and how is it prevented?
+</question>
+It's when user input having embedded sql is not strongly typed and unexpectedly executed
+Use paramterized statements instead of embedding user input in the statement
 
