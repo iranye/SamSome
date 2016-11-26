@@ -21,6 +21,11 @@ List: Helvetica, Arial, sans-serif;
 Map: (key1: value1, key2: value2);
 
 <question>
+Write the CSS to create a visible box around all elements in a webpage.
+</question>
+* { border: 1px solid rgba(0,0,0,0.3); }
+
+<question>
 What is the &lt;div&gt; element commonly used for?
 </question>
 Grouping elements in a web page logically to help keep html code organized e.g., elements for navigation.
