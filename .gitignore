@@ -6,6 +6,7 @@ obj/
 /__pycache__/
 MvvmExample/
 packages/
+CSS_MM_TUTORIALS/
 
 #ignore thumbnails created by windows
 Thumbs.db
