@@ -1,5 +1,24 @@
+
+
+
 <question>
 </question>
+
+<question>
+Whhat is SASS
+</question>
+Syntatically Awesome StyleSheet
+
+<question>
+What are the types available in SASS?
+</question>
+Color, numbers, strings, booleans, and null.  Sass also has lists and maps.
+
+<question>
+What are examples of lists and maps in SASS?
+</question>
+List: Helvetica, Arial, sans-serif;
+Map: (key1: value1, key2: value2);
 
 <question>
 Write the CSS to create a visible box around all elements in a webpage.
