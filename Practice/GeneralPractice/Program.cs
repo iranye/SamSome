@@ -11,14 +11,25 @@ namespace GeneralPractice
     {
         static void Main(string[] args)
         {
-            //TypeVarianceStuff();
-            //RefsOfCollectionsStuff();
-            //DailyLinq();
-            //LinqStuff();
-            //MoreLinqStuff();
-            FuzzyStrCompare();
+            // ExtensionMethod();
+            DailyLinq();
+            // MoreLinq();
+            // NutshellLinq();
+            // QueryVsLinqMethod();
+            // SimpleLinq();
+            // FuzzyStrCompare();
+            // RefsOfCollections();
+            // TypeVariance();
+            Console.ReadLine();
         }
 
+        private static void ExtensionMethod()
+        {
+            int myInt = 55;
+            Console.WriteLine(55.Negate());
+        }
+
+        #region Fuzzy String Compare
         public static void FuzzyStrCompare()
         {
             //string original = "21-01_The Rolling Stones_Miss You.mp3";
@@ -112,8 +123,111 @@ namespace GeneralPractice
             }
             return newString.ToLower();
         }
-            
-        public static void RefsOfCollectionsStuff()
+
+        #endregion
+        
+        #region Linq
+
+        public static void DailyLinq()
+        {
+            int start = 0;
+            const int limit = 12;
+
+            // using infinite list method, print even numbers
+
+            int[] numbers = new int[7] { 7, 13, 2, 33, 14, 55, 6 };
+            Console.WriteLine(numbers.Any(n => n == 14));
+
+            //Console.WriteLine(numbers.Min());
+
+            // using infinite list method, print even numbers with 10 added to each
+
+            // define and use Map extension method
+
+            // define and use query syntax (instead of method syntax)
+        }
+
+        public static void MoreLinq()
+        {
+            int[] numbers = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
+            List<Foo> fooList = new List<Foo>();
+            List<Bar> barList = new List<Bar>();
+            foreach (var n in numbers)
+            {
+                fooList.Add(new Foo { X = n });
+                if ((n % 2) == 0)
+                {
+                    barList.Add(new Bar { X = n });
+                }
+            }
+            Console.WriteLine("Join Query");
+            var joinQuery =
+                from f in fooList
+                join b in barList on f.X equals b.X
+                select new { X = b.X };
+            foreach (var el in joinQuery)
+            {
+                Console.WriteLine(el);
+            }
+        }
+        
+        private static void NutshellLinq()
+        {   // http://www.albahari.com/nutshell/linqquiz.aspx
+            string[] colors = {"green", "brown", "blue", "red"};
+            Console.WriteLine("colors.Max(c => c.Length): " + colors.Max(c => c.Length));
+        }
+
+        public static void QueryVsLinqMethod()
+        {
+            // Data source
+            int[] numbers = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
+
+            // Query definition w/ Query syntax
+            IEnumerable<int> numQuery =
+                from n in numbers
+                where (n % 2) == 0
+                orderby n descending
+                select n;
+
+            // Query definition w/ Method syntax
+            IEnumerable<int> mQuery = numbers.Where(n => n % 2 == 0).OrderByDescending(n => n);
+
+            // Query 1 execution
+            Console.WriteLine("Query 1 execution");
+            foreach (var el in numQuery)
+            {
+                Console.WriteLine(el);
+            }
+            // Query 2 execution
+            Console.WriteLine("Query 2 execution");
+            foreach (var el in mQuery)
+            {
+                Console.WriteLine(el);
+            }
+        }
+
+        private static void SimpleLinq()
+        {
+            int max = 50;
+            IEnumerable<int> lst = LongSeq().Where(i => i % 2 == 0);
+            IEnumerable<int> squares = lst.Map<int, int>((int i) => { return i * i; });
+            foreach (var el in squares)
+            {
+                if (el > max)
+                    break;
+                Console.WriteLine(el);
+            }
+        }
+
+        public static IEnumerable<int> LongSeq()
+        {   // infinite list method that starts at 0 and increments by 1
+            int i = 0;
+            while (true)
+                yield return i++;
+        }
+        #endregion
+
+        public static void RefsOfCollections()
         {
             List<Vector2> vectors = new List<Vector2>
             {
@@ -145,81 +259,8 @@ namespace GeneralPractice
             }
         }
 
-        public static void DailyLinq()
-        {
-            int start = 0;
-            const int limit = 12;
-
-            // write and use infinite list method
-
-            int[] numbers = new int[7] { 7, 13, 2, 33, 14, 55, 6 };
-            Console.WriteLine(numbers.Any(n => n == 14));
-
-            //Console.WriteLine(numbers.Min());
-
-
-            // linq method query to: (e.g., get even numbers, add 10 to each)
-
-            // define and use Map extension method
-
-            // define and use query syntax (instead of method syntax)
-        }
-
-        public static void MoreLinqStuff()
-        {
-            int[] numbers = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
-            List<Foo> fooList = new List<Foo>();
-            List<Bar> barList = new List<Bar>();
-            foreach (var n in numbers)
-            {
-                fooList.Add(new Foo { X = n });
-                if ((n % 2) == 0)
-                {
-                    barList.Add(new Bar { X = n });
-                }
-            }
-            Console.WriteLine("Join Query");
-            var joinQuery =
-                from f in fooList
-                join b in barList on f.X equals b.X
-                select new {X = b.X};
-            foreach (var el in joinQuery)
-            {
-                Console.WriteLine(el);
-            }
-        }
-
-        public static void LinqStuff()
-        {
-            // Data source
-            int[] numbers = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
-
-            // Query definition w/ Query syntax
-            IEnumerable<int> numQuery =
-                from n in numbers
-                where (n % 2) == 0
-                orderby n descending
-                select n;
-
-            // Query definition w/ Method syntax
-            IEnumerable<int> mQuery = numbers.Where(n => n % 2 == 0).OrderByDescending(n => n);
-
-            // Query 1 execution
-            Console.WriteLine("Query 1 execution");
-            foreach (var el in numQuery)
-            {
-                Console.WriteLine(el);
-            }
-            // Query 2 execution
-            Console.WriteLine("Query 2 execution");
-            foreach (var el in mQuery)
-            {
-                Console.WriteLine(el);
-            }
-        }
-
-        #region TypeVarianceStuff
-        public static void TypeVarianceStuff()
+        #region TypeVariance
+        public static void TypeVariance()
         {
             List<Foo> foos = new List<Foo> { new Foo() { X = 1 }, new Foo() { X = 2 }, };
             List<Bar> bars = new List<Bar> { new Bar() { X = 17 }, new Bar() { X = 22 }, };
@@ -261,9 +302,19 @@ namespace GeneralPractice
             return X;
         }
     }
-        #endregion
+    #endregion
 
-    public static class Extensions
+    public static class ExtensionMethods
     {
+        public static int Negate(this int value)
+        {
+            return -value;
+        }
+
+        public static IEnumerable<R> Map<T, R>(this IEnumerable<T> lst, Func<T, R> mapping)
+        {
+            foreach (T element in lst)
+                yield return mapping(element);
+        }
     }
 }
