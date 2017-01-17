@@ -1,0 +1,1 @@
+http://stackoverflow.com/questions/11395775/clean-the-string-is-there-any-better-way-of-doing-it

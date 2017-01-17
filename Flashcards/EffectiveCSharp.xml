@@ -165,6 +165,12 @@ Prefer Query Syntax to ________
 Loops
 
 <question>
+What is boxing?  What can be done to avoid boxing?
+</question>
+Boxing is the conversion of a value type to a reference type and is done implicitly by the compiler when necessary (e.g., in Console.WriteLine($@"my number: {myNumber)").
+To avoid it, convert to String explicity: Console.WriteLine($@"my number: {myNumber.ToString())")
+
+<question>
 [Item 9]
 Avoid ________ Operators in your APIs.  What is one reason to do so?
 </question>

@@ -124,6 +124,12 @@ For example, the following shows List type as covariant:
 IEnumerable&lt;string&gt; stringList = new List&lt;string&gt;();
 IEnumerable&lt;object&gt; objects = stringList;
 
+<question>
+[Effective C#]
+What is another way to describe covariance and contravariance?
+</question>
+They're both different forms of type substitution, where covariance means you're able to substitue a more derived type than the type declared.  Contravariance means you can use a more base type than the type declared.
+
 What is the definition for a function Map, that is an extension method for IEnumerable&lt;T&gt; that performs a mapping (Func&lt;T,R&gt;) and returns an IEnumerable&lt;R&gt;?
 static IEnumerable&lt;R&gt; Map&lt;T,R&gt;(
 this IEnumerable&lt;T&gt; list, Func&lt;T,R&gt; mapping) {
