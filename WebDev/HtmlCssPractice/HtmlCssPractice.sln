@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{3124C89F-2383-47D9-8EA2-20FA17F90BFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebUnitTests", "WebUnitTests\WebUnitTests.csproj", "{CDDC1650-50E3-4E81-86AE-FC1CA23BF2E0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReadCardsExport", "ReadCardsExport\ReadCardsExport.csproj", "{16E2EB20-A6B7-4534-8C37-6C7406789263}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3124C89F-2383-47D9-8EA2-20FA17F90BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3124C89F-2383-47D9-8EA2-20FA17F90BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3124C89F-2383-47D9-8EA2-20FA17F90BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDDC1650-50E3-4E81-86AE-FC1CA23BF2E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDDC1650-50E3-4E81-86AE-FC1CA23BF2E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDDC1650-50E3-4E81-86AE-FC1CA23BF2E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDDC1650-50E3-4E81-86AE-FC1CA23BF2E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16E2EB20-A6B7-4534-8C37-6C7406789263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16E2EB20-A6B7-4534-8C37-6C7406789263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16E2EB20-A6B7-4534-8C37-6C7406789263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16E2EB20-A6B7-4534-8C37-6C7406789263}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
