@@ -32,6 +32,8 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.txtOutput = new System.Windows.Forms.TextBox();
+            this.btnAddOutputUnsafe = new System.Windows.Forms.Button();
+            this.btnAddOutputSafe = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // listView1
@@ -53,18 +55,39 @@
             // 
             // txtOutput
             // 
-            this.txtOutput.Location = new System.Drawing.Point(215, 267);
-            this.txtOutput.Multiline = true;
+            this.txtOutput.Location = new System.Drawing.Point(215, 42);
             this.txtOutput.Name = "txtOutput";
             this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtOutput.Size = new System.Drawing.Size(353, 168);
+            this.txtOutput.Size = new System.Drawing.Size(353, 20);
             this.txtOutput.TabIndex = 1;
+            // 
+            // btnAddOutputUnsafe
+            // 
+            this.btnAddOutputUnsafe.Location = new System.Drawing.Point(215, 13);
+            this.btnAddOutputUnsafe.Name = "btnAddOutputUnsafe";
+            this.btnAddOutputUnsafe.Size = new System.Drawing.Size(112, 23);
+            this.btnAddOutputUnsafe.TabIndex = 2;
+            this.btnAddOutputUnsafe.Text = "AddOutputUnsafe";
+            this.btnAddOutputUnsafe.UseVisualStyleBackColor = true;
+            this.btnAddOutputUnsafe.Click += new System.EventHandler(this.btnAddOutputUnsafe_Click);
+            // 
+            // btnAddOutputSafe
+            // 
+            this.btnAddOutputSafe.Location = new System.Drawing.Point(333, 12);
+            this.btnAddOutputSafe.Name = "btnAddOutputSafe";
+            this.btnAddOutputSafe.Size = new System.Drawing.Size(112, 23);
+            this.btnAddOutputSafe.TabIndex = 3;
+            this.btnAddOutputSafe.Text = "AddOutputSafe";
+            this.btnAddOutputSafe.UseVisualStyleBackColor = true;
+            this.btnAddOutputSafe.Click += new System.EventHandler(this.btnAddOutputSafe_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(580, 447);
+            this.Controls.Add(this.btnAddOutputSafe);
+            this.Controls.Add(this.btnAddOutputUnsafe);
             this.Controls.Add(this.txtOutput);
             this.Controls.Add(this.listView1);
             this.Name = "Form1";
@@ -80,6 +103,8 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.TextBox txtOutput;
+        private System.Windows.Forms.Button btnAddOutputUnsafe;
+        private System.Windows.Forms.Button btnAddOutputSafe;
     }
 }
 

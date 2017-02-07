@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Threading;
 
 namespace WinformsPractice
 {
@@ -58,6 +59,38 @@ namespace WinformsPractice
         private void listView1_Leave(object sender, EventArgs e)
         {
             inspectingList = false;
+        }
+
+        private Thread demoThread;
+        private void btnAddOutputUnsafe_Click(object sender, EventArgs e)
+        {
+            demoThread = new Thread(ThreadProcUnsafe);
+            demoThread.Start();
+        }
+
+        private void ThreadProcUnsafe()
+        {
+            txtOutput.Text = "This text was set unsafely";
+        }
+
+        private void btnAddOutputSafe_Click(object sender, EventArgs e)
+        {
+            SetText("This text was set safely.");
+        }
+
+        delegate void StringArgReturningVoidDelegate(string text);
+
+        private void SetText(string text)
+        {
+            if (txtOutput.InvokeRequired)
+            {
+                StringArgReturningVoidDelegate d = new StringArgReturningVoidDelegate(SetText);
+                Invoke(d, new object[] {text});
+            }
+            else
+            {
+                txtOutput.Text = text;
+            }
         }
     }
 }

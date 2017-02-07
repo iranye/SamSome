@@ -1,20 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace GeneralPractice
 {
+    public class MyClass
+    {
+        public void MagicMethod()
+        {
+            Console.WriteLine("MyClass");
+        }
+    }
+
+    public class MyOtherClass : MyClass
+    {
+        public new void MagicMethod()
+        {
+            Console.WriteLine("MyOtherClass");
+        }
+    }
+
     public class Program
     {
         static void Main(string[] args)
         {
             // ExtensionMethod();
-            DailyLinq();
+            // DailyLinq();
             // MoreLinq();
-            // NutshellLinq();
+            NutshellLinq();
             // QueryVsLinqMethod();
             // SimpleLinq();
             // FuzzyStrCompare();
@@ -130,13 +147,21 @@ namespace GeneralPractice
 
         public static void DailyLinq()
         {
+            List<int> numbers = Enumerable.Range(1, 200).ToList();
+            List<int> oddNumbers = numbers.Where(n => n%2 == 1).ToList();
+            List<int> odds = numbers.FindAll(n => n%2 == 1);
+            bool test = numbers.TrueForAll(n => n < 50);
+
+            oddNumbers.ForEach(n => Console.Write(n));
+            //numbers.ForEach();
+            return;
             int start = 0;
             const int limit = 12;
 
             // using infinite list method, print even numbers
 
-            int[] numbers = new int[7] { 7, 13, 2, 33, 14, 55, 6 };
-            Console.WriteLine(numbers.Any(n => n == 14));
+            //int[] numbers = new int[7] { 7, 13, 2, 33, 14, 55, 6 };
+            //Console.WriteLine(numbers.Any(n => n == 14));
 
             //Console.WriteLine(numbers.Min());
 
@@ -174,7 +199,46 @@ namespace GeneralPractice
         private static void NutshellLinq()
         {   // http://www.albahari.com/nutshell/linqquiz.aspx
             string[] colors = {"green", "brown", "blue", "red"};
+
+            // Output the max stringlength of the colors
             Console.WriteLine("colors.Max(c => c.Length): " + colors.Max(c => c.Length));
+
+            // Output the color with the min stringlength
+            var ambig = colors.OrderBy(c => c.Length).First();
+            Console.WriteLine(ambig);
+
+            // What type is queryA?
+            var queryA = from c in colors where c.Length > 3 orderby c.Length select c;
+            Console.WriteLine("A");
+            foreach (var el in queryA)
+            {
+                Console.WriteLine(el);
+            }
+
+            // What's the output?
+            var queryB = from c in colors where c.Length == colors.Max(c2 => c2.Length) select c;
+            Console.WriteLine("B");
+            foreach (var el in queryB)
+            {
+                Console.WriteLine(el);
+            }
+
+            // How can queryB be made more efficient?
+            var maxLengh = colors.Max(c => c.Length);
+            var queryC = from c in colors where c.Length == maxLengh select c;
+            Console.WriteLine("C");
+            foreach (var el in queryC)
+            {
+                Console.WriteLine(el);
+            }
+
+            // What is the output?
+            var list = new List<string>(colors);
+            var queryD = list.Where(c => c.Length == 3);
+            Console.WriteLine("D");
+            Console.WriteLine(queryD.Count());
+            list.Remove("red");
+            Console.WriteLine(queryD.Count());
         }
 
         public static void QueryVsLinqMethod()
