@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Reflection;
+using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support;
-using OpenQA.Selenium.Support.Events;
 
 namespace UnitTestWeb
 {
@@ -25,7 +21,6 @@ namespace UnitTestWeb
         {
             driver = new ChromeDriver();
             //driver = new FirefoxDriver();
-            //driver.Navigate().GoToUrl(url);
             Thread.Sleep(2255);
         }
 
@@ -34,12 +29,13 @@ namespace UnitTestWeb
         public void TestCardSearch()
         {
             string errorMessage;
+            int sleepTimeMs = 4000;
             try
             {
                 string url = @"http://gatherer.wizards.com/Pages/Default.aspx";
                 driver.Navigate().GoToUrl(url);
                 string nextCard = GetNextCardName();
-                Thread.Sleep(2255);
+                Thread.Sleep(sleepTimeMs);
                 var searchBox = driver.FindElement(By.ClassName("textboxinput"));
                 searchBox.Clear();
                 searchBox.SendKeys(string.Format("{0}{1}", nextCard, Environment.NewLine));
@@ -66,32 +62,22 @@ namespace UnitTestWeb
                     
                     Debug.WriteLine(driver.Url + ", " + multiversid);
 
-                    driver.Navigate()
-                        .GoToUrl(string.Format(
-                            @"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", multiversid));
-                    Thread.Sleep(2255);
+                    var imageOnlyUrl = string.Format(
+                        @"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", multiversid);
+                    //driver.Navigate()
+                    //    .GoToUrl(imageOnlyUrl);
 
-                    var el = driver.FindElement(By.TagName("img"));
-                    // el.Click();
-                    el.SendKeys(Keys.LeftControl + "s");
-                    // var action = new OpenQA.Selenium.Interactions.Actions(driver);
-                    // action.SendKeys(Keys.Control + "s");
-                    // action.KeyDown(Keys.Control).KeyDown("s").Perform();
-
-                    //            action.ContextClick(elementToRightClick);
-                    //            action.Perform();
-                    //            // step 3 - execute the action
-                    //            action.KeyDown(Keys.ArrowDown);
-                    //            action.Perform();
-                    //            action.KeyDown(Keys.ArrowDown);
-                    //            action.Perform();
-                    //            action.KeyDown(Keys.Enter);
-                    //            action.Perform();
-                    //            action.KeyDown(Keys.NumberPad2);
-                    //            action.Perform();
-                    //            action.KeyDown(Keys.Enter);
-                    //            action.Perform();
-                    Thread.Sleep(2255);
+                    using (BinaryWriter writer = new BinaryWriter(File.Open(Path.Combine(FilesPath, multiversid + ".jpg"), FileMode.Create)))
+                    {
+                        using (var client = new WebClient())
+                        {
+                            //client.Credentials =
+                            writer.Write(client.DownloadData(imageOnlyUrl));
+                        }
+                        writer.Write(true);
+                    }
+                    
+                    Thread.Sleep(sleepTimeMs);
                 }
             }
             catch (Exception ex)
@@ -106,12 +92,12 @@ namespace UnitTestWeb
 
         private string GetNextCardName()
         {
-            return @"Brass Man";
+            return @"Primeval Bounty";
         }
 
-        public string LogPath
+        public string FilesPath
         {
-            get { return @"C:\Temp\Log"; }
+            get { return @"C:\Temp\UnitTestingWeb"; }
         }
         
         private bool LogToFile(DateTime currentTime, string message, out string errorMessage)
@@ -122,7 +108,7 @@ namespace UnitTestWeb
             string logMessage = String.Format("{0}\t{1}", currentTime, message);
             // TODO: Open (and close) the log file on loading of MO and close when Tester is closed or on LogOut.
             string logFileName = String.Format(@"{0}.log", currentTime.ToString("yyyy-MM-dd"));
-            string logFilePath = Path.Combine(LogPath, logFileName);
+            string logFilePath = Path.Combine(FilesPath, logFileName);
             try
             {
                 using (StreamWriter file = new StreamWriter(logFilePath, true))
