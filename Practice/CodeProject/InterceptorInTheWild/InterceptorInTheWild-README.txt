@@ -1,0 +1,1 @@
+https://www.codeproject.com/Articles/894984/Interceptor-in-the-Wild

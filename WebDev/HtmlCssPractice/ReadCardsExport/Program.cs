@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -18,24 +18,70 @@ namespace ReadCardsExport
                 return Deck.GetFromFile(filename);
             }
         }
+
         static void Main(string[] args)
         {
-            var fileSnippet = "Snippet.xml";
-            XmlSerializer xmls = new XmlSerializer(typeof(Cards));
-            using (FileStream fs = new FileStream(fileSnippet, FileMode.Open))
+            MassageXmlStuff();
+            DeckStuff();
+        }
+
+        private static void DeckStuff()
+        {
+            var xmlDeckFile = "Arty.xml";
+            Deck deck;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Deck));
+            using (FileStream fs = new FileStream(xmlDeckFile, FileMode.Open))
             {
-                Cards myCards = (Cards)xmls.Deserialize(fs);
+                deck = (Deck) xmlSerializer.Deserialize(fs);
             }
-            Deck deck = MyDeck;
+        }
+
+        private static void MassageXmlStuff()
+        {
+            var dekFile = "Arty.dek";
+            var fileOutput = "Arty.xml";
+            using (FileStream inFileStream = new FileStream(dekFile, FileMode.Open))
+            {
+                TextReader textReader = new StreamReader(inFileStream);
+                using (StreamWriter fileOutWriter = new StreamWriter(fileOutput))
+                {
+                    string line;
+                    bool cardWasRead = false;
+                    bool enclosingDeckTagReached = false;
+                    while ((line = textReader.ReadLine()) != null)
+                    {
+                        if (enclosingDeckTagReached)
+                        {
+                            continue;
+                        }
+                        if (!cardWasRead && line.Contains("Cards"))
+                        {
+                            cardWasRead = true;
+                            fileOutWriter.WriteLine("  <CardStack>");
+                        }
+                        if (cardWasRead && line.Contains("Cards"))
+                        {
+                            fileOutWriter.Write("  ");
+                        }
+                        if (cardWasRead && line.Contains("Deck"))
+                        {
+                            fileOutWriter.WriteLine("  </CardStack>");
+                            enclosingDeckTagReached = true;
+                        }
+                        fileOutWriter.WriteLine(line);
+                    }
+                }
+            }
         }
     }
-
+    
+    #region Deck
     [Serializable]
     public class Deck
     {
         public string NetDeckID { get; set; }
         public string PreconstructedDeckID { get; set; }
-        
+
         public List<Cards> CardStack { get; set; }
         public static Deck GetFromFile(string filename)
         {
@@ -62,5 +108,6 @@ namespace ReadCardsExport
 
         [XmlAttribute(AttributeName = "Name")]
         public string Name { get; set; }
-    }
+    } 
+    #endregion
 }
