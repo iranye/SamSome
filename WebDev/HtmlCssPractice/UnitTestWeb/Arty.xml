@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Deck xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <NetDeckID>2</NetDeckID>
+  <PreconstructedDeckID>18</PreconstructedDeckID>
+  <CardStack>
+    <Cards CatID="39449" Quantity="4" Sideboard="false" Name="Brass Squire" MultiverseID="213800" />
+    <Cards CatID="49233" Quantity="1" Sideboard="false" Name="Accorder's Shield" MultiverseID="370581" />
+    <Cards CatID="54158" Quantity="1" Sideboard="false" Name="Briber's Purse" MultiverseID="394069" />
+    <Cards CatID="54456" Quantity="1" Sideboard="false" Name="Cranial Archive" MultiverseID="386508" />
+    <Cards CatID="49139" Quantity="1" Sideboard="false" Name="Door of Destinies" MultiverseID="370699" />
+    <Cards CatID="45390" Quantity="1" Sideboard="false" Name="Elixir of Immortality" MultiverseID="370681" />
+    <Cards CatID="54460" Quantity="1" Sideboard="false" Name="Dragon Throne of Tarkir" MultiverseID="386523" />
+    <Cards CatID="34596" Quantity="1" Sideboard="false" Name="Explorer's Scope" MultiverseID="401670" />
+    <Cards CatID="51559" Quantity="1" Sideboard="false" Name="Gorgon's Head" MultiverseID="378530" />
+    <Cards CatID="39339" Quantity="4" Sideboard="false" Name="Ichor Wellspring" MultiverseID="420875" />
+  </CardStack>
+</Deck>

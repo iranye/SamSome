@@ -37,6 +37,10 @@ namespace ReadCardsExport
         public static FileInfo ConvertDeckToDeserializableXml(FileInfo dekFileInfo)
         {
             var fileInfoOutput = GetXmlFileName(dekFileInfo);
+            if (fileInfoOutput.Exists)
+            {
+                return fileInfoOutput;
+            }
             using (FileStream inFileStream = new FileStream(dekFileInfo.FullName, FileMode.Open))
             {
                 TextReader textReader = new StreamReader(inFileStream);
@@ -124,6 +128,15 @@ namespace ReadCardsExport
                 return newDeck;
             }
         }
+
+        public void SaveToFile(FileInfo fileInfo)
+        {
+            XmlSerializer xmls = new XmlSerializer(typeof(Deck));
+            using (FileStream fs = new FileStream(fileInfo.FullName, FileMode.OpenOrCreate))
+            {
+                xmls.Serialize(fs, this);
+            }
+        }
     }
 
     [Serializable]
@@ -141,9 +154,12 @@ namespace ReadCardsExport
         [XmlAttribute(AttributeName = "Name")]
         public string Name { get; set; }
 
+        [XmlAttribute(AttributeName = "MultiverseID")]
+        public int MultiverseID { get; set; }
+
         public override string ToString()
         {
-            return string.Format("{0}\t{1}\t{2}", Quantity.ToString("D3"), CatID.ToString("D6"), Name);
+            return string.Format("{0}-CID:{1}-MID:{2}-{3}", Quantity.ToString("D3"), CatID.ToString("D6"), MultiverseID.ToString("D6"), Name);
         }
     } 
     #endregion
