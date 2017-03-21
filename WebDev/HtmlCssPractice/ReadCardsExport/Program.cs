@@ -10,40 +10,37 @@ namespace ReadCardsExport
 {
     class Program
     {
-        const string filename = @"Arty.dek";
-        public static Deck MyDeck
-        {
-            get
-            {
-                return Deck.GetFromFile(filename);
-            }
-        }
-
         static void Main(string[] args)
         {
-            MassageXmlStuff();
-            DeckStuff();
-        }
-
-        private static void DeckStuff()
-        {
-            var xmlDeckFile = "Arty.xml";
-            Deck deck;
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Deck));
-            using (FileStream fs = new FileStream(xmlDeckFile, FileMode.Open))
+            if (args.Length < 1)
             {
-                deck = (Deck) xmlSerializer.Deserialize(fs);
+                Console.WriteLine("Usage: {0} <input dek file>", "ReadCardsExport");
+            }
+            string dekFileName = args[0];
+            if (!File.Exists(dekFileName))
+            {
+                Console.Error.WriteLine(string.Format("The file: '{0}' does not exist.", dekFileName));
+                return;
+            }
+            FileInfo inputFileInfo = new FileInfo(dekFileName);
+            //var xmlFile = GetXmlFileName(inputFileInfo);
+            FileInfo xmlFile = ConvertDeckToDeserializableXml(inputFileInfo);
+            Deck deck = Deck.GetFromFile(xmlFile);
+
+            Console.WriteLine("Found {0} Cards.", deck.CardStack.Count);
+            foreach (Cards card in deck.CardStack)
+            {
+                Console.WriteLine(card.ToString());
             }
         }
 
-        private static void MassageXmlStuff()
+        public static FileInfo ConvertDeckToDeserializableXml(FileInfo dekFileInfo)
         {
-            var dekFile = "Arty.dek";
-            var fileOutput = "Arty.xml";
-            using (FileStream inFileStream = new FileStream(dekFile, FileMode.Open))
+            var fileInfoOutput = GetXmlFileName(dekFileInfo);
+            using (FileStream inFileStream = new FileStream(dekFileInfo.FullName, FileMode.Open))
             {
                 TextReader textReader = new StreamReader(inFileStream);
-                using (StreamWriter fileOutWriter = new StreamWriter(fileOutput))
+                using (StreamWriter fileOutWriter = new StreamWriter(fileInfoOutput.FullName))
                 {
                     string line;
                     bool cardWasRead = false;
@@ -72,6 +69,35 @@ namespace ReadCardsExport
                     }
                 }
             }
+            return fileInfoOutput;
+        }
+
+        public static Deck GetDeck(FileInfo xmlDeckFile)
+        {
+            Deck deck;
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Deck));
+            using (FileStream fs = new FileStream(xmlDeckFile.FullName, FileMode.Open))
+            {
+                deck = (Deck)xmlSerializer.Deserialize(fs);
+            }
+            return deck;
+        }
+
+        public static FileInfo GetXmlFileName(FileInfo fileInfo)
+        {
+            var fileNameParts = fileInfo.Name.Split('.');
+            if (fileNameParts.Length < 2)
+            {
+                var newFile = new FileInfo(Path.Combine(fileInfo.Directory.FullName, string.Format("{0}.xml", fileInfo)));
+                return newFile;
+            }
+            string xmlFile = "";
+            for (int i = 0; i < fileNameParts.Length - 1; i++)
+            {
+                xmlFile += fileNameParts[i] + ".";
+            }
+            xmlFile += "xml";
+            return new FileInfo(Path.Combine(fileInfo.DirectoryName, xmlFile));
         }
     }
     
@@ -83,10 +109,16 @@ namespace ReadCardsExport
         public string PreconstructedDeckID { get; set; }
 
         public List<Cards> CardStack { get; set; }
+
         public static Deck GetFromFile(string filename)
         {
+            return GetFromFile(new FileInfo(filename));
+        }
+
+        public static Deck GetFromFile(FileInfo fileInfo)
+        {
             XmlSerializer xmls = new XmlSerializer(typeof(Deck));
-            using (FileStream fs = new FileStream(filename, FileMode.Open))
+            using (FileStream fs = new FileStream(fileInfo.FullName, FileMode.Open))
             {
                 Deck newDeck = (Deck)xmls.Deserialize(fs);
                 return newDeck;
@@ -98,7 +130,7 @@ namespace ReadCardsExport
     public class Cards
     {
         [XmlAttribute(AttributeName = "CatID")]
-        public string CatID { get; set; }
+        public int CatID { get; set; }
 
         [XmlAttribute(AttributeName = "Quantity")]
         public int Quantity { get; set; }
@@ -108,6 +140,11 @@ namespace ReadCardsExport
 
         [XmlAttribute(AttributeName = "Name")]
         public string Name { get; set; }
+
+        public override string ToString()
+        {
+            return string.Format("{0}\t{1}\t{2}", Quantity.ToString("D3"), CatID.ToString("D6"), Name);
+        }
     } 
     #endregion
 }
