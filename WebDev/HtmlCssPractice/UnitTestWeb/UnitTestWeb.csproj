@@ -72,6 +72,12 @@
     <Content Include="Resources\geckodriver.exe" />
     <Content Include="Resources\IEDriverServer.exe" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ReadCardsExport\ReadCardsExport.csproj">
+      <Project>{16e2eb20-a6b7-4534-8c37-6c7406789263}</Project>
+      <Name>ReadCardsExport</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

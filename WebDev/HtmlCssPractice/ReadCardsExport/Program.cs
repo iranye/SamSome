@@ -8,7 +8,7 @@ using System.Xml.Serialization;
 
 namespace ReadCardsExport
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
