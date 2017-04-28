@@ -1,0 +1,10 @@
+{
+  "name": "hello-world.js",
+  "version": "0.0.0",
+  "description": "HelloWorld.js",
+  "main": "server.js",
+  "author": {
+    "name": "imnyex",
+    "email": ""
+  }
+}

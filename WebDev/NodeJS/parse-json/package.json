@@ -1,0 +1,11 @@
+{
+  "name": "parse-json",
+  "version": "0.0.1",
+  "description": "Parse JSON from supplied file",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ira Nye",
+  "license": "ISC"
+}

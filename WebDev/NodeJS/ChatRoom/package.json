@@ -1,0 +1,14 @@
+{
+  "name": "chat-room",
+  "version": "0.0.1",
+  "description": "Multi-room Chat Server",
+  "dependencies": {
+    "socket.io": "~0.9.6",
+    "mime": "~1.2.7"
+  },
+  "main": "server.js",
+  "author": {
+    "name": "imnyex",
+    "email": "irax.nye@intel.com"
+  }
+}
