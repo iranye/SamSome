@@ -1,0 +1,21 @@
+npm commands: (see also: https://docs.npmjs.com/all)
+npm install -g jshint -- Global Install (to %NODE_PATH%)
+npm uninstall -g jshint -- Global Uninstall
+npm init -f my_proj -- Create package.json file with force (use default values)
+npm install --save express -- Local install & update package.json
+npm list -g -- List all installed modules
+npm outdated -- List which installed packages are outdated
+
+
+A typical Node web application has the following components:
+• package.json – A file that contains a list of dependencies, and the command that runs
+the application
+• public/ – A folder of static assets, like CSS and client-side JavaScript
+• node_modules/ – The place where the project’s dependencies get installed
+• One or more JavaScript files that contains your application code
+The application code is often further subdivided as follows:
+• app.js or index.js – The code that sets up the application
+• models/ – Database models
+• views/ – The templates that are used to render the pages in the application
+• controllers/ or routes/ – HTTP request handlers
+• middleware/ – Middleware components
