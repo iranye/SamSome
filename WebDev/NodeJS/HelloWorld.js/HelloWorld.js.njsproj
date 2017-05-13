@@ -12,7 +12,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>11cd0c0e-e30c-4620-8307-556bc47e9c9d</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>server.js</StartupFile>
+    <StartupFile>miscellaneous.js</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -30,7 +30,12 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="closure.js" />
+    <Compile Include="currency.js" />
+    <Compile Include="miscellaneous.js" />
+    <Compile Include="sequential.js" />
     <Compile Include="server.js" />
+    <Compile Include="test_currency.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
   </ItemGroup>

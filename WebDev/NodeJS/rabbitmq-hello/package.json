@@ -4,6 +4,7 @@
   "description": "Simple test for RabbitMQ functionality",
   "main": "send.js",
   "scripts": {
+    "start": "node send.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
