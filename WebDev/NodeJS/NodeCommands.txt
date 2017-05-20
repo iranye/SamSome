@@ -1,5 +1,5 @@
 npm commands: (see also: https://docs.npmjs.com/all)
-npm install -g jshint -- Global Install (to %NODE_PATH%)
+npm install -g jshint -- Global Install (to %NODE_PATH% (typically: C:\Users\Ira\AppData\Roaming\npm\node_modules))
 npm uninstall -g jshint -- Global Uninstall
 npm init -f my_proj -- Create package.json file with force (use default values)
 npm install --save express -- Local install & update package.json
