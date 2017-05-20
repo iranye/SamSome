@@ -1,0 +1,27 @@
+<Reading>
+    Currently working through Node.js In Action Vol 1 & 2.
+</Reading>
+
+<TheFuture>
+    
+</TheFuture>
+
+<Projects>
+    <Panorama name="MTGO Deck Tool">
+        Front End:
+            Deck View should mimic Deck Lists available (e.g., for Commander Decks).
+            Use on-demand image-fetching (e.g., via Node) and cacheing of card images.
+            Want to provide support for a card scoring system based on certain criteria:
+                How well it works with other cards
+        Card Image Scraping:
+            Currently, card images can be scraped via Unit Test.
+            Also want:
+                Transformed image
+                Database storage:
+                    Card Type(s)
+                    Expansion(s)
+                    Format (e.g., Modern, Standard)
+            
+    </Panorama>
+
+<Projects>
