@@ -1,0 +1,17 @@
+{
+  "name": "lorikeet-electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.4.1",
+    "lunr": "^0.7.2",
+    "osenv": "^0.1.4"
+  }
+}

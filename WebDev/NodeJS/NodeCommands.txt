@@ -5,6 +5,7 @@ npm init -f my_proj -- Create package.json file with force (use default values)
 npm install --save express -- Local install & update package.json
 npm list -g -- List all installed modules
 npm outdated -- List which installed packages are outdated
+npm search hyper -- List packages on npm by search word(s)
 
 
 A typical Node web application has the following components:

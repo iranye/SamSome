@@ -1,0 +1,10 @@
+{
+  "name": "todo-list",
+  "version": "0.0.0",
+  "description": "todo-list",
+  "main": "app.js",
+  "author": {
+    "name": "imnyex",
+    "email": ""
+  }
+}
