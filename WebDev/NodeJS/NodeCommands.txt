@@ -6,6 +6,7 @@ npm install --save express -- Local install & update package.json
 npm list -g -- List all installed modules
 npm outdated -- List which installed packages are outdated
 npm search hyper -- List packages on npm by search word(s)
+npm install babel-preset-es2015 --save-dev
 
 
 A typical Node web application has the following components:
