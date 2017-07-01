@@ -4,7 +4,6 @@ Stage 1: Broken in the example
 Stage 2:
 - Song: {ArtistName, SongTitle} and SongViewModel: constructor setting things to "Unknown" and RaisePropertyChanged defined and tied to ArtistName
 - MainWindow.xaml.cs has SongViewModel instance and ButtonClick event to update its ArtistName
-- MainWindow.xaml has
 * Window.DataContext that defines local
 * 4 rows, 2 cols as:
 <Title>

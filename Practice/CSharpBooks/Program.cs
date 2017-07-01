@@ -17,7 +17,91 @@ namespace CSharpBooks
 
         #region CsharpInDepthThirdEd
 
-        static double TakeSqareRoot(int x)
+        private static void PrintList<T>(List<T> list)
+        {
+            foreach (var el in list)
+            {
+                Console.WriteLine(string.Format(el.ToString()));
+            }
+        }
+
+        #region Chp1
+        private static void Chp1_ListSorting()
+        {
+            Console.WriteLine("** Chp1_ListSorting (starts at Listing1_3) **");
+            PrintList(Product.GetSampleProducts());
+            List<Product> products = Product.GetSampleProducts();
+            Console.WriteLine();
+
+            // Sort via anonymous method
+            products.Sort(delegate (Product x, Product y) { return x.Name.CompareTo(y.Name); });
+            PrintList(products);
+            Console.WriteLine();
+
+            // Sort via lambda
+            products = Product.GetSampleProducts();
+            products.Sort((x, y) => x.Name.CompareTo(y.Name));
+            PrintList(products);
+            Console.WriteLine();
+
+            // Sort w/o modifying original list via extension method
+            PrintList(Product.GetSampleProducts().OrderBy(p => p.Name).ToList());
+        }
+
+        private static void Chp1_ListQueryForHighPricedProducts() // Show Product where Price > $10
+        {
+            Console.WriteLine("** Chp1_ListQueryForHighPricedProducts (starts at Listing1_11) **");
+
+            // Query via anonymous method
+            List<Product> products = Product.GetSampleProducts();
+            Predicate<Product> test = delegate(Product p) { return p.Price > 10m; };
+            List<Product> matches = products.FindAll(test);
+            Action<Product> print = Console.WriteLine;
+            matches.ForEach(print);
+            Console.WriteLine();
+
+            // Query via inline anonymous method
+            products.FindAll(delegate (Product p) { return p.Price > 10; }).ForEach(Console.WriteLine);
+            Console.WriteLine();
+
+            // Query via inline lambda method
+            foreach (Product product in products.Where(p => p.Price > 10))
+            {
+                Console.WriteLine(product);
+            }
+            Console.WriteLine();
+
+            // Query via LINQ query expression
+            var filtered = from Product p in products
+                where p.Price > 10
+                select p;
+            filtered.ToList().ForEach(print);
+            Console.WriteLine();
+        }
+        #endregion
+
+        delegate void StringProcessor(string input);
+
+        static void PrintString(string x)
+        {
+            Console.WriteLine(x);
+        }
+
+        private static void DelegateStringProcessor()
+        {
+            StringProcessor proc1;
+            proc1 = new StringProcessor(Program.PrintString);
+            proc1("Foobar");
+        }
+
+        private static void Chp2_Delegates()
+        {
+            Console.WriteLine("** Chp2_Delegates **");
+            DelegateStringProcessor();
+        }
+
+        #region Chp3
+            static double TakeSqareRoot(int x)
         {
             return Math.Sqrt(x);
         }
@@ -66,7 +150,7 @@ namespace CSharpBooks
             Console.WriteLine("CompareToDefault(DateTime.MinValue): " + CompareToDefault(DateTime.MinValue));
         }
 
-        static bool AreReferencesEqual<T>(T first, T second) where T: class
+        static bool AreReferencesEqual<T>(T first, T second) where T : class
         {
             return first == second;
         }
@@ -91,15 +175,19 @@ namespace CSharpBooks
             Console.WriteLine("newPair = Pair.Of(10, 'value')");
             Console.WriteLine("pair.Equals(newPair)): {0}", pair.Equals(newPair));
         }
+        #endregion
 
         private static void CsharpInDepthThirdEd()
         {
-            Listing3_2();
-            TypeConstraints();
-            Listing3_4();
-            Listing3_5();
-            Listing3_6();
-        } 
+            // Chp1
+            // Chp1_ListSorting();
+            //Chp1_ListQueryForHighPricedProducts();
+
+            // Chp2
+            Chp2_Delegates();
+
+        }
+
         #endregion
     }
 }
