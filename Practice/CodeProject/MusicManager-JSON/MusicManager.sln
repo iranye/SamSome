@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicManager", "MusicManager.csproj", "{374AF3B4-C8FA-4024-A7D9-A4284CD7AF09}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroMvvm", "MicroMvvm\MicroMvvm.csproj", "{5418D522-330D-42BD-BF01-92B5E7186EAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistingData", "PersistingData\PersistingData.csproj", "{1553A646-86E8-4BB6-A76C-E067A68F8E17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{374AF3B4-C8FA-4024-A7D9-A4284CD7AF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{374AF3B4-C8FA-4024-A7D9-A4284CD7AF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{374AF3B4-C8FA-4024-A7D9-A4284CD7AF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{374AF3B4-C8FA-4024-A7D9-A4284CD7AF09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5418D522-330D-42BD-BF01-92B5E7186EAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5418D522-330D-42BD-BF01-92B5E7186EAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5418D522-330D-42BD-BF01-92B5E7186EAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5418D522-330D-42BD-BF01-92B5E7186EAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1553A646-86E8-4BB6-A76C-E067A68F8E17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1553A646-86E8-4BB6-A76C-E067A68F8E17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1553A646-86E8-4BB6-A76C-E067A68F8E17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1553A646-86E8-4BB6-A76C-E067A68F8E17}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
