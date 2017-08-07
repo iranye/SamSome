@@ -15,6 +15,7 @@ namespace ReadCardsExport
             if (args.Length < 1)
             {
                 Console.WriteLine("Usage: {0} <input dek file>", "ReadCardsExport");
+                return;
             }
             string dekFileName = args[0];
             if (!File.Exists(dekFileName))
@@ -36,7 +37,7 @@ namespace ReadCardsExport
 
         public static FileInfo ConvertDeckToDeserializableXml(FileInfo dekFileInfo)
         {
-            var fileInfoOutput = GetXmlFileName(dekFileInfo);
+            FileInfo fileInfoOutput = GetXmlFileName(dekFileInfo);
             if (fileInfoOutput.Exists)
             {
                 return fileInfoOutput;
