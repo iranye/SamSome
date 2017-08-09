@@ -21,7 +21,11 @@ namespace MtgCardManager
             }
             set
             {
-                mMtgCard.Name = value;
+                if (mMtgCard.Name != value)
+                {
+                    mMtgCard.Name = value;
+                    RaisePropertyChanged("CardName");
+                }
             }
         }
 
@@ -33,8 +37,11 @@ namespace MtgCardManager
             }
             set
             {
-                if ()
-                mMtgCard.ArtistName = value;
+                if (mMtgCard.ArtistName != value)
+                {
+                    mMtgCard.ArtistName = value;
+                    RaisePropertyChanged("ArtistName");
+                }
             }
         }
 
@@ -60,7 +67,7 @@ namespace MtgCardManager
 
         public event PropertyChangedEventHandler PropertyChanged;
         
-        private void RaisePropertyChanged(string property)
+        private void RaisePropertyChanged(string propertyName)
         {
             var handler = PropertyChanged;
             if (handler != null)

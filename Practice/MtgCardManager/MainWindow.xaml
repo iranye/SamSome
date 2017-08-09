@@ -22,7 +22,7 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Column="0" Grid.Row="0" Content="Displaying" />
         <Label Grid.Column="0" Grid.Row="1" Content="Artist Name" />
-        <Button Grid.Column="1" Grid.Row="0" Name="ButtonUpdateArtist" Content="Update Artist Name" Command="{Binding UpdateArtistName}"
+        <Button Grid.Column="1" Grid.Row="0" Name="ButtonUpdateArtist" Content="Update Artist Name" Command="{Binding UpdateArtistName}" />
         <Label Grid.Column="1" Grid.Row="1" Content="{Binding ArtistName}" />
     </Grid>
 </Window>
