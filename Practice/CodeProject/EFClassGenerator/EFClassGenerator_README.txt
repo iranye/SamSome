@@ -1,0 +1,1 @@
+https://www.codeproject.com/Articles/1194390/Csharp-Entity-Framework-Class-Generator-for-Data-L
