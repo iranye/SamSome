@@ -1,0 +1,21 @@
+// transpile with: tsc jQuerySample.ts --lib es2015,dom
+{
+    "compilerOptions": {
+        "target": "es2015",
+        "module": "commonjs",
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "rootDir": ".",
+        "outDir": "./js",
+        "lib": [
+            "dom"
+        ]
+    },
+    "compileOnSave": true,
+    "files": [
+        "jQuerySample.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace CSharpBooks
 {
@@ -184,8 +185,14 @@ namespace CSharpBooks
             //Chp1_ListQueryForHighPricedProducts();
 
             // Chp2
-            Chp2_Delegates();
+            //Chp2_Delegates();
+            Chp15_Asynchronous();
 
+        }
+
+        private static void Chp15_Asynchronous()
+        {
+            Application.Run(new AsyncForm());
         }
 
         #endregion

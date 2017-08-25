@@ -1,0 +1,9 @@
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\ClassAttribute.cs C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\ClassAttribute.cs
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\MainWindow.xaml C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\MainWindow.xaml
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\MainWindow.xaml.cs C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\MainWindow.xaml.cs
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\SpeedApiObject.cs C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\SpeedApiObject.cs
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\StatusViewModel.cs C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\StatusViewModel.cs
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\TestConfig.cs C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\TestConfig.cs
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\TestConfigViewModel.cs C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\TestConfigViewModel.cs
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\TestPort.csproj C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\TestPort.csproj
+kdiff3 C:\Users\imnyex\Documents\LIPORT\Testing\TestPort\TestPort\TestSuiteViewModel.cs C:\Users\imnyex\source_git\SamSome\Practice\CodeProject\TestPort\TestPort\TestSuiteViewModel.cs

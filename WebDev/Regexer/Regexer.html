@@ -467,7 +467,7 @@ function run_sub() {
   }
 
   var pattern = new RegExp(re);
-  var incrementPat = new RegExp("###");
+  var incrementPat = new RegExp("###", 'g');
 
   for (var i = 1; i < lines.length; i++) {
     var line = dbl_chomp(lines[i]);
@@ -806,40 +806,40 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 <BR />
 <textarea class="toggle" name="outbox" rows="14" cols="98"></textarea><br />
 
-<input type="radio" name="regex" value="generic" checked>Generic</input>
-<input type="radio" name="regex" value="mrobo">Multi-Robocopy</input>
-<input type="radio" name="regex" value="rn">Bulk Rename</input>
-<input type="radio" name="regex" value="exp_fold_rn">RN Export Fldrs</input>
-<input type="radio" name="regex" value="cast_varchar">CAST</input>
-<input type="radio" name="regex" value="perl_print">perl_print</input>
-<input type="radio" name="regex" value="js_print">js_print</input>
-<input type="radio" name="regex" value="robo_boxes">Robo Boxes</input>
-<input type="checkbox" id="sql_code" Checked>SQL</input>
-<input type="text" size="4" id="numbering" ></input>Start Number
+    <input type="radio" name="regex" value="generic" checked/>Generic
+    <input type="radio" name="regex" value="mrobo"/>Multi-Robocopy
+    <input type="radio" name="regex" value="rn"/>Bulk Rename
+    <input type="radio" name="regex" value="exp_fold_rn"/>RN Export Fldrs
+    <input type="radio" name="regex" value="cast_varchar"/>CAST
+    <input type="radio" name="regex" value="perl_print"/>perl_print
+    <input type="radio" name="regex" value="js_print"/>js_print
+    <input type="radio" name="regex" value="robo_boxes"/>Robo Boxes
+    <input type="checkbox" id="sql_code"/>SQL
+    <input type="text" size="4" id="numbering" value="1"/>Start Number
 
-</br>
-<input type="button" onclick="ToClipBoard('out');" accesskey="C" value="To ClipBoard" ></input>
-<input type="button" onclick="dump_obj(field_button);" value="Test" accesskey="S"></input>
-<input type="button" onclick="clear_outbox();" value="Clear" accesskey="B"></input>
-<input type="button" onclick="clear_boxes();" value="Clear Both" accesskey="0"></input>
-<input type="button" onclick="run_sub();" value="Run" accesskey="R"></input>
-<input type="button" onclick="pretty_print(document.forms[0].inbox.value);" value="Pretty Print" accesskey="E"></input>
-<input type="button" onclick='show_regex_info();'";' value="Regex Info" accesskey="Q"></input>
+    <br/>
+    <input type="button" onclick="ToClipBoard('out');" accesskey="C" value="To ClipBoard"/>
+    <input type="button" onclick="dump_obj(field_button);" value="Test" accesskey="S"/>
+    <input type="button" onclick="clear_outbox();" value="Clear" accesskey="B"/>
+    <input type="button" onclick="clear_boxes();" value="Clear Both" accesskey="0"/>
+    <input type="button" onclick="run_sub();" value="Run" accesskey="R"/>
+    <input type="button" onclick="pretty_print(document.forms[0].inbox.value);" value="Pretty Print" accesskey="E"/>
+    <input type="button" onclick='show_regex_info();' value="Regex Info" accesskey="Q"/>
 <BR />
 <BR />
 
-<input name="unicode" type="text" size="4"></input><input type="button" value="U" onclick='show_unicode(document.forms[0].unicode.value);'></input>
+    <input name="unicode" type="text" size="4"/><input type="button" value="U" onclick='show_unicode(document.forms[0].unicode.value);'/>
 
 Enter a character and click the button to see it's numerical value.
 
 <BR />
 <BR />
-<input type="button" onclick='add_rows_to_table("work_table");' value="Add Table Row(s)" accesskey="Z"></input>
-<input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table"></input>
-<input type="text"   width="8" id="id_to_dump"></input>
-<input type="button" onclick='dump_obj_by_id();' value="dump_obj" ></input>
-<input type="button" onclick='dump_done();' value="dump_done" ></input>
-<input type="button" onclick='dump_not_yet_done();' value="dump_not_yet_done" ></input>
+    <input type="button" onclick='add_rows_to_table("work_table");' value="Add Table Row(s)" accesskey="Z"/>
+    <input type="button" onclick='toggle_table("work_table", "");' value="Toggle Work Table"/>
+    <input type="text" width="8" id="id_to_dump"/>
+    <input type="button" onclick='dump_obj_by_id();' value="dump_obj"/>
+    <input type="button" onclick='dump_done();' value="dump_done"/>
+    <input type="button" onclick='dump_not_yet_done();' value="dump_not_yet_done"/>
 
 <TABLE id="work_table" border="1" style="width:80%">
 </TABLE>
