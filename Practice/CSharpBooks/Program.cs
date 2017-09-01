@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -186,13 +187,49 @@ namespace CSharpBooks
 
             // Chp2
             //Chp2_Delegates();
-            Chp15_Asynchronous();
+
+            // Chp15
+            Chp15_AsynchronousForm();
+//            Chp15_AsyncTaskCancel();
 
         }
 
-        private static void Chp15_Asynchronous()
+        /// Things to try:
+        ///   leap-froggin await calls with several sets of data <employee, employee.Id>
+        ///     Task<decimal> hourlyRateTask = employee.GetHourlyRateAsync();
+        ///     decimal hourlyRate = await hourlyRateTask;
+        ///     Task<int> hoursWorkedTask = timeSheet.GetHoursWorkedAsync(employee.Id);
+        ///     int hoursWorked = await hoursWorkedTask;
+        ///     AddPayment(hourlyRate * hoursWorked);
+        /// This expansion reveals a potential inefficiency in the original statement—you could
+        /// introduce parallelism into this code by starting both tasks(calling both Get...Async
+        /// methods) before awaiting either of them.
+        private static void Chp15_AsynchronousForm()
         {
             Application.Run(new AsyncForm());
+        }
+
+        static async Task DelayFor30Seconds(CancellationToken token)
+        {
+            Console.WriteLine("Waiting 30 seconds...");
+            await Task.Delay(TimeSpan.FromSeconds(30), token);
+        }
+
+        private static void Chp15_AsyncTaskCancel()
+        {
+            var source = new CancellationTokenSource();
+            var task = DelayFor30Seconds(source.Token);
+            source.CancelAfter(TimeSpan.FromSeconds(1));
+            Console.WriteLine("Initial status: {0}", task.Status);
+            try
+            {
+                task.Wait();
+            }
+            catch (AggregateException e)
+            {
+                Console.WriteLine("Caught {0}", e.InnerExceptions[0]);
+            }
+            Console.WriteLine("Final status: {0}", task.Status);
         }
 
         #endregion

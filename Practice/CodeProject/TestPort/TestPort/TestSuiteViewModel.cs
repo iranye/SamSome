@@ -11,7 +11,8 @@ namespace TestPort
 {
     class TestSuiteViewModel
     {
-        private string rootJsonDir = @"C:\TMP\FileIOTesting";
+        //private string rootJsonDir = @"C:\TMP\FileIOTesting";
+        private readonly string rootJsonDir = Properties.Settings.Default.rootJsonDir;
 
         ObservableCollection<TestConfigViewModel> mTests = new ObservableCollection<TestConfigViewModel>();
         public ObservableCollection<TestConfigViewModel> Tests
@@ -38,10 +39,6 @@ namespace TestPort
                 if (mSelectedTestConfig != value)
                 {
                     mSelectedTestConfig = value;
-                    if (!String.IsNullOrEmpty(mSelectedTestConfig.FileName))
-                    {
-                        StatusViewModel.AddLogMessage($"Selected Filed Test '{mSelectedTestConfig.Name}'");
-                    }
                 }
             }
         }
@@ -78,6 +75,18 @@ namespace TestPort
             StatusViewModel = new StatusViewModel();
 
             FiledTestConfigs.Add(new TestConfig { Name = "(Select a saved Test Config)", FileName = "" });
+            if (!Directory.Exists(rootJsonDir))
+            {
+                try
+                {
+                    Directory.CreateDirectory(rootJsonDir);
+                }
+                catch (Exception ex)
+                {
+                    StatusViewModel.AddLogMessage(
+                        $"Failed to created root JSON directory: '{rootJsonDir}'{Environment.NewLine}" + ex.Message);
+                }
+            }
             if (!String.IsNullOrEmpty(rootJsonDir) && Directory.Exists(rootJsonDir))
             {
                 DirectoryInfo dirInfo = new DirectoryInfo(rootJsonDir);
@@ -87,28 +96,7 @@ namespace TestPort
                     FiledTestConfigs.Add(new TestConfig { Name = testConfigName, FileName = fileInfo.Name });
                 }
             }
-            if (!Directory.Exists(rootJsonDir))
-            {
-                Directory.CreateDirectory(rootJsonDir);
-            }
         }
-
-        #region UpdateTestNames
-        void UpdateTestNamesExecute()
-        {
-            throw new NotImplementedException("TestDatabase is deleted.");
-        }
-
-        bool CanUpdateTestNamesExecute()
-        {
-            return true;
-        }
-
-        public ICommand UpdateTestNames
-        {
-            get { return new RelayCommand(UpdateTestNamesExecute, CanUpdateTestNamesExecute); }
-        }
-        #endregion
 
         void DumpJsonExecute()
         {

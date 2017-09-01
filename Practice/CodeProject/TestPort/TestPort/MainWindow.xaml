@@ -72,7 +72,9 @@
             <Setter Property="Width" Value="500" />
         </Style>
     </Window.Resources>
-    <Grid>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -205,4 +207,5 @@
                  HorizontalScrollBarVisibility="Auto"
                  FontSize="10" />
     </Grid>
+    </ScrollViewer>
 </Window>
