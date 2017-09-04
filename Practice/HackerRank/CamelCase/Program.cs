@@ -16,8 +16,8 @@ namespace CamelCase
             //CompareTheTriplets(args);
             //CheckSosTransmission(args);
             //LookForStringExistence(args);
-            // WeightedUniformStrings(args);
-            
+            WeightedUniformStrings(args);
+
         }
 
         public static string[] WeightedUniformStrings(string[] args)
@@ -37,54 +37,74 @@ namespace CamelCase
             int n = Convert.ToInt32(queryCountStr);
 
             Tuple<int, int, string>[] queryTuples = new Tuple<int, int, string>[n];
-            for (int i = 2; i < args.Length; i++)
+            int i = 0;
+            for (i = 2; i < args.Length; i++)
             {
                 queryTuples[i-2] = new Tuple<int, int, string>(i-2, Convert.ToInt32(args[i]), "No");
             }
 
             List<Tuple<int, int, string>> tupleArrToList = queryTuples.ToList().OrderBy(tup => tup.Item2).ToList();
-            
+            List<Tuple<char, int>> charCounts = new List<Tuple<char, int>>();
+            List<char> currentChars = new List<char>();
 
             char[] charArr = s.ToCharArray();
 
             char currentChar = '0';
-            int weight = 0;
-            for (int i = 0; i < charArr.Length; i++)
+            int currentCharWeight = 1;
+            for (i = 0; i < charArr.Length; i++)
             {
-                if (currentChar == '0')
+                if (currentChar == charArr[i])
                 {
-                    currentChar = charArr[i];
-                    weight = Convert.ToInt32(currentChar) - 96;
-                }
-                else if (charArr[i] == currentChar)
-                {
-                    weight += Convert.ToInt32(currentChar) - 96;
+                    currentCharWeight++;
                 }
                 else
                 {
+                    charCounts.Add(new Tuple<char, int>(currentChar, currentCharWeight));
                     currentChar = charArr[i];
-                    weight = Convert.ToInt32(currentChar) - Convert.ToInt32('`');
-                }
-                foreach (var el in tupleArrToList.Where(tuple => tuple.Item2 == weight))
-                {
-                    queryTuples[el.Item1] = new Tuple<int, int, string>(el.Item1, weight, "Yes");
-                    //if (el.Item2 > weight)
-                    //{
-                    //    break;
-                    //}
-                    //if (weight == el.Item2)
-                    //{
-                    //    queryTuples[el.Item1] = new Tuple<int, int, string>(el.Item1, weight, "Yes");
-                    //}
+                    currentCharWeight = 1;
                 }
             }
+            if (currentChar == charArr[i-2]) // Test with really short charArr
+            {
+                currentCharWeight++;
+                charCounts.Add(new Tuple<char, int>(currentChar, currentCharWeight));
+            }
+            else
+            {
+                charCounts.Add(new Tuple<char, int>(currentChar, currentCharWeight));
+            }
+            charCounts.RemoveAt(0);
+            int[] totalWeights = new int[charCounts.Count];
+            for(i = 0; i < charCounts.Count; i++) // TODO: Get only Distinct elements in the list
+            {
+                totalWeights[i] = (Convert.ToInt32(charCounts[i].Item1) - '`') * charCounts[i].Item2;
+                Console.WriteLine($"Found {charCounts[i].Item2} of {charCounts[i].Item1}. totalWeight[{i}]={totalWeights[i]}");
+            }
+
             string[] results = new string[n];
             for (int j = 0; j < n; j++)
             {
-                results[j] = queryTuples[j].Item3;
-                Console.WriteLine(queryTuples[j].Item3);
+                bool queryPass = false;
+                for (i = 0; i < totalWeights.Length; i++)
+                {
+                    int quotient = totalWeights[i] % queryTuples[j].Item2;
+                    //int charVal = Convert.ToInt32(
+                    // use formula: queryTuples[j].Item2 % 'p' int value == 0 && totalWeights[i] > queryTuples[j].Item2
+                    // e.g., 429744 % 16 == 0 && 735920 > 429744
+                    if (quotient == 0)
+                    {
+                        results[j] = "Yes";
+                        Console.WriteLine("Yes");
+                        queryPass = true;
+                        break;
+                    }
+                }
+                if (!queryPass)
+                {
+                    results[j] = "No";
+                    Console.WriteLine("No");
+                }
             }
-
             return results;
         }
 
