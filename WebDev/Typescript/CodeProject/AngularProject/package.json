@@ -1,0 +1,25 @@
+{
+  "name": "myfirstangularproject",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@angular/common": "^4.3.5",
+    "@angular/compiler": "^4.3.5",
+    "@angular/core": "^4.3.5",
+    "@angular/forms": "^4.3.5",
+    "@angular/http": "^4.3.5",
+    "@angular/platform-browser": "^4.3.5",
+    "@angular/platform-browser-dynamic": "^4.3.5",
+    "@angular/router": "^4.3.5",
+    "core-js": "^2.5.0",
+    "rxjs": "^5.4.3",
+    "systemjs": "^0.20.18",
+    "zone.js": "^0.8.16"
+  }
+}
