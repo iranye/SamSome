@@ -27,6 +27,7 @@ namespace TestPort
                 if (mTestConfig.Name != value)
                 {
                     mTestConfig.Name = value;
+                    FileName = value + ".json";
                     NotifyPropertyChanged("TestName");
                 }
             }

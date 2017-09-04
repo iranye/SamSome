@@ -48,6 +48,7 @@
   <ItemGroup>
     <Content Include="objects.js" />
     <Content Include="Regexer.html" />
+    <Content Include="style.css" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
