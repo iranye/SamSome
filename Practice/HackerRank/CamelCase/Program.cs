@@ -7,6 +7,15 @@ using System.Threading.Tasks;
 
 namespace CamelCase
 {
+    public class Node
+    {
+        public int Data { get; set; }
+        public Node Next { get; set; }
+    }
+
+    // This is a "method-only" submission.
+    // You only need to complete this method.
+
     public class Program
     {
         static void Main(string[] args)
@@ -16,11 +25,57 @@ namespace CamelCase
             //CompareTheTriplets(args);
             //CheckSosTransmission(args);
             //LookForStringExistence(args);
-            WeightedUniformStrings(args);
-
+            //WeightedUniformStrings(args);
+            LinkedListStuff();
         }
 
-        public static string[] WeightedUniformStrings(string[] args)
+        public static Node Insert(Node head, int x)
+        {
+            if (head == null)
+            {
+                head = new Node { Data = x, Next = null };
+            }
+            else
+            {
+                Node current = head.Next;
+                Node previous = head.Next;
+                while (current != null)
+                {
+                    current = current.Next;
+                    if (current != null)
+                    {
+                        previous = current;
+                    }
+                }
+
+                //bool dataSaved = false;
+                //do
+                //{
+                //    Node current = head.Next;
+                //    while (current != null)
+                //    {
+                //        current = current.Next;
+                //    }
+                //    if (head.Next == null)
+                //    {
+                //        head.Next = new Node { Data = x, Next = null };
+                //        dataSaved = true;
+                //    }
+                //    else
+                //    {
+                        
+                //    }
+                //} while (!dataSaved);
+            }
+            return head;
+        }
+
+        private static void LinkedListStuff()
+        {
+
+    }
+
+    public static string[] WeightedUniformStrings(string[] args)
         {
             string s = args.Length > 0 ? args[0] : Console.ReadLine();
             if (String.IsNullOrWhiteSpace(s))
