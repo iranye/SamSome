@@ -159,6 +159,69 @@ namespace UnitTestProject
         }
 
         [TestMethod]
+        public void Test_WeightedUniformStrings_InputA_FromFile()
+        {
+            var userDirectory = Environment.GetEnvironmentVariable("userprofile");
+            var filenameExpectedOutputs = Path.Combine(userDirectory, @"source_git\SamSome\Practice\HackerRank\TestInputOutputs\WeightedUniformStrings\outputA.txt");
+            if (!File.Exists(filenameExpectedOutputs))
+            {
+                Console.Error.WriteLine("File not found: " + filenameExpectedOutputs);
+                return;
+            }
+            string line;
+            var fileReader = new StreamReader(filenameExpectedOutputs);
+            var queryExpectedResult = new List<string>();
+            while ((line = fileReader.ReadLine()) != null)
+            {
+                queryExpectedResult.Add(line.Trim());
+            }
+            fileReader.Close();
+
+            List<Tuple<string, string>> inputs = new List<Tuple<string, string>>();
+            string inputStr = "";
+
+            var filenameInputs = Path.Combine(userDirectory, @"source_git\SamSome\Practice\HackerRank\TestInputOutputs\WeightedUniformStrings\inputA.txt");
+            if (!File.Exists(filenameInputs))
+            {
+                Console.Error.WriteLine("File not found: " + filenameInputs);
+                return;
+            }
+
+            fileReader = new StreamReader(filenameInputs);
+            int inputSegment = 0;
+            //while ((line = fileReader.ReadLine()) != null)
+            for (int i = 0; (line = fileReader.ReadLine()) != null; i++)
+            {
+                switch (inputSegment++)
+                {
+                    case 0:
+                        inputStr = line;
+                        break;
+                    case 1:
+                        string queryCountStr = line;
+                        break;
+                    default:
+                        inputs.Add(new Tuple<string, string>(line, queryExpectedResult[i - 2]));
+                        break;
+                }
+            }
+            fileReader.Close();
+            int queryCount = inputs.Count;
+            List<string> inputsList = new List<string>
+            {
+                inputStr, queryCount.ToString()
+            };
+
+            string[] queryStrings = inputs.Select(tup => tup.Item1).ToArray();
+            inputsList.AddRange(queryStrings);
+            string[] actualResults = CamelCase.Program.WeightedUniformStrings(inputsList.ToArray());
+            for (int i = 0; i < queryExpectedResult.Count; i++)
+            {
+                Assert.AreEqual(queryExpectedResult[i], actualResults[i], $"Failed for query {i}: {queryStrings[i]}");
+            }
+        }
+
+        [TestMethod]
         public void Test_WeightedUniformStrings_Input01_FromFile()
         {
             var userDirectory = Environment.GetEnvironmentVariable("userprofile");
@@ -186,7 +249,7 @@ namespace UnitTestProject
                 Console.Error.WriteLine("File not found: " + filenameInputs);
                 return;
             }
-            int counter = 0;
+
             fileReader = new StreamReader(filenameInputs);
             int inputSegment = 0;
             //while ((line = fileReader.ReadLine()) != null)
@@ -249,6 +312,7 @@ namespace UnitTestProject
                 Console.Error.WriteLine("File not found: " + filenameInputs);
                 return;
             }
+
             fileReader = new StreamReader(filenameInputs);
             int inputSegment = 0;
             //while ((line = fileReader.ReadLine()) != null)

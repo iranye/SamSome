@@ -1,20 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace CamelCase
 {
-    public class Node
+    class Node
     {
         public int Data { get; set; }
         public Node Next { get; set; }
+        public override string ToString()
+        {
+            var sb = new StringBuilder($"Data={Data}");
+            Node current = Next;
+            while (current != null)
+            {
+                sb.Append($", Data={current.Data}");
+                current = current.Next;
+            }
+            return sb.ToString();
+        }
     }
-
-    // This is a "method-only" submission.
-    // You only need to complete this method.
 
     public class Program
     {
@@ -29,53 +35,90 @@ namespace CamelCase
             LinkedListStuff();
         }
 
-        public static Node Insert(Node head, int x)
+        private static void LinkedListStuff()
         {
-            if (head == null)
+            var head = GenerateLinkedList();
+            Console.WriteLine(head);
+            //	Node list = InsertAtHead(head, 5);
+            //	Node list = InsertAtEnd(head, 5);
+            //	Node list = InsertNth(head, 42, 11);
+            //	Node list = DeleteNth(head, 0);
+            Node list = ReverseList(head);
+
+            Console.WriteLine(list);
+            Console.ReadLine();
+        }
+
+        static Node ReverseList(Node head)
+        {
+            if (head == null || head.Next == null)
             {
-                head = new Node { Data = x, Next = null };
+                return head;
             }
-            else
+            if (head.Next == null)
             {
-                Node current = head.Next;
-                Node previous = head.Next;
-                while (current != null)
+                Console.WriteLine(head.Data);
+                return head;
+            }
+
+            Node current = head;
+            Node previous = null;
+
+            while (current != null)
+            {
+                var temp = current.Next;
+                if (previous == null)
                 {
-                    current = current.Next;
-                    if (current != null)
-                    {
-                        previous = current;
-                    }
+                    previous = head;
+                    previous.Next = null;
+                }
+                else
+                {
+                    current.Next = previous;
+                }
+                previous = current;
+                current = temp;
+                if (current != null)
+                {
+                    temp = current.Next;
+                    current.Next = previous;
+                    previous = current;
+                    current = temp;
                 }
 
-                //bool dataSaved = false;
-                //do
-                //{
-                //    Node current = head.Next;
-                //    while (current != null)
-                //    {
-                //        current = current.Next;
-                //    }
-                //    if (head.Next == null)
-                //    {
-                //        head.Next = new Node { Data = x, Next = null };
-                //        dataSaved = true;
-                //    }
-                //    else
-                //    {
-                        
-                //    }
-                //} while (!dataSaved);
+            }
+            return previous;
+        }
+
+        static Node GenerateLinkedList()
+        {
+            Node head = null;
+            Node current = null;
+            int[] arr = { 2, 3, 5, 7, 11 };
+            foreach (var el in arr)
+            {
+                if (head == null)
+                {
+                    head = new Node { Data = el };
+                }
+                else
+                {
+                    if (current == null)
+                    {
+                        current = new Node { Data = el };
+                        head.Next = current;
+                    }
+                    else
+                    {
+                        current.Next = new Node { Data = el };
+                        current = current.Next;
+                    }
+                }
             }
             return head;
         }
 
-        private static void LinkedListStuff()
-        {
-
-    }
-
-    public static string[] WeightedUniformStrings(string[] args)
+        public static string[] WeightedUniformStrings(string[] args)
         {
             string s = args.Length > 0 ? args[0] : Console.ReadLine();
             if (String.IsNullOrWhiteSpace(s))
@@ -91,16 +134,14 @@ namespace CamelCase
             }
             int n = Convert.ToInt32(queryCountStr);
 
-            Tuple<int, int, string>[] queryTuples = new Tuple<int, int, string>[n];
+            int[] queries = new int[n];
             int i = 0;
             for (i = 2; i < args.Length; i++)
             {
-                queryTuples[i-2] = new Tuple<int, int, string>(i-2, Convert.ToInt32(args[i]), "No");
+                queries[i - 2] = Convert.ToInt32(args[i]);
             }
-
-            List<Tuple<int, int, string>> tupleArrToList = queryTuples.ToList().OrderBy(tup => tup.Item2).ToList();
-            List<Tuple<char, int>> charCounts = new List<Tuple<char, int>>();
-            List<char> currentChars = new List<char>();
+            
+            List<Tuple<char, int, int>> charCounts = new List<Tuple<char, int, int>>();
 
             char[] charArr = s.ToCharArray();
 
@@ -114,39 +155,35 @@ namespace CamelCase
                 }
                 else
                 {
-                    charCounts.Add(new Tuple<char, int>(currentChar, currentCharWeight));
+                    charCounts.Add(new Tuple<char, int, int>(currentChar, currentCharWeight, Convert.ToInt32(currentChar) - '`'));
                     currentChar = charArr[i];
                     currentCharWeight = 1;
                 }
             }
-            if (currentChar == charArr[i-2]) // Test with really short charArr
+
+            if (charArr.Length == 1 || currentChar == charArr[i-2])
             {
                 currentCharWeight++;
-                charCounts.Add(new Tuple<char, int>(currentChar, currentCharWeight));
+                charCounts.Add(new Tuple<char, int, int>(currentChar, currentCharWeight, Convert.ToInt32(currentChar) - '`'));
             }
             else
             {
-                charCounts.Add(new Tuple<char, int>(currentChar, currentCharWeight));
-            }
-            charCounts.RemoveAt(0);
-            int[] totalWeights = new int[charCounts.Count];
-            for(i = 0; i < charCounts.Count; i++) // TODO: Get only Distinct elements in the list
-            {
-                totalWeights[i] = (Convert.ToInt32(charCounts[i].Item1) - '`') * charCounts[i].Item2;
-                Console.WriteLine($"Found {charCounts[i].Item2} of {charCounts[i].Item1}. totalWeight[{i}]={totalWeights[i]}");
+                charCounts.Add(new Tuple<char, int, int>(currentChar, currentCharWeight, Convert.ToInt32(currentChar) - '`'));
             }
 
+            charCounts.RemoveAt(0);
+            
             string[] results = new string[n];
+            bool queryPass;
             for (int j = 0; j < n; j++)
             {
-                bool queryPass = false;
-                for (i = 0; i < totalWeights.Length; i++)
+                queryPass = false;
+                for (i = 0; i < charCounts.Count; i++) // TODO: Get only Distinct elements in the list
                 {
-                    int quotient = totalWeights[i] % queryTuples[j].Item2;
-                    //int charVal = Convert.ToInt32(
-                    // use formula: queryTuples[j].Item2 % 'p' int value == 0 && totalWeights[i] > queryTuples[j].Item2
-                    // e.g., 429744 % 16 == 0 && 735920 > 429744
-                    if (quotient == 0)
+                    int totalCharWeight = charCounts[i].Item2 * charCounts[i].Item3;
+                    //Console.WriteLine($"Found {charCounts[i].Item2} of '{charCounts[i].Item1}' (totalWeight={totalCharWeight})");
+
+                    if ((queries[j] % charCounts[i].Item3 == 0) && queries[j] <= totalCharWeight)
                     {
                         results[j] = "Yes";
                         Console.WriteLine("Yes");
