@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace CSharpBooks
+namespace CSharp_in_Depth_Third_Edition
 {
     class Program
     {
@@ -56,7 +56,7 @@ namespace CSharpBooks
 
             // Query via anonymous method
             List<Product> products = Product.GetSampleProducts();
-            Predicate<Product> test = delegate(Product p) { return p.Price > 10m; };
+            Predicate<Product> test = delegate (Product p) { return p.Price > 10m; };
             List<Product> matches = products.FindAll(test);
             Action<Product> print = Console.WriteLine;
             matches.ForEach(print);
@@ -75,8 +75,8 @@ namespace CSharpBooks
 
             // Query via LINQ query expression
             var filtered = from Product p in products
-                where p.Price > 10
-                select p;
+                           where p.Price > 10
+                           select p;
             filtered.ToList().ForEach(print);
             Console.WriteLine();
         }
@@ -103,7 +103,7 @@ namespace CSharpBooks
         }
 
         #region Chp3
-            static double TakeSqareRoot(int x)
+        static double TakeSqareRoot(int x)
         {
             return Math.Sqrt(x);
         }
@@ -190,7 +190,7 @@ namespace CSharpBooks
 
             // Chp15
             Chp15_AsynchronousForm();
-//            Chp15_AsyncTaskCancel();
+            //            Chp15_AsyncTaskCancel();
 
         }
 
@@ -234,4 +234,5 @@ namespace CSharpBooks
 
         #endregion
     }
+
 }

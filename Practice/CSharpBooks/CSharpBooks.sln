@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpBooks", "CSharpBooks.csproj", "{BD3FB63C-0522-41A9-9C91-73AC335B9FB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp_in_Depth_Third_Edition", "CSharp_in_Depth_Third_Edition\CSharp_in_Depth_Third_Edition.csproj", "{B69521E6-A5E6-43ED-91E5-60E6F5FC423C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IllustratedWpf", "IllustratedWpf\IllustratedWpf.csproj", "{6C89FA72-4AA6-4AA4-8105-F78759320DBD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BD3FB63C-0522-41A9-9C91-73AC335B9FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD3FB63C-0522-41A9-9C91-73AC335B9FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD3FB63C-0522-41A9-9C91-73AC335B9FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD3FB63C-0522-41A9-9C91-73AC335B9FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B69521E6-A5E6-43ED-91E5-60E6F5FC423C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B69521E6-A5E6-43ED-91E5-60E6F5FC423C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B69521E6-A5E6-43ED-91E5-60E6F5FC423C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B69521E6-A5E6-43ED-91E5-60E6F5FC423C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C89FA72-4AA6-4AA4-8105-F78759320DBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C89FA72-4AA6-4AA4-8105-F78759320DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C89FA72-4AA6-4AA4-8105-F78759320DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C89FA72-4AA6-4AA4-8105-F78759320DBD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

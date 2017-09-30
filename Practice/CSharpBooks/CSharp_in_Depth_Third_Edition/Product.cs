@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-// CSharp_in_Depth_Third_Edition
-namespace CSharpBooks
+namespace CSharp_in_Depth_Third_Edition
 {
     class Product
     {

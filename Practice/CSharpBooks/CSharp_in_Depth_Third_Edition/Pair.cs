@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-// CSharp_in_Depth_Third_Edition
-namespace CSharpBooks
+namespace CSharp_in_Depth_Third_Edition
 {
     /// <summary>
     /// Helper class for less cluttered instantiating.
