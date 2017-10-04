@@ -21,8 +21,19 @@
                 <Button.Background>
                     Pink
                 </Button.Background>
-                <Button.Content>No, Click Here!</Button.Content>
             </Button>
+            <Button>
+            <Button.Content>No, Click Here!</Button.Content>
+            </Button>
+            <Button>
+                    <Button.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                            <GradientStop Color="Red" Offset="0.0" />
+                            <GradientStop Color="Blue" Offset="1.0" />
+                        </LinearGradientBrush>
+                    </Button.Background>
+                    Click the Gradient
+                </Button>
         </StackPanel>
     </Grid>
 </Window>
