@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharp_in_Depth_Third_Editi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IllustratedWpf", "IllustratedWpf\IllustratedWpf.csproj", "{6C89FA72-4AA6-4AA4-8105-F78759320DBD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IllustratedWpfRich", "IllustratedWpfRich\IllustratedWpfRich.csproj", "{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6C89FA72-4AA6-4AA4-8105-F78759320DBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6C89FA72-4AA6-4AA4-8105-F78759320DBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6C89FA72-4AA6-4AA4-8105-F78759320DBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

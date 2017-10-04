@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace IllustratedWpf
 {
@@ -21,6 +22,15 @@ namespace IllustratedWpf
             btn.HorizontalAlignment = HorizontalAlignment.Center;
             btn.VerticalAlignment = VerticalAlignment.Center;
 
+            Color color = new Color();
+            color.A = 255;
+            color.R = 100;
+            color.G = 150;
+            color.B = 200;
+
+            SolidColorBrush scb = new SolidColorBrush(color);
+            Background = scb;
+
             tb.Text = "Illustrated WPF";
 
             sp.Children.Add(tb);
@@ -32,6 +42,10 @@ namespace IllustratedWpf
 
     class Program
     {
+        static void App_Startup(object sender, StartupEventArgs args)
+        {
+            MessageBox.Show("Application is starting.", "Starting Message");
+        }
 
         [STAThread]
         static void Main(string[] args)
@@ -40,6 +54,7 @@ namespace IllustratedWpf
             myWin.Show();
 
             Application myApp = new System.Windows.Application();
+            myApp.Startup += App_Startup;
             myApp.Run();
         }
     }
