@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IllustratedWpf", "Illustrat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IllustratedWpfRich", "IllustratedWpfRich\IllustratedWpfRich.csproj", "{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IllustratedWpfGrid", "IllustratedWpfGrid\IllustratedWpfGrid.csproj", "{E1491C1A-6C50-4793-B75F-63C0F14E81F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81ED11FD-A43B-40B2-A0CF-AF3E51AF7126}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1491C1A-6C50-4793-B75F-63C0F14E81F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1491C1A-6C50-4793-B75F-63C0F14E81F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1491C1A-6C50-4793-B75F-63C0F14E81F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1491C1A-6C50-4793-B75F-63C0F14E81F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

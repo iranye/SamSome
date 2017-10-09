@@ -5,35 +5,88 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IllustratedWpfRich"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="800" Width="1125">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Row="0" Grid.Column="0">
+        <StackPanel Grid.Row="0" Grid.Column="0"
+                    
+                    Background="LightBlue">
             <Label Content="WPF Illustrated" />
             <Button Background="Yellow" Content="Click Here" />
-            <Button>
+            <Button>Pink
                 <Button.Background>
                     Pink
                 </Button.Background>
             </Button>
             <Button>
-            <Button.Content>No, Click Here!</Button.Content>
+                <Button.Content>No, Click Here!</Button.Content>
             </Button>
             <Button>
-                    <Button.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                            <GradientStop Color="Red" Offset="0.0" />
-                            <GradientStop Color="Blue" Offset="1.0" />
-                        </LinearGradientBrush>
-                    </Button.Background>
-                    Click the Gradient
-                </Button>
+                <Button.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Color="Red" Offset="0.0" />
+                        <GradientStop Color="Blue" Offset="1.0" />
+                    </LinearGradientBrush>
+                </Button.Background>
+                Click the Gradient
+            </Button>
+            <!-- Markup Extensions -->
+            <Button Content="{local:ShowTime First}" />
+            <Button Content="{local:ShowTime Header=Second}" />
+            <Button xml:space="preserve">Clickz0r    me</Button>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="0"
+                    Background="Bisque">
+            <Button HorizontalAlignment="Left">Left</Button>
+            <Button HorizontalAlignment="Center">Center</Button>
+            <Button HorizontalAlignment="Right">Right</Button>
+            <Button HorizontalAlignment="Stretch">Stretch</Button>
+        </StackPanel>
+
+        <StackPanel Name="HzSp" Grid.Row="2" Grid.Column="0"
+                    Orientation="Horizontal"
+                    Background="Cyan"
+                    Height="100">
+            <Button VerticalAlignment="Top">Top</Button>
+            <Button VerticalAlignment="Center">Center</Button>
+            <Button VerticalAlignment="Bottom">Bottom</Button>
+            <Button VerticalAlignment="Stretch">Stretch</Button>
+        </StackPanel>
+        <GridSplitter Grid.Row="0" Grid.RowSpan="5" Grid.Column="1" VerticalAlignment="Stretch" Width="8" />
+        <StackPanel Grid.Row="0" Grid.Column="2" Background="AntiqueWhite">
+            <!-- Remove Width to put all buttons in a single row -->
+            <WrapPanel Width="300"
+                       ItemHeight="90"
+                       ItemWidth="77">
+                <Button>Button 1</Button>
+                <Button VerticalAlignment="Top">Button 2</Button>
+                <Button VerticalAlignment="Center">Button 3</Button>
+                <Button VerticalAlignment="Bottom">Button 4</Button>
+                <Button VerticalAlignment="Stretch">Button 5</Button>
+            </WrapPanel>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="2" Background="Black">
+            <!-- LastChildFill default is "True" -->
+            <DockPanel LastChildFill="False">
+                <Button DockPanel.Dock="Left">Btn 1</Button>
+                <Button DockPanel.Dock="Top">Btn 2</Button>
+                <Button DockPanel.Dock="Right">Btn 3</Button>
+                <Button DockPanel.Dock="Bottom">Btn 4</Button>
+                <Button>Btn 5</Button>
+                <Button>Btn 6</Button>
+            </DockPanel>
         </StackPanel>
     </Grid>
 </Window>
+
