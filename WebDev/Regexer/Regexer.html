@@ -432,14 +432,23 @@ function update_field() {
   print_to_out("updating field!\n");
 }
 
+function pad(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+}
+
 /// Regex quick-substitution section //////////////////////////////////////////////////////
 function run_sub() {
   var input = document.forms[0].inbox.value;
   input = (document.getElementById("sql_code").checked) ? sql_sub(input) : input;
-  var increment = document.getElementById("numbering").value;
+  var startNumber = document.getElementById("start_number").value;
+  startNumber = pad(startNumber, 3);
+  var endNumber = document.getElementById("end_number").value;
   var sample = get_regex_string();
 
   var lines = input.split("\n");
+  
   if (lines[0].match("~~")) {
     var a = lines[0].split("~~");
 
@@ -468,17 +477,39 @@ function run_sub() {
 
   var pattern = new RegExp(re);
   var incrementPat = new RegExp("###", 'g');
-
+  var line = "";
+  
+  if (endNumber.length > 0 && !isNaN(endNumber) && !isNaN(startNumber))
+  {
+    if (startNumber >= endNumber) {
+      print_to_out("Start Number must be less than End Number\r\n");
+      return;
+    }
+    line = dbl_chomp(lines[1]);
+    if (line.length < 1) {
+      print_to_out("Input line is empty\r\n");
+      return;
+    }
+    line = line.replace(pattern, new_text);
+  
+    for (; startNumber <= endNumber; startNumber++) {
+      var paddedNumber = pad(startNumber, 3);
+      var newLine = line.replace(incrementPat, paddedNumber);
+      print_to_out(newLine + "\n");
+    }
+    return;
+  }
+  
   for (var i = 1; i < lines.length; i++) {
-    var line = dbl_chomp(lines[i]);
+    line = dbl_chomp(lines[i]);
     if (line.length == 0) { // skip whitespace-only lines
         continue;
     }
     line = line.replace(pattern, new_text);
-    if (!isNaN(increment))
+    if (!isNaN(startNumber))
     {
-      line = line.replace(incrementPat, increment);
-      increment++;
+      line = line.replace(incrementPat, startNumber);
+      startNumber++;
     }
     print_to_out(line + "\n");
   }
@@ -572,12 +603,6 @@ function init_re_strings() {
   var year = d.getFullYear();
   var date_string = "'" + d.getFullYear() + '-' + month_string + '-' + d.getDate() + " ";
   //s = '(^.+[Export|Viewer])(\\d+)~~move "$1$2" "$1"\n';
-
-  s='(^.+)(' + year + '\\d+)~~move "$1$2" "$1"\n';
-  dummy_data = "2860 Foobizzarre Internal Export20061206190629\n";
-  dummy_data += "2860 Tiff Viewer20061206190904\n";
-  s += dummy_data;
-  push_to_regex_list('exp_fold_rn', s);
 
   s='(.+)~~CAST($1 AS VARCHAR) + \',\' AS "$1"\n';
   dummy_data = "MediaID\n";
@@ -798,7 +823,7 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 </HEAD>
 <BODY bgcolor='#0088AF' onload='do_inits();' >
 
-<H2>Regexer: Search and Replace [1.1.0.1]</H2>
+<H2>Regexer: Search and Replace [1.1.0.2]</H2>
 <form>
 
 <p>Input regex and substitution string into the first line (delimited with ~~), then the text to process on the lines below it (Click Run to see samples)</p>
@@ -809,14 +834,13 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
     <input type="radio" name="regex" value="generic" checked/>Generic
     <input type="radio" name="regex" value="mrobo"/>Multi-Robocopy
     <input type="radio" name="regex" value="rn"/>Bulk Rename
-    <input type="radio" name="regex" value="exp_fold_rn"/>RN Export Fldrs
     <input type="radio" name="regex" value="cast_varchar"/>CAST
     <input type="radio" name="regex" value="perl_print"/>perl_print
     <input type="radio" name="regex" value="js_print"/>js_print
     <input type="radio" name="regex" value="robo_boxes"/>Robo Boxes
     <input type="checkbox" id="sql_code"/>SQL
-    <input type="text" size="4" id="numbering" value="1"/>Start Number
-
+    [Start #: <input type="text" size="3" id="start_number" value="1" />, End #: <input type="text" size="3" id="end_number" value="" />]
+    
     <br/>
     <input type="button" onclick="ToClipBoard('out');" accesskey="C" value="To ClipBoard"/>
     <input type="button" onclick="dump_obj(field_button);" value="Test" accesskey="S"/>
