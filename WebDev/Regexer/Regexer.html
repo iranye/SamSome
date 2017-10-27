@@ -38,7 +38,7 @@ td{
 /*
 ** Ira Nye
 ** Regexer: Batchwise text group and replace tool
-** Last Modified: 09/21/2016
+** Last Modified: 10/27/2017
 **
 ** This tool is intended to perform search and replacement operations on a set of lines.
 */
@@ -442,6 +442,7 @@ function pad(n, width, z) {
 function run_sub() {
   var input = document.forms[0].inbox.value;
   input = (document.getElementById("sql_code").checked) ? sql_sub(input) : input;
+  var doSorting = document.getElementById("sort_output").checked;
   var startNumber = document.getElementById("start_number").value;
   startNumber = pad(startNumber, 3);
   var endNumber = document.getElementById("end_number").value;
@@ -479,6 +480,7 @@ function run_sub() {
   var incrementPat = new RegExp("###", 'g');
   var line = "";
   
+  // Explicitly sequential numbering (only uses first input line)
   if (endNumber.length > 0 && !isNaN(endNumber) && !isNaN(startNumber))
   {
     if (startNumber >= endNumber) {
@@ -500,6 +502,10 @@ function run_sub() {
     return;
   }
   
+  var linkedList = null;
+  var current = null;
+
+  // Include additional sequential numbering to input lines
   for (var i = 1; i < lines.length; i++) {
     line = dbl_chomp(lines[i]);
     if (line.length == 0) { // skip whitespace-only lines
@@ -508,10 +514,26 @@ function run_sub() {
     line = line.replace(pattern, new_text);
     if (!isNaN(startNumber))
     {
-      line = line.replace(incrementPat, startNumber);
+      paddedNumber = pad(startNumber, 3);
+      line = line.replace(incrementPat, paddedNumber);
       startNumber++;
     }
-    print_to_out(line + "\n");
+    if (doSorting) {
+      if (linkedList == null) {
+        linkedList = new ListNode(line);
+        current = linkedList;
+      }
+      else {
+        linkedList = InsertSorted(linkedList, line);
+      }
+    }
+    else {
+      print_to_out(line + "\n");
+    }
+  }
+  while (linkedList != null && linkedList.data != null) {
+      print_to_out(linkedList.data + "\n");
+      linkedList = linkedList.next;
   }
 }
 
@@ -612,6 +634,7 @@ function init_re_strings() {
   s='(.+)~~$1,###\n';
   dummy_data = "foo\n";
   dummy_data += "bar\n";
+  dummy_data += "blitz\n";
   s += dummy_data;
   push_to_regex_list('generic', s);
 
@@ -624,13 +647,6 @@ function init_re_strings() {
   dummy_data = "string\n";
   s += dummy_data;
   push_to_regex_list('js_print', s);
-
-  s='(\\d+)\\s([bB]ox\\s*\\d+) - Original~~REM mkdir media$1 | move "job62\\$2" "media$1\\$2"\n';
-  dummy_data = "2024390 box 370 - Original\n";
-  dummy_data += "2024391 box 371 - Original\n";
-  dummy_data += "2022498 Box054 - Original\n";
-  s += dummy_data;
-  push_to_regex_list('robo_boxes', s);
 
   s='()~~insert into tblQueueHTML (ItemIdentityID, ProcessingFlag) values($1, 0)\n';
   dummy_data = "7051220\n" + "7051223\n";
@@ -823,7 +839,7 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 </HEAD>
 <BODY bgcolor='#0088AF' onload='do_inits();' >
 
-<H2>Regexer: Search and Replace [1.1.0.2]</H2>
+<H2>Regexer: Search and Replace [1.1.0.3]</H2>
 <form>
 
 <p>Input regex and substitution string into the first line (delimited with ~~), then the text to process on the lines below it (Click Run to see samples)</p>
@@ -837,13 +853,14 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
     <input type="radio" name="regex" value="cast_varchar"/>CAST
     <input type="radio" name="regex" value="perl_print"/>perl_print
     <input type="radio" name="regex" value="js_print"/>js_print
-    <input type="radio" name="regex" value="robo_boxes"/>Robo Boxes
+
+    <input type="checkbox" id="sort_output" accesskey="S"/>Sort Results
     <input type="checkbox" id="sql_code"/>SQL
     [Start #: <input type="text" size="3" id="start_number" value="1" />, End #: <input type="text" size="3" id="end_number" value="" />]
     
     <br/>
     <input type="button" onclick="ToClipBoard('out');" accesskey="C" value="To ClipBoard"/>
-    <input type="button" onclick="dump_obj(field_button);" value="Test" accesskey="S"/>
+    <input type="button" onclick="dump_obj(field_button);" value="Test" />
     <input type="button" onclick="clear_outbox();" value="Clear" accesskey="B"/>
     <input type="button" onclick="clear_boxes();" value="Clear Both" accesskey="0"/>
     <input type="button" onclick="run_sub();" value="Run" accesskey="R"/>

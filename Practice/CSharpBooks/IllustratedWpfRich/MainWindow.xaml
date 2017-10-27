@@ -11,6 +11,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -62,7 +63,17 @@
             <Button VerticalAlignment="Bottom">Bottom</Button>
             <Button VerticalAlignment="Stretch">Stretch</Button>
         </StackPanel>
-        <GridSplitter Grid.Row="0" Grid.RowSpan="5" Grid.Column="1" VerticalAlignment="Stretch" Width="8" />
+        <DockPanel  Grid.Row="3" Grid.Column="0">
+            <TextBox TextWrapping="Wrap"
+                     AcceptsReturn="True"
+                     Height="60"
+                     MinHeight="160"
+                     MaxHeight="300"
+                     HorizontalAlignment="Stretch"
+                     VerticalScrollBarVisibility="Auto" />
+
+        </DockPanel>
+        <GridSplitter Grid.Row="0" Grid.RowSpan="4" Grid.Column="1" VerticalAlignment="Stretch" Width="8" />
         <StackPanel Grid.Row="0" Grid.Column="2" Background="AntiqueWhite">
             <!-- Remove Width to put all buttons in a single row -->
             <WrapPanel Width="300"

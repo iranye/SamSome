@@ -22,6 +22,32 @@ function ListNode(data_obj) {
   this.next = null;
 }
 
+function InsertSorted(head, data_obj) {
+    if (head === null) {
+        head = new ListNode(data_obj);
+        return head;
+    }
+
+    var current = head;
+    
+    if (data_obj < head.data) { // insert at head   
+        head = new ListNode(data_obj);
+        head.next = current;
+        return head;
+    }
+
+    var previous = current;
+    while(current != null && current.data < data_obj) {
+        previous = current;
+        current = current.next;
+    }
+    var tmp = new ListNode(data_obj);
+    previous.next = tmp;
+    tmp.next = current;
+
+    return head;
+}
+
 //Table Object keeps FieldObjs as Linked List
 function TableObj(name) {
   this.name = name;
