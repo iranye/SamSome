@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralPractice", "GeneralPractice\GeneralPractice.csproj", "{FDB7C037-B4AB-4396-A763-6155B43C1F30}"
 EndProject
@@ -9,7 +9,9 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsharpPractice", "FsharpPra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WinformsPractice", "WinformsPractice\WinformsPractice.csproj", "{4E7339A7-D855-469F-995A-44FFCC7C164D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestGeneric", "TestGeneric\TestGeneric.csproj", "{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MathStuff", "MathStuff\MathStuff.csproj", "{5E75158E-06EF-4C9F-ACE9-C7C6FCDE8648}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroMvvm", "Common\MicroMvvm\MicroMvvm.csproj", "{84C1973D-DC25-4BF6-BFAA-20EFA7F9EAC6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +31,14 @@ Global
 		{4E7339A7-D855-469F-995A-44FFCC7C164D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E7339A7-D855-469F-995A-44FFCC7C164D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E7339A7-D855-469F-995A-44FFCC7C164D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28F3ECBD-CE8E-4DED-9F5E-1E7C77D0BA4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E75158E-06EF-4C9F-ACE9-C7C6FCDE8648}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E75158E-06EF-4C9F-ACE9-C7C6FCDE8648}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E75158E-06EF-4C9F-ACE9-C7C6FCDE8648}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E75158E-06EF-4C9F-ACE9-C7C6FCDE8648}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84C1973D-DC25-4BF6-BFAA-20EFA7F9EAC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84C1973D-DC25-4BF6-BFAA-20EFA7F9EAC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84C1973D-DC25-4BF6-BFAA-20EFA7F9EAC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84C1973D-DC25-4BF6-BFAA-20EFA7F9EAC6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IllustratedWpfGrid", "Illus
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfApplication1\WpfApplication1\WpfApplication1.csproj", "{125833BF-2F7E-4490-84B4-EA9D993F278C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncProgramming1", "AsyncProgramming1\AsyncProgramming1.csproj", "{01467E43-ED3E-4326-9ACE-F917132B3A3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{125833BF-2F7E-4490-84B4-EA9D993F278C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{125833BF-2F7E-4490-84B4-EA9D993F278C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{125833BF-2F7E-4490-84B4-EA9D993F278C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01467E43-ED3E-4326-9ACE-F917132B3A3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01467E43-ED3E-4326-9ACE-F917132B3A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01467E43-ED3E-4326-9ACE-F917132B3A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01467E43-ED3E-4326-9ACE-F917132B3A3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

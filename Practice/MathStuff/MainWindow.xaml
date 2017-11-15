@@ -1,0 +1,70 @@
+﻿<Window x:Class="MathStuff.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MathStuff"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="760" Width="700">
+    <Window.DataContext>
+        <local:MathViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="LabelStyle" TargetType="Label">
+            <Setter Property="Width" Value="100"></Setter>
+        </Style>
+        <Style x:Key="TextBoxeStyle" TargetType="TextBox">
+            <Setter Property="Margin" Value="6,3"></Setter>
+        </Style>
+    </Window.Resources>
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <Label Content="Math Stuff"
+                       FontSize="14"
+                       HorizontalAlignment="Left"/>
+                <Label  Content="{Binding Version}" FontSize="14" />
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <DockPanel>
+                    <Button Content="Run Prime Factorization"
+                            DockPanel.Dock="Left"
+                            Margin="6,3,0,0"
+                            Command="{Binding GetPrimeFactorization}" />
+                    <TextBox Text="{Binding PrimeFactorization.Input}"
+                             Style="{StaticResource TextBoxeStyle}" />
+                </DockPanel>
+                <DockPanel Margin="0,6" >
+                    <Button Content="x"
+                            Command="{Binding ClearLogMessages}"
+                            DockPanel.Dock="Left"
+                            Margin="6,0"
+                            VerticalAlignment="Top"
+                            Width="20"
+                            Height="60"
+                            ToolTip="Clear Log Messages" />
+                    <TextBox IsReadOnly="True"
+                             ToolTip="Log Messages"
+                             DockPanel.Dock="Left"
+                             Text="{Binding StatusViewModel.LogMessage, Mode=OneWay}"
+                             MinHeight="160"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             MinWidth="490"
+                             Margin="0,0,6,0"
+                             Width="Auto"
+                             Height="Auto"
+                             HorizontalAlignment="Stretch"
+                             VerticalScrollBarVisibility="Auto" />
+                </DockPanel>
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Window>
