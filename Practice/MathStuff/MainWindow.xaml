@@ -5,16 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MathStuff"
         mc:Ignorable="d"
-        Title="MainWindow" Height="760" Width="700">
+        Icon="pi.ico"
+        Title="Math Stuff" Height="760" Width="700">
     <Window.DataContext>
         <local:MathViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <Style x:Key="LabelStyle" TargetType="Label">
-            <Setter Property="Width" Value="100"></Setter>
-        </Style>
         <Style x:Key="TextBoxeStyle" TargetType="TextBox">
-            <Setter Property="Margin" Value="6,3"></Setter>
+            <Setter Property="Margin" Value="6,3" />
+        </Style>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="6,3" />
+            <Setter Property="Height" Value="20" />
+            <Setter Property="Padding" Value="3,0" />
         </Style>
     </Window.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -36,12 +39,16 @@
                 <DockPanel>
                     <Button Content="Run Prime Factorization"
                             DockPanel.Dock="Left"
-                            Margin="6,3,0,0"
+                            Style="{StaticResource ButtonStyle}"
                             Command="{Binding GetPrimeFactorization}" />
+                    <Button Content="Use Max Value"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource ButtonStyle}"
+                            Command="{Binding UseMaxValue}" />
                     <TextBox Text="{Binding PrimeFactorization.Input}"
                              Style="{StaticResource TextBoxeStyle}" />
                 </DockPanel>
-                <DockPanel Margin="0,6" >
+                <DockPanel Margin="0,3" >
                     <Button Content="x"
                             Command="{Binding ClearLogMessages}"
                             DockPanel.Dock="Left"

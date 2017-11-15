@@ -34,7 +34,7 @@ namespace MathStuff
                     }
                 }
                 int extraCharactersLen = 2;
-                return res.Substring(0, res.Length - extraCharactersLen);
+                return res.Substring(0, res.Length - extraCharactersLen) + Environment.NewLine;
             }
         }
 
@@ -46,11 +46,6 @@ namespace MathStuff
             {
                 if (mInput != value)
                 {
-                    //uint parsedUint;
-                    //if (!UInt64.TryParse(value, out parsedUint))
-                    //{
-                    //    Status = $"Invalid input: '{value}'";
-                    //}
                     if (value < 0 || value > UInt64.MaxValue)
                     {
                         Status = $"Invalid input: '{value}'";
@@ -66,17 +61,21 @@ namespace MathStuff
 
         public void FindFactors()
         {
+            // https://docs.microsoft.com/en-us/dotnet/csharp/async
+            mPrimeFactors.Clear();
             while (mInput % 2 == 0)
             {
                 mPrimeFactors.Add(2);
+                NotifyPropertyChanged("PrimeFactors");
                 mInput /= 2;
             }
             UInt64 factor = 3;
-            while (mInput % factor == 0)
+            while (factor * factor <= mInput)
             {
                 if (mInput % factor == 0)
                 {
                     mPrimeFactors.Add(factor);
+                    NotifyPropertyChanged("PrimeFactors");
                     mInput /= factor;
                 }
                 else
@@ -84,7 +83,6 @@ namespace MathStuff
                     factor += 2;
                 }
             }
-
             if (mInput > 1) mPrimeFactors.Add(mInput);
             NotifyPropertyChanged("PrimeFactors");
         }

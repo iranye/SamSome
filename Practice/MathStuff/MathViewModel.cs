@@ -49,6 +49,23 @@ namespace MathStuff
             get { return new RelayCommand(GetPrimeFactorizationExecute, CanGetPrimeFactorizationExecute); }
         }
 
+        void UseMaxValueExecute()
+        {
+            UInt64 maxValue = UInt64.MaxValue;
+            StatusViewModel.AddLogMessage($"Use Maximum Value for Prime factorization: {maxValue}");
+            PrimeFactorization.Input = maxValue;
+        }
+
+        bool CanUseMaxValueExecute()
+        {
+            return true;
+        }
+
+        public ICommand UseMaxValue
+        {
+            get { return new RelayCommand(UseMaxValueExecute, CanUseMaxValueExecute); }
+        }
+
         #region ClearLogMessages
 
         void ClearLogMessagesExecute()
