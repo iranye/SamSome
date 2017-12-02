@@ -78,15 +78,15 @@ namespace TestPort
             }
         }
 
-        private TestOperation _mTestOperation;
+        private TestOperation mTestOperation;
         public TestOperation TestOperation
         {
-            get { return _mTestOperation; }
+            get { return mTestOperation; }
             set
             {
-                if (_mTestOperation != value)
+                if (mTestOperation != value)
                 {
-                    _mTestOperation = value;
+                    mTestOperation = value;
                     NotifyPropertyChanged("TestOperation");
                 }
             }

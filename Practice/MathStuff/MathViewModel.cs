@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 using System.Reflection;
 using System.Windows.Input;
 using MicroMvvm;
@@ -49,11 +50,12 @@ namespace MathStuff
             get { return new RelayCommand(GetPrimeFactorizationExecute, CanGetPrimeFactorizationExecute); }
         }
 
+        #region UseMaxValue
         void UseMaxValueExecute()
         {
-            UInt64 maxValue = UInt64.MaxValue;
+            BigInteger maxValue = UInt64.MaxValue;
             StatusViewModel.AddLogMessage($"Use Maximum Value for Prime factorization: {maxValue}");
-            PrimeFactorization.Input = maxValue;
+            PrimeFactorization.InputStr = maxValue.ToString();
         }
 
         bool CanUseMaxValueExecute()
@@ -64,6 +66,47 @@ namespace MathStuff
         public ICommand UseMaxValue
         {
             get { return new RelayCommand(UseMaxValueExecute, CanUseMaxValueExecute); }
+        } 
+        #endregion
+
+        void RunTestExecute()
+        {
+            // https://msdn.microsoft.com/en-us/library/system.numerics.biginteger.max(v=vs.110).aspx
+            var format = "{0,0:N0}";
+            BigInteger[] numbers = { Int64.MaxValue * BigInteger.MinusOne,
+                               BigInteger.MinusOne,
+                               10359321239000,
+                               BigInteger.Pow(103988, 2),
+                               BigInteger.Multiply(Int32.MaxValue, Int16.MaxValue),
+                               BigInteger.Add(BigInteger.Pow(Int64.MaxValue, 2),
+                               BigInteger.Pow(Int32.MaxValue, 2)) };
+            if (numbers.Length < 2)
+            {
+                StatusViewModel.AddLogMessage($"Cannot determine which is the larger of {numbers.Length} numbers.");
+                return;
+            }
+            BigInteger largest = numbers[numbers.GetLowerBound(0)];
+
+            for (int ctr = numbers.GetLowerBound(0) + 1; ctr <= numbers.GetUpperBound(0); ctr++)
+            {
+                largest = BigInteger.Max(largest, numbers[ctr]);
+            }
+            StatusViewModel.AddLogMessage("The values:");
+            foreach (BigInteger number in numbers)
+            {
+                StatusViewModel.AddLogMessage(string.Format(format, number));
+            }
+            StatusViewModel.AddLogMessage("The largest number is: " + string.Format(format, largest));
+        }
+
+        bool CanRunTestExecute()
+        {
+            return true;
+        }
+
+        public ICommand RunTest
+        {
+            get { return new RelayCommand(RunTestExecute, CanRunTestExecute);}
         }
 
         #region ClearLogMessages

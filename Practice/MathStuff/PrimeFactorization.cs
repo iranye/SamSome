@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Numerics;
 using MicroMvvm;
 
 namespace MathStuff
@@ -20,7 +21,7 @@ namespace MathStuff
             }
         }
 
-        private List<UInt64> mPrimeFactors = new List<UInt64>();
+        private List<BigInteger> mPrimeFactors = new List<BigInteger>();
         public String PrimeFactors
         {
             get
@@ -38,23 +39,35 @@ namespace MathStuff
             }
         }
 
-        private UInt64 mInput;
-        public UInt64 Input
+        public string InputStr
+        {
+            get { return mInput.ToString(); }
+            set
+            {
+                if (mInput.ToString() != value)
+                {
+                    string toParse = value.Replace(",", "").Trim();
+                    if (!BigInteger.TryParse(toParse, out mInput))
+                    {
+                        Status = $"Failed to parse '{value}'";
+                    }
+                    else
+                    {
+                        NotifyPropertyChanged("InputStr");
+                    }
+                }
+            }
+        }
+        private BigInteger mInput;
+        public BigInteger Input
         {
             get { return mInput; }
             set
             {
                 if (mInput != value)
                 {
-                    if (value < 0 || value > UInt64.MaxValue)
-                    {
-                        Status = $"Invalid input: '{value}'";
-                    }
-                    else
-                    {
-                        mInput = value;
-                        NotifyPropertyChanged("Input");
-                    }
+                    mInput = value;
+                    NotifyPropertyChanged("Input");
                 }
             }
         }
@@ -69,7 +82,7 @@ namespace MathStuff
                 NotifyPropertyChanged("PrimeFactors");
                 mInput /= 2;
             }
-            UInt64 factor = 3;
+            BigInteger factor = 3;
             while (factor * factor <= mInput)
             {
                 if (mInput % factor == 0)

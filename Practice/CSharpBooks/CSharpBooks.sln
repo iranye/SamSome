@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApplication1", "WpfAppli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncProgramming1", "AsyncProgramming1\AsyncProgramming1.csproj", "{01467E43-ED3E-4326-9ACE-F917132B3A3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VisualCSharpRecipes", "VisualCSharpRecipes\VisualCSharpRecipes.csproj", "{E91DD046-29A6-48B2-A4C7-94EC20D7BC07}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{01467E43-ED3E-4326-9ACE-F917132B3A3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01467E43-ED3E-4326-9ACE-F917132B3A3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01467E43-ED3E-4326-9ACE-F917132B3A3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E91DD046-29A6-48B2-A4C7-94EC20D7BC07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E91DD046-29A6-48B2-A4C7-94EC20D7BC07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E91DD046-29A6-48B2-A4C7-94EC20D7BC07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E91DD046-29A6-48B2-A4C7-94EC20D7BC07}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
