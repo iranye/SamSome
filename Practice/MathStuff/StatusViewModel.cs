@@ -19,10 +19,10 @@ namespace MathStuff
             }
         }
 
-        public void AddLogMessage(string message)
+        public void AddLogMessage(string message, bool appendNewLine=true)
         {
             var rotateOutAfterSoManyLines = "";
-            LogMessage += $"{message} {Environment.NewLine}";
+            LogMessage += string.Format("{0}{1}", message, appendNewLine ? Environment.NewLine : "");
         }
 
         public void ClearLog()

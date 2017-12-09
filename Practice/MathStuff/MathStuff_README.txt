@@ -1,2 +1,1 @@
-Format output box to resize both height & width when windows is re-sized
-output all long numbers w/ commas
+234,615,852,008,593,798,363 causes weird output

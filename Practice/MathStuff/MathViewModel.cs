@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Numerics;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using MicroMvvm;
 
@@ -31,13 +32,16 @@ namespace MathStuff
                 case "PrimeFactors":
                     StatusViewModel.AddLogMessage(PrimeFactorization.PrimeFactors);
                     break;
+                case "Progress":
+                    StatusViewModel.AddLogMessage(".", false);
+                    break;
             }
         }
 
         void GetPrimeFactorizationExecute()
         {
-            StatusViewModel.AddLogMessage($"Getting Prime factorization for {PrimeFactorization.Input}");
-            PrimeFactorization.FindFactors();
+            StatusViewModel.AddLogMessage($"Getting Prime factorization for {PrimeFactorization.Input,0:N0}");
+            PrimeFactorization.FindFactorsAsync();
         }
 
         bool CanGetPrimeFactorizationExecute()
@@ -50,36 +54,60 @@ namespace MathStuff
             get { return new RelayCommand(GetPrimeFactorizationExecute, CanGetPrimeFactorizationExecute); }
         }
 
-        #region UseMaxValue
-        void UseMaxValueExecute()
+        void CancelRequestExecute()
         {
-            BigInteger maxValue = UInt64.MaxValue;
-            StatusViewModel.AddLogMessage($"Use Maximum Value for Prime factorization: {maxValue}");
-            PrimeFactorization.InputStr = maxValue.ToString();
+            PrimeFactorization.TokenSource.Cancel();
         }
 
-        bool CanUseMaxValueExecute()
+        bool CanCancelRequestExecute()
+        {
+            return PrimeFactorization.TokenSource != null;
+        }
+
+        public ICommand CancelRequest
+        {
+            get { return new RelayCommand(CancelRequestExecute, CanCancelRequestExecute);}
+        }
+
+        #region UseExampleValue
+        void UseExampleValueExecute()
+        {
+            BigInteger maxValue;
+            string sampleNumber = "234615852008593798364921858";
+            if (!BigInteger.TryParse(sampleNumber, out maxValue))
+            {
+                StatusViewModel.AddLogMessage($"Failed to parse sample number: {sampleNumber}");
+                return;
+            }
+            StatusViewModel.AddLogMessage($"Use Example Value for Prime factorization: {maxValue}");
+            PrimeFactorization.InputStr = sampleNumber;
+        }
+
+        bool CanUseExampleValueExecute()
         {
             return true;
         }
 
-        public ICommand UseMaxValue
+        public ICommand UseExampleValue
         {
-            get { return new RelayCommand(UseMaxValueExecute, CanUseMaxValueExecute); }
+            get { return new RelayCommand(UseExampleValueExecute, CanUseExampleValueExecute); }
         } 
         #endregion
 
         void RunTestExecute()
         {
-            // https://msdn.microsoft.com/en-us/library/system.numerics.biginteger.max(v=vs.110).aspx
+            StatusViewModel.AddLogMessage(
+                "https://msdn.microsoft.com/en-us/library/system.numerics.biginteger.max(v=vs.110).aspx");
             var format = "{0,0:N0}";
-            BigInteger[] numbers = { Int64.MaxValue * BigInteger.MinusOne,
-                               BigInteger.MinusOne,
-                               10359321239000,
-                               BigInteger.Pow(103988, 2),
-                               BigInteger.Multiply(Int32.MaxValue, Int16.MaxValue),
-                               BigInteger.Add(BigInteger.Pow(Int64.MaxValue, 2),
-                               BigInteger.Pow(Int32.MaxValue, 2)) };
+            BigInteger[] numbers =
+            {
+                Int64.MaxValue*BigInteger.MinusOne,
+                BigInteger.MinusOne,
+                10359321239000,
+                BigInteger.Pow(103988, 2),
+                BigInteger.Multiply(Int32.MaxValue, Int16.MaxValue),
+                BigInteger.Add(BigInteger.Pow(Int64.MaxValue, 2), BigInteger.Pow(Int32.MaxValue, 2))
+            };
             if (numbers.Length < 2)
             {
                 StatusViewModel.AddLogMessage($"Cannot determine which is the larger of {numbers.Length} numbers.");

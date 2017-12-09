@@ -30,7 +30,7 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -41,20 +41,24 @@
                        HorizontalAlignment="Left"/>
                 <Label  Content="{Binding Version}" FontSize="14" />
             </StackPanel>
-            <StackPanel Grid.Row="1">
-                <DockPanel>
+            <DockPanel Grid.Row="1">
+                <DockPanel DockPanel.Dock="Top" >
                     <Button Content="Run Prime Factorization"
                             DockPanel.Dock="Left"
                             Style="{StaticResource ButtonStyle}"
                             Command="{Binding GetPrimeFactorization}" />
-                    <Button Content="Use Max Value"
+                    <Button Content="Cancel"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource ButtonStyle}"
+                            Command="{Binding CancelRequest}" />
+                    <Button Content="Use Example Value"
                             DockPanel.Dock="Right"
                             Style="{StaticResource ButtonStyle}"
-                            Command="{Binding UseMaxValue}" />
+                            Command="{Binding UseExampleValue}" />
                     <TextBox Text="{Binding PrimeFactorization.InputStr}"
-                             Style="{StaticResource TextBoxStyle}" />
+                                 Style="{StaticResource TextBoxStyle}" />
                 </DockPanel>
-                <DockPanel Margin="0,3" >
+                <DockPanel Margin="0,3,0,6" >
                     <StackPanel>
                         <Button Content="TST"
                             ToolTip="Run Test"
@@ -67,7 +71,7 @@
                     </StackPanel>
                     <TextBox IsReadOnly="True"
                              ToolTip="Log Messages"
-                             DockPanel.Dock="Left"
+                             DockPanel.Dock="Bottom"
                              Text="{Binding StatusViewModel.LogMessage, Mode=OneWay}"
                              MinHeight="160"
                              TextWrapping="Wrap"
@@ -76,10 +80,9 @@
                              Margin="0,0,6,0"
                              Width="Auto"
                              Height="Auto"
-                             HorizontalAlignment="Stretch"
                              VerticalScrollBarVisibility="Auto" />
                 </DockPanel>
-            </StackPanel>
+            </DockPanel>
         </Grid>
     </ScrollViewer>
 </Window>

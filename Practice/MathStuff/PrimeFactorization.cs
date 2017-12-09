@@ -1,22 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Numerics;
+using System.Threading;
+using System.Threading.Tasks;
 using MicroMvvm;
 
 namespace MathStuff
 {
     class PrimeFactorization : ObservableObject
     {
+        public PrimeFactorization()
+        {
+            ResetSourceAndToken();
+        }
+
         private String mStatus = String.Empty;
         public String Status
         {
             get { return mStatus; }
             set
             {
-                if (mStatus != value)
+                mStatus = value;
+                NotifyPropertyChanged("Status");
+            }
+        }
+
+        private int mProgress;
+        public int Progress
+        {
+            get { return mProgress; }
+            set
+            {
+                if (mProgress != value)
                 {
-                    mStatus = value;
-                    NotifyPropertyChanged("Status");
+                    mProgress = value;
+                    NotifyPropertyChanged("Progress");
                 }
             }
         }
@@ -31,7 +49,7 @@ namespace MathStuff
                 {
                     foreach (var p in mPrimeFactors)
                     {
-                        res += $"{p}, ";
+                        res += $"{p,0:N0} • ";
                     }
                 }
                 int extraCharactersLen = 2;
@@ -71,6 +89,90 @@ namespace MathStuff
                 }
             }
         }
+        
+        public CancellationTokenSource TokenSource { get; private set; }
+        public CancellationToken CancellationToken { get; private set; }
+
+        private void ResetSourceAndToken()
+        {
+            TokenSource = new CancellationTokenSource();
+            CancellationToken = TokenSource.Token;
+        }
+
+        public int FindFactorsWithCancel(CancellationToken cancellationToken)
+        {
+            mPrimeFactors.Clear();
+            var factored = mInput;
+            while (factored % 2 == 0)
+            {
+                mPrimeFactors.Add(2);
+                NotifyPropertyChanged("PrimeFactors");
+                factored /= 2;
+            }
+            BigInteger factor = 3;
+            int numberOfLoopIterations = 0;
+            int progressUpateInterval = 1000000;
+            while (factor * factor <= factored)
+            {
+                if (TokenSource.IsCancellationRequested)
+                {
+                    ResetSourceAndToken();
+                    cancellationToken.ThrowIfCancellationRequested();
+                }
+                if (numberOfLoopIterations > 0 && numberOfLoopIterations % progressUpateInterval == 0)
+                {
+                    Progress++;
+                }
+                numberOfLoopIterations++;
+                if (factored % factor == 0)
+                {
+                    mPrimeFactors.Add(factor);
+                    NotifyPropertyChanged("PrimeFactors");
+                    factored /= factor;
+                }
+                else
+                {
+                    factor += 2;
+                }
+            }
+            if (factored > 1) mPrimeFactors.Add(factored);
+            Status = "... DONE";
+            if (mPrimeFactors.Count == 1)
+            {
+                Status = $"{mInput,0:N0} IS PRIME!{Environment.NewLine}";
+            }
+            else
+            {
+                NotifyPropertyChanged("PrimeFactors");
+            }
+            return numberOfLoopIterations;
+        }
+
+        public async Task<int> FindFactorsWithCancelAsync(CancellationToken cancellationToken)
+        {
+            if (TokenSource == null || TokenSource.IsCancellationRequested)
+            {
+                ResetSourceAndToken();
+            }
+            int iterationCount = await Task.Run(() => FindFactorsWithCancel(cancellationToken));
+            return iterationCount;
+        }
+
+        public async void FindFactorsAsync()
+        {
+            try
+            {
+                await FindFactorsWithCancelAsync(CancellationToken);
+            }
+            catch (OperationCanceledException cancelledException)
+            {
+                Status = "Operation Cancelled";
+            }
+            catch (Exception ex)
+            {
+                Status = "Exception in FindFactorsAsync: " + ex.Message;
+            }
+        }
 
         public void FindFactors()
         {
@@ -95,6 +197,7 @@ namespace MathStuff
                 {
                     factor += 2;
                 }
+
             }
             if (mInput > 1) mPrimeFactors.Add(mInput);
             NotifyPropertyChanged("PrimeFactors");
