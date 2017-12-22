@@ -1,0 +1,1 @@
+﻿https://www.codeproject.com/Articles/1190592/A-Few-Great-Ways-to-Consume-RESTful-API-in-Csharp
