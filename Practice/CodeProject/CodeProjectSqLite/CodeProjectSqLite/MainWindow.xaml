@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodeProjectSqLite"
         mc:Ignorable="d"
-        Title="Sqlite Tool" Height="650" Width="525">
+        Title="Sqlite Tool" Height="800" Width="725">
     <Window.DataContext>
-        <local:DbViewModel />
+        <local:SqliteDbViewModel />
     </Window.DataContext>
     <Window.Resources>
         <Style x:Key="Labels" TargetType="Label">
@@ -37,6 +37,51 @@
                 <Label  Content="{Binding Version}" FontSize="14" />
             </StackPanel>
             <DockPanel Grid.Row="1">
+                <DockPanel DockPanel.Dock="Top">
+                    <CheckBox Content="RAM DB"
+                              Margin="6,3"
+                              DockPanel.Dock="Right"
+                              IsChecked="{Binding SqliteDb.ConnectToMemoryDb, Mode=OneWayToSource}"
+                              ToolTip="Use In-memory DB" />
+                    <CheckBox Content="New"
+                              Margin="6,3"
+                              DockPanel.Dock="Right"
+                              IsChecked="{Binding SqliteDb.OverwriteDbFile, Mode=OneWayToSource}"
+                              ToolTip="Overwrite existing DB File" />
+                    <Label Content="DB File"
+                           DockPanel.Dock="Left"
+                           Style="{StaticResource Labels}"/>
+                    <Button Content="..."
+                            Width="20"
+                            Margin="0,0,6,0"
+                            DockPanel.Dock="Right"
+                            Height="20"
+                            Command="{Binding PickFile}" />
+                    <TextBox Text="{Binding SqliteDb.DbFileName}"
+                             DockPanel.Dock="Left"
+                             HorizontalAlignment="Stretch"
+                             ToolTip="{Binding SqliteDb.DbFileFullPath}"
+                             Margin="6,3" />
+                </DockPanel>
+                <DockPanel DockPanel.Dock="Top">
+                    <Label Content="DB Commands"
+                           DockPanel.Dock="Left"
+                           Style="{StaticResource Labels}"/>
+                    <Button Content="Open Connection"
+                            Width="100"
+                            DockPanel.Dock="Left"
+                            Margin="0,0,6,0"
+                            Height="20"
+                            Command="{Binding DbConnect}" />
+                    <Button Content="Close Connection"
+                            Width="100"
+                            DockPanel.Dock="Left"
+                            Margin="0,0,6,0"
+                            Height="20"
+                            Command="{Binding DbCloseConnection}" />
+                    <Label Content="{Binding SqliteDb.DbConnectionStatus}"
+                           Margin="6,0" />
+                </DockPanel>
                 <DockPanel Margin="0,6"
                            DockPanel.Dock="Top">
                     <StackPanel>
@@ -53,7 +98,7 @@
                     </StackPanel>
                     <TextBox ToolTip="Sqlite command(s)"
                              DockPanel.Dock="Left"
-                             Height="200"
+                             Height="160"
                              AcceptsReturn="True"
                              TextWrapping="Wrap"
                              Margin="0,0,6,0"                        
@@ -68,11 +113,51 @@
                             Style="{StaticResource TallButton}" />
                     <TextBox ToolTip="Sqlite command(s)"
                              DockPanel.Dock="Left"
-                             Height="200"
+                             Height="160"
                              AcceptsReturn="True"
                              TextWrapping="Wrap"
                              Margin="0,0,6,0"                        
                              Text="{Binding SqliteDb.SqlQueryCommand}" />
+                </DockPanel>
+                <DockPanel Margin="0.6"
+                           DockPanel.Dock="Top">
+                    <StackPanel>
+                        <Button Content="QRY"
+                                ToolTip="Query for Table(s)"
+                                DockPanel.Dock="Left"
+                                Command="{Binding QueryTables}"
+                                Style="{StaticResource TallButton}" />
+                        <Button Content="CLR"
+                                ToolTip="Clear Data"
+                                Command="{Binding ClearDataSet}"
+                                DockPanel.Dock="Left"
+                                Style="{StaticResource TallButton}" />
+                    </StackPanel>
+                    <ListView ItemsSource="{Binding SqliteDb.Tables}"
+                              DockPanel.Dock="Left"
+                              Margin="0, 0, 6, 6"
+                              Height="100"
+                              SelectedItem="{Binding SqliteDb.SelectedTable}"
+                              >
+                    </ListView>
+                </DockPanel>
+                <DockPanel Margin="0,6"
+                           DockPanel.Dock="Top">
+                    <Button Content="QRY"
+                            ToolTip="EMPTY"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource TallButton}" />
+                    <DataGrid ItemsSource="{Binding SqliteDb.TableContents.DefaultView}"
+                              DockPanel.Dock="Left"
+                              Margin="0, 0, 6, 6"
+                              Height="150"
+                              SelectedItem="{Binding SqliteDb.SelectedRow}"
+                              CanUserAddRows="False"
+                              IsReadOnly="True">
+                        <!--<DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding AlternationIndex, RelativeSource={RelativeSource AncestorType=DataGridRow}}"></DataGridTextColumn>
+                        </DataGrid.Columns>-->
+                    </DataGrid>
                 </DockPanel>
                 <DockPanel DockPanel.Dock="Left" >
                     <Button Content="CLR"
