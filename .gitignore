@@ -20,7 +20,6 @@ Thumbs.db
 *.aps
 *.bak
 *.cache
-.hgignore
 *.ilk
 *.log
 *.ncb
