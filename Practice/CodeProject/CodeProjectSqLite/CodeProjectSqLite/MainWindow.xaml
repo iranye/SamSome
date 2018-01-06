@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CodeProjectSqLite"
         mc:Ignorable="d"
+        Icon="database.ico"
         Title="Sqlite Tool" Height="800" Width="725">
     <Window.DataContext>
         <local:SqliteDbViewModel />
