@@ -449,7 +449,7 @@ function run_sub() {
   var sample = get_regex_string();
 
   var lines = input.split("\n");
-  
+
   if (lines[0].match("~~")) {
     var a = lines[0].split("~~");
 
@@ -466,8 +466,7 @@ function run_sub() {
       print_to_in(input);
       return;
     }
-  }
-  else {
+  } else {
     print_to_out(input);
     clear_box(document.forms[0].inbox);
     clear_box(document.forms[0].outbox);
@@ -480,9 +479,10 @@ function run_sub() {
   var incrementPat = new RegExp("###", 'g');
   var line = "";
   
+  var upperCaseFirstChar = document.getElementById("to_upper_first").checked;
+
   // Explicitly sequential numbering (only uses first input line)
-  if (endNumber.length > 0 && !isNaN(endNumber) && !isNaN(startNumber))
-  {
+  if (endNumber.length > 0 && !isNaN(endNumber) && !isNaN(startNumber)) {
     if (startNumber >= endNumber) {
       print_to_out("Start Number must be less than End Number\r\n");
       return;
@@ -493,15 +493,18 @@ function run_sub() {
       return;
     }
     line = line.replace(pattern, new_text);
-  
+    print_to_out(upperCaseFirstChar);
+
     for (; startNumber <= endNumber; startNumber++) {
       var paddedNumber = pad(startNumber, 3);
       var newLine = line.replace(incrementPat, paddedNumber);
+      if (upperCaseFirstChar) {
+        newLine = capitalizeFirstLetter(newLine);
+      }
       print_to_out(newLine + "\n");
     }
     return;
   }
-  
   var linkedList = null;
   var current = null;
 
@@ -509,32 +512,37 @@ function run_sub() {
   for (var i = 1; i < lines.length; i++) {
     line = dbl_chomp(lines[i]);
     if (line.length == 0) { // skip whitespace-only lines
-        continue;
+      continue;
     }
     line = line.replace(pattern, new_text);
-    if (!isNaN(startNumber))
-    {
+    if (!isNaN(startNumber)) {
       paddedNumber = pad(startNumber, 3);
       line = line.replace(incrementPat, paddedNumber);
       startNumber++;
+    }
+    if (upperCaseFirstChar) {
+      line = capitalizeFirstLetter(line);
     }
     if (doSorting) {
       if (linkedList == null) {
         linkedList = new ListNode(line);
         current = linkedList;
-      }
-      else {
+      } else {
         linkedList = InsertSorted(linkedList, line);
       }
-    }
-    else {
+    } else {
       print_to_out(line + "\n");
     }
   }
   while (linkedList != null && linkedList.data != null) {
-      print_to_out(linkedList.data + "\n");
-      linkedList = linkedList.next;
+    print_to_out(linkedList.data + "\n");
+    linkedList = linkedList.next;
   }
+}
+
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function get_regex_string(){
@@ -847,18 +855,22 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
 <BR />
 <textarea class="toggle" name="outbox" rows="14" cols="98"></textarea><br />
 
-    <input type="radio" name="regex" value="generic" checked/>Generic
-    <input type="radio" name="regex" value="mrobo"/>Multi-Robocopy
-    <input type="radio" name="regex" value="rn"/>Bulk Rename
-    <input type="radio" name="regex" value="cast_varchar"/>CAST
-    <input type="radio" name="regex" value="perl_print"/>perl_print
-    <input type="radio" name="regex" value="js_print"/>js_print
+  <p>
+    <input type="radio" name="regex" value="generic" checked />Generic
+    <input type="radio" name="regex" value="mrobo" />Multi-Robocopy
+    <input type="radio" name="regex" value="rn" />Bulk Rename
+    <input type="radio" name="regex" value="cast_varchar" />CAST
+    <input type="radio" name="regex" value="perl_print" />perl_print
+    <input type="radio" name="regex" value="js_print" />js_print
 
-    <input type="checkbox" id="sort_output" accesskey="S"/>Sort Results
-    <input type="checkbox" id="sql_code"/>SQL
+    <br />
+
+    <input type="checkbox" id="sort_output" accesskey="S" />Sort Results
+    <input type="checkbox" id="sql_code" />SQL
+    <input type="checkbox" id="to_upper_first" accesskey="U" />Uppercase First Char
     [Start #: <input type="text" size="3" id="start_number" value="1" />, End #: <input type="text" size="3" id="end_number" value="" />]
+  </p>
     
-    <br/>
     <input type="button" onclick="ToClipBoard('out');" accesskey="C" value="To ClipBoard"/>
     <input type="button" onclick="dump_obj(field_button);" value="Test" />
     <input type="button" onclick="clear_outbox();" value="Clear" accesskey="B"/>
