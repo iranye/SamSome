@@ -1,26 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Elastic_CRUD.View
 {
     public partial class Form_CRUD : Form
     {
-
-        #region [[ Properties ]]
-
         private BLL.Customer _customerBll;
 
-        #endregion
-
-        #region [[ Constructors ]]
-        
         /// <summary>
         /// Constructor
         /// </summary>
@@ -29,10 +17,36 @@ namespace Elastic_CRUD.View
             InitializeComponent();
         }
 
-        #endregion
+        private void Form_CRUD_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                _customerBll = new BLL.Customer();
+                _customerBll.PropertyChanged += _customerBll_PropertyChanged;
+                mskEnrollmentFee.TextMaskFormat = MaskFormat.IncludeLiterals;
+                mskId.TextMaskFormat = MaskFormat.IncludeLiterals;
+                cboHasChildren.SelectedText = "false";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
 
-        #region [[ Methods ]]
+        }
 
+        private void _customerBll_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "Status":
+                    if (!String.IsNullOrWhiteSpace(_customerBll.Status))
+                    {
+                        printToOutputBox(_customerBll.Status);
+
+                    }
+                    break;
+            }
+        }
 
         /// <summary>
         /// Fill the ListView with Elastic return
@@ -130,37 +144,6 @@ namespace Elastic_CRUD.View
             return entity;
         }
 
-        #endregion
-
-        
-        #region [[ Events ]]
-
-        /// <summary>
-        /// Foram load event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Form_CRUD_Load(object sender, EventArgs e)
-        {
-            try
-            {
-                _customerBll = new BLL.Customer();
-                mskEnrollmentFee.TextMaskFormat = MaskFormat.IncludeLiterals;
-                mskId.TextMaskFormat = MaskFormat.IncludeLiterals;
-                cboHasChildren.SelectedText = "false";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-            }
-            
-        }
-
-        /// <summary>
-        /// Saving into Elastic
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnSave_Click(object sender, EventArgs e)
         {
             ClearOutputBox();
@@ -192,13 +175,7 @@ namespace Elastic_CRUD.View
                 printToOutputBox("ERROR: " + ex.Message);
             }
         }
-
-
-        /// <summary>
-        /// Deleting from Elastic
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void btnDeleting_Click(object sender, EventArgs e)
         {
             try
@@ -214,11 +191,6 @@ namespace Elastic_CRUD.View
             }
         }
 
-        /// <summary>
-        /// Running query
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnQrt1_Click(object sender, EventArgs e)
         {
             try
@@ -231,11 +203,6 @@ namespace Elastic_CRUD.View
             }
         }
 
-        /// <summary>
-        ///  Running query
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnQrt2_Click(object sender, EventArgs e)
         {
             try
@@ -250,11 +217,6 @@ namespace Elastic_CRUD.View
             }
         }
 
-         /// <summary>
-         ///  Running query
-         /// </summary>
-         /// <param name="sender"></param>
-         /// <param name="e"></param>
         private void btnQrt3_Click(object sender, EventArgs e)
         {
             try
@@ -268,12 +230,7 @@ namespace Elastic_CRUD.View
                 MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
         }
-
-        /// <summary>
-        /// Running query
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
         private void btnQryComb1_Click(object sender, EventArgs e)
         {
             ClearOutputBox();
@@ -294,11 +251,6 @@ namespace Elastic_CRUD.View
             }
         }
 
-        /// <summary>
-        ///  Running query
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void btnQryRange1_Click(object sender, EventArgs e)
         {
             try
@@ -317,11 +269,6 @@ namespace Elastic_CRUD.View
             }
         }
 
-         /// <summary>
-         ///  Running aggregations
-         /// </summary>
-         /// <param name="sender"></param>
-         /// <param name="e"></param>
         private void btnRunAgrr_Click(object sender, EventArgs e)
         {
             ClearOutputBox();
@@ -342,8 +289,6 @@ namespace Elastic_CRUD.View
             }
         }
 
-        #endregion
-
         private void printToOutputBox(string message)
         {
             tbOutput.Text += message += Environment.NewLine;
@@ -357,6 +302,11 @@ namespace Elastic_CRUD.View
         private void ClearOutputBox()
         {
             tbOutput.Text = String.Empty;
+        }
+
+        private void btCopyToClipboard_Click(object sender, EventArgs e)
+        {
+            Clipboard.SetText(tbOutput.Text);
         }
     }
 }

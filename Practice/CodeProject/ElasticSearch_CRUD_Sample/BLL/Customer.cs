@@ -2,25 +2,35 @@
 using Nest;
 using System.Collections.Generic;
 using System.Linq;
-using System.ComponentModel;
+using MicroMvvm;
 
 namespace Elastic_CRUD.BLL
 {
     /// <summary>
     /// BLL for Customer entity
     /// </summary>
-    public class Customer : INotifyPropertyChanged
+    public class Customer : ObservableObject
     {
-        DAL.EsClient _EsClientDAL;
+        private string mStatus = String.Empty;
+        public string Status
+        {
+            get { return mStatus; }
+            private set
+            {
+                if (mStatus != value)
+                {
+                    mStatus = value;
+                    NotifyPropertyChanged("Status");
+                }
+            }
+        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        DAL.EsClient _EsClientDAL;
 
         public Customer()
         {
             _EsClientDAL = new DAL.EsClient();
         }
-
-        public string Status { get; set; } = String.Empty;
 
         /// <summary>
         /// Inserting or Updating a doc
@@ -31,17 +41,28 @@ namespace Elastic_CRUD.BLL
             Status = String.Empty;
             bool ret = true;
             IIndexResponse response = _EsClientDAL.Current.Index(customer, c => c.Type(DTO.Constants.DEFAULT_INDEX_TYPE));
-            
-            if (!response.Created) // gives back false for v6.1.1, even though it really did create.
+
+            if (response.ServerError != null)
             {
-                ret = response.Created;
-                if (response.ServerError != null)
-                {
-                    throw new Exception(response.ServerError.Error);
-                }
-                Status = response.IsValid ? "response indicates IsValid is false" : "Add to index failed";
-                Status += $"{Environment.NewLine}{response.RequestInformation.ResponseRaw}";
+                throw new Exception(response.ServerError.Error);
             }
+
+            var httpResponse = response.RequestInformation.HttpStatusCode.ToString();
+            if (httpResponse != "200" && httpResponse != "201")
+            {
+                ret = false;
+                string message = "HttpStatusCode indicates indicates failure";
+                message += $"{Environment.NewLine}{response.RequestInformation.ToString()}";
+                Status = message;
+            }
+
+            //if (!response.Created) // gives back false for v6.1.1, even though it really did create.
+            //{
+            //    ret = response.Created;
+            //    string message = response.IsValid ? "response indicates IsValid is false" : "Add to index failed";
+            //    message += $"{Environment.NewLine}{response.RequestInformation.ToString()}";
+            //    Status = message;
+            //}
             return ret;
         }
 

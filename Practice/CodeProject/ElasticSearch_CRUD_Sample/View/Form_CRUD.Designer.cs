@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_CRUD));
             this.btnQryRange2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tbId = new System.Windows.Forms.TextBox();
+            this.tbEnrollmentFee = new System.Windows.Forms.TextBox();
             this.mskId = new System.Windows.Forms.MaskedTextBox();
             this.mskEnrollmentFee = new System.Windows.Forms.MaskedTextBox();
             this.dtpBirthday = new System.Windows.Forms.DateTimePicker();
@@ -95,8 +97,7 @@
             this.btnClearOut = new System.Windows.Forms.Button();
             this.label20 = new System.Windows.Forms.Label();
             this.tbOutput = new System.Windows.Forms.TextBox();
-            this.tbEnrollmentFee = new System.Windows.Forms.TextBox();
-            this.tbId = new System.Windows.Forms.TextBox();
+            this.btCopyToClipboard = new System.Windows.Forms.Button();
             this.btnQryRange2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAge)).BeginInit();
@@ -152,6 +153,22 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Registration";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tbId
+            // 
+            this.tbId.Location = new System.Drawing.Point(112, 282);
+            this.tbId.Name = "tbId";
+            this.tbId.Size = new System.Drawing.Size(51, 20);
+            this.tbId.TabIndex = 22;
+            this.tbId.Text = "22";
+            // 
+            // tbEnrollmentFee
+            // 
+            this.tbEnrollmentFee.Location = new System.Drawing.Point(112, 101);
+            this.tbEnrollmentFee.Name = "tbEnrollmentFee";
+            this.tbEnrollmentFee.Size = new System.Drawing.Size(100, 20);
+            this.tbEnrollmentFee.TabIndex = 21;
+            this.tbEnrollmentFee.Text = "123.45";
             // 
             // mskId
             // 
@@ -327,7 +344,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(592, 311);
+            this.tabPage2.Size = new System.Drawing.Size(596, 319);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Simple Queries";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -589,7 +606,7 @@
             this.tabPage5.Controls.Add(this.groupBox2);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(592, 311);
+            this.tabPage5.Size = new System.Drawing.Size(596, 319);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Range Queries";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -688,7 +705,7 @@
             this.tabPage3.Controls.Add(this.lvwHits4);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(592, 311);
+            this.tabPage3.Size = new System.Drawing.Size(596, 319);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Aggregations";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -799,30 +816,26 @@
             this.tbOutput.Location = new System.Drawing.Point(97, 378);
             this.tbOutput.Multiline = true;
             this.tbOutput.Name = "tbOutput";
+            this.tbOutput.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tbOutput.Size = new System.Drawing.Size(515, 271);
             this.tbOutput.TabIndex = 24;
             // 
-            // tbEnrollmentFee
+            // btCopyToClipboard
             // 
-            this.tbEnrollmentFee.Location = new System.Drawing.Point(112, 101);
-            this.tbEnrollmentFee.Name = "tbEnrollmentFee";
-            this.tbEnrollmentFee.Size = new System.Drawing.Size(100, 20);
-            this.tbEnrollmentFee.TabIndex = 21;
-            this.tbEnrollmentFee.Text = "123.45";
-            // 
-            // tbId
-            // 
-            this.tbId.Location = new System.Drawing.Point(112, 282);
-            this.tbId.Name = "tbId";
-            this.tbId.Size = new System.Drawing.Size(51, 20);
-            this.tbId.TabIndex = 22;
-            this.tbId.Text = "22";
+            this.btCopyToClipboard.Location = new System.Drawing.Point(16, 439);
+            this.btCopyToClipboard.Name = "btCopyToClipboard";
+            this.btCopyToClipboard.Size = new System.Drawing.Size(75, 23);
+            this.btCopyToClipboard.TabIndex = 27;
+            this.btCopyToClipboard.Text = "Clip";
+            this.btCopyToClipboard.UseVisualStyleBackColor = true;
+            this.btCopyToClipboard.Click += new System.EventHandler(this.btCopyToClipboard_Click);
             // 
             // Form_CRUD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(628, 661);
+            this.Controls.Add(this.btCopyToClipboard);
             this.Controls.Add(this.btnClearOut);
             this.Controls.Add(this.label20);
             this.Controls.Add(this.tbOutput);
@@ -922,6 +935,7 @@
         private System.Windows.Forms.TextBox tbOutput;
         private System.Windows.Forms.TextBox tbEnrollmentFee;
         private System.Windows.Forms.TextBox tbId;
+        private System.Windows.Forms.Button btCopyToClipboard;
     }
 }
 

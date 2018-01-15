@@ -9,7 +9,7 @@ namespace Elastic_CRUD.DTO
     [ElasticType(Name = "Customer_Info")]
     public class Customer
     {
-        [ElasticProperty(Name="_id", NumericType = NumberType.Long)]
+        //[ElasticProperty(Name="_id", NumericType = NumberType.Long)]
         public int Id { get; set; }
 
         [ElasticProperty(Name = "name", Index = FieldIndexOption.NotAnalyzed)]
