@@ -1,0 +1,48 @@
+https://www.codeproject.com/Articles/1224496/ElasticSearch-Tutorial-Creating-an-Index-and-Query
+
+http://localhost:9200/books/book/1
+
+POST /books/book/1
+{
+	"title":"Effective Java",
+	"author":"Josh Bloch",
+	"language":"Java",
+	"publishYear":2008,
+	"summary": "Are you looking for a deeper understanding of the Java™ programming language so that you can write code that is clearer, more correct, more robust, and more reusable? Look no further! Effective Java™, Second Edition, brings together seventy-eight indispensable programmer’s rules of thumb: working, best-practice solutions for the programming challenges you encounter every day."
+}
+
+POST /books/book/2
+{
+	"title":"JavaScript: The Good Parts",
+	"author":"Douglas Crockford",
+	"language":"JavaScript",
+	"publishYear":2008,
+	"summary": "Most programming languages contain good and bad parts, but JavaScript has more than its share of the bad, having been developed and released in a hurry before it could be refined. This authoritative book scrapes away these bad features to reveal a subset of JavaScript that's more reliable, readable, and maintainable than the language as a whole—a subset you can use to create truly extensible and efficient code."
+}
+
+POST /books/book/3
+{
+  "title" : "Programming in Scala: A Comprehensive Step-by-Step Guide, 2nd Edition",
+  "author" : "Martin Odersky",
+  "language" : "Scala",
+  "publishYear" : 2011,
+  "summary" : "Scala is an object-oriented programming language for the Java Virtual Machine. In addition to being object-oriented, Scala is also a functional language, and combines the best approaches to OO and functional programming."
+}
+
+POST /books/book/4
+{
+  "title" : "Hadoop: The Definitive Guide, 4th Edition",
+  "author" : "Tom White",
+  "language" : "Java",
+  "publishYear" : 2015,
+  "summary" : "Get ready to unlock the power of your data. With the fourth edition of this comprehensive guide, you’ll learn how to build and maintain reliable, scalable, distributed systems with Apache Hadoop. This book is ideal for programmers looking to analyze datasets of any size, and for administrators who want to set up and run Hadoop clusters."
+}
+
+POST /books/book/5
+{
+  "title" : "Learn You a Haskell for Great Good!: A Beginner's Guide",
+  "author" : "Miran Lipovaca",
+  "language" : "Haskell",
+  "publishYear" : 2011,
+  "summary" : "It's all in the name: Learn You a Haskell for Great Good! is a hilarious, illustrated guide to this complex functional language. Packed with the author's original artwork, pop culture references, and most importantly, useful example code, this book teaches functional fundamentals in a way you never thought possible."
+}
