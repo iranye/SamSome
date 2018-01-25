@@ -23,8 +23,6 @@ namespace Elastic_CRUD.View
             {
                 _customerBll = new BLL.Customer();
                 _customerBll.PropertyChanged += _customerBll_PropertyChanged;
-                mskEnrollmentFee.TextMaskFormat = MaskFormat.IncludeLiterals;
-                mskId.TextMaskFormat = MaskFormat.IncludeLiterals;
                 cboHasChildren.SelectedText = "false";
             }
             catch (Exception ex)
@@ -42,7 +40,6 @@ namespace Elastic_CRUD.View
                     if (!String.IsNullOrWhiteSpace(_customerBll.Status))
                     {
                         printToOutputBox(_customerBll.Status);
-
                     }
                     break;
             }
@@ -68,12 +65,8 @@ namespace Elastic_CRUD.View
                 lvwItem.SubItems.Add(list[i].Opinion);
                 component.Items.Add(lvwItem);
             }
-
         }
 
-        /// <summary>
-        /// Setup the List View 
-        /// </summary>
         private void BuildListView(ListView component)
         {
             component.Columns.Clear();
@@ -90,10 +83,7 @@ namespace Elastic_CRUD.View
             component.Columns.Add("Enrollment Fee", 100);
             component.Columns.Add("Opinion", 100);
         }
-
-        /// <summary>
-        /// Setup the List View - For aggregations
-        /// </summary>
+        
         private void BuildAggregationListView(ListView component)
         {
             component.Columns.Clear();
@@ -106,12 +96,7 @@ namespace Elastic_CRUD.View
             component.Columns.Add("Bucket", 150);
             component.Columns.Add("Value", 100);
         }
-
-        /// <summary>
-        /// Fill the ListView with Elastic return - For aggregations
-        /// </summary>
-        /// <param name="list"></param>
-        /// <returns></returns>
+        
         private void FillAggregationListView(Dictionary<string, double> list, ListView component)
         {
             BuildAggregationListView(component);
@@ -123,13 +108,8 @@ namespace Elastic_CRUD.View
                 lvwItem.SubItems.Add(list[item].ToString());
                 component.Items.Add(lvwItem); 
             }
-
         }
 
-        /// <summary>
-        /// Create Entity for searching
-        /// </summary>
-        /// <returns></returns>
         private DTO.Customer CreateEntityForSearching()
         {
             //TODO: Validation
@@ -137,37 +117,44 @@ namespace Elastic_CRUD.View
 
             entity.Age = int.Parse(nudQryAge.Value.ToString());
             entity.Birthday = dtpQryBirthday.Value.ToString(DTO.Constants.BASIC_DATE);                        
-            entity.EnrollmentFee = double.Parse(mskQryEnrol.Text);
+            entity.EnrollmentFee = double.Parse(tbQryEnrFee.Text);
             entity.HasChildren = bool.Parse(cboQryChildren.Text);
             entity.Name = txtQryName.Text;
-            entity.Id = int.Parse(mskQryId.Text);
+            entity.Id = int.Parse(tbQryId.Text);
             return entity;
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
             ClearOutputBox();
+            bool inputValid = true;
             try
             {
-                //TODO Validation
                 DTO.Customer entity = new DTO.Customer();
 
+                entity.Id = int.Parse(tbId.Text);
                 entity.Age = int.Parse(nudAge.Value.ToString());
                 entity.Birthday = dtpBirthday.Value.ToString(DTO.Constants.BASIC_DATE);
                 entity.EnrollmentFee = double.Parse(tbEnrollmentFee.Text);
                 entity.HasChildren = bool.Parse(cboHasChildren.Text);
+                if (String.IsNullOrWhiteSpace(txtName.Text))
+                {
+                    printToOutputBox("Name missing");
+                    inputValid = false;
+                }
+                if (String.IsNullOrWhiteSpace(txtOpnion.Text))
+                {
+                    printToOutputBox("Opinion missing");
+                    inputValid = false;
+                }
+                if (!inputValid)
+                {
+                    return;
+                }
                 entity.Name = txtName.Text;
                 entity.Opinion = txtOpnion.Text;
-                entity.Id = int.Parse(tbId.Text);
 
-                if (_customerBll.Index(entity))
-                {
-                    printToOutputBox($"Document with id={entity.Id} saved.");
-                }
-                else
-                {
-                    printToOutputBox(_customerBll.Status);
-                }
+                _customerBll.Index(entity);
             }
             catch (Exception ex)
             {
@@ -178,56 +165,62 @@ namespace Elastic_CRUD.View
         
         private void btnDeleting_Click(object sender, EventArgs e)
         {
+            ClearOutputBox();
+            int id;
+            tbId.Text = tbId.Text.Trim();
+            if (!Int32.TryParse(tbId.Text, out id))
+            {
+                printToOutputBox($"Invalid id: '{tbId.Text}'");
+                return;
+            }
             try
             {
-                if ( _customerBll.Delete(mskId.Text) )
-                    MessageBox.Show("Index deleted!", "Ok", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                else
-                    MessageBox.Show("Index wasn't deleted!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);                
+                _customerBll.Delete(tbId.Text);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);                
+                printToOutputBox(ex.Message);
             }
         }
 
         private void btnQrt1_Click(object sender, EventArgs e)
         {
+            ClearOutputBox();
             try
             {
-                FillListView(_customerBll.QueryById(mskQryId.Text), lvwHits);
+                FillListView(_customerBll.QueryById(tbQryId.Text), lvwHits);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                printToOutputBox(ex.GetType() + Environment.NewLine + ex.Message);
             }
         }
 
         private void btnQrt2_Click(object sender, EventArgs e)
         {
+            ClearOutputBox();
             try
             {
                 DTO.Customer entity = CreateEntityForSearching();
-
                 FillListView(_customerBll.QueryByAllFieldsUsingAnd(entity), lvwHits);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                printToOutputBox(ex.GetType() + Environment.NewLine + ex.Message);
             }
         }
 
         private void btnQrt3_Click(object sender, EventArgs e)
         {
+            ClearOutputBox();
             try
             {
                 DTO.Customer entity = CreateEntityForSearching();
-
                 FillListView(_customerBll.QueryByAllFieldsUsingOr(entity), lvwHits);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                printToOutputBox(ex.GetType() + Environment.NewLine + ex.Message);
             }
         }
         
@@ -237,7 +230,6 @@ namespace Elastic_CRUD.View
             try
             {
                 DTO.CombinedFilter filter = new DTO.CombinedFilter();
-                //TODO: Validation
                 filter.HasChildren = bool.Parse(cboQryMustHasChildren.Text);
                 filter.Ages = txtQryShouldHaveAges.Text.Split(',').ToList<string>();
                 filter.Names = txtQryMustNotName.Text.Split(',').ToList<string>();
@@ -246,8 +238,7 @@ namespace Elastic_CRUD.View
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                printToOutputBox("ERROR: " + ex.Message);
+                printToOutputBox(ex.GetType() + Environment.NewLine + ex.Message);
             }
         }
 
@@ -256,7 +247,6 @@ namespace Elastic_CRUD.View
             try
             {
                 DTO.RangeFilter range = new DTO.RangeFilter();
-                //TODO: Validation                
                 range.Birthday = dtpQryRangeDate.Value;
                 range.EnrollmentFeeStart = double.Parse(mskQryRangeEnrol1.Text);
                 range.EnrollmentFeeEnd = double.Parse(mskQryRangeEnrol2.Text);
@@ -265,7 +255,7 @@ namespace Elastic_CRUD.View
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                printToOutputBox(ex.GetType() + Environment.NewLine + ex.Message);
             }
         }
 
@@ -284,8 +274,7 @@ namespace Elastic_CRUD.View
             }
             catch (Exception ex)
             {
-                //MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                printToOutputBox("ERROR: " + ex.Message);
+                printToOutputBox(ex.GetType() + Environment.NewLine + ex.Message);
             }
         }
 
@@ -307,6 +296,13 @@ namespace Elastic_CRUD.View
         private void btCopyToClipboard_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(tbOutput.Text);
+        }
+
+        private void btnBulkIndex_Click(object sender, EventArgs e)
+        {
+            ClearOutputBox();
+            _customerBll.BulkIndex();
+
         }
     }
 }

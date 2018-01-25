@@ -31,10 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_CRUD));
             this.btnQryRange2 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tbId = new System.Windows.Forms.TextBox();
             this.tbEnrollmentFee = new System.Windows.Forms.TextBox();
-            this.mskId = new System.Windows.Forms.MaskedTextBox();
-            this.mskEnrollmentFee = new System.Windows.Forms.MaskedTextBox();
             this.dtpBirthday = new System.Windows.Forms.DateTimePicker();
             this.cboHasChildren = new System.Windows.Forms.ComboBox();
             this.nudAge = new System.Windows.Forms.NumericUpDown();
@@ -49,13 +46,14 @@
             this.label3 = new System.Windows.Forms.Label();
             this.btnDeleting = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
+            this.tbId = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tbQryEnrFee = new System.Windows.Forms.TextBox();
+            this.tbQryId = new System.Windows.Forms.TextBox();
             this.btnQrt3 = new System.Windows.Forms.Button();
             this.btnQrt2 = new System.Windows.Forms.Button();
             this.lvwHits = new System.Windows.Forms.ListView();
             this.btnQrt1 = new System.Windows.Forms.Button();
-            this.mskQryId = new System.Windows.Forms.MaskedTextBox();
-            this.mskQryEnrol = new System.Windows.Forms.MaskedTextBox();
             this.dtpQryBirthday = new System.Windows.Forms.DateTimePicker();
             this.cboQryChildren = new System.Windows.Forms.ComboBox();
             this.nudQryAge = new System.Windows.Forms.NumericUpDown();
@@ -98,6 +96,7 @@
             this.label20 = new System.Windows.Forms.Label();
             this.tbOutput = new System.Windows.Forms.TextBox();
             this.btCopyToClipboard = new System.Windows.Forms.Button();
+            this.btnBulkIndex = new System.Windows.Forms.Button();
             this.btnQryRange2.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudAge)).BeginInit();
@@ -128,10 +127,8 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.tbId);
+            this.tabPage1.Controls.Add(this.btnBulkIndex);
             this.tabPage1.Controls.Add(this.tbEnrollmentFee);
-            this.tabPage1.Controls.Add(this.mskId);
-            this.tabPage1.Controls.Add(this.mskEnrollmentFee);
             this.tabPage1.Controls.Add(this.dtpBirthday);
             this.tabPage1.Controls.Add(this.cboHasChildren);
             this.tabPage1.Controls.Add(this.nudAge);
@@ -146,6 +143,7 @@
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.btnDeleting);
             this.tabPage1.Controls.Add(this.btnSave);
+            this.tabPage1.Controls.Add(this.tbId);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -154,14 +152,6 @@
             this.tabPage1.Text = "Registration";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // tbId
-            // 
-            this.tbId.Location = new System.Drawing.Point(112, 282);
-            this.tbId.Name = "tbId";
-            this.tbId.Size = new System.Drawing.Size(51, 20);
-            this.tbId.TabIndex = 22;
-            this.tbId.Text = "22";
-            // 
             // tbEnrollmentFee
             // 
             this.tbEnrollmentFee.Location = new System.Drawing.Point(112, 101);
@@ -169,28 +159,6 @@
             this.tbEnrollmentFee.Size = new System.Drawing.Size(100, 20);
             this.tbEnrollmentFee.TabIndex = 21;
             this.tbEnrollmentFee.Text = "123.45";
-            // 
-            // mskId
-            // 
-            this.mskId.Location = new System.Drawing.Point(113, 282);
-            this.mskId.Mask = "0000";
-            this.mskId.Name = "mskId";
-            this.mskId.Size = new System.Drawing.Size(32, 20);
-            this.mskId.TabIndex = 6;
-            this.mskId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.mskId.Visible = false;
-            // 
-            // mskEnrollmentFee
-            // 
-            this.mskEnrollmentFee.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.mskEnrollmentFee.Location = new System.Drawing.Point(112, 101);
-            this.mskEnrollmentFee.Mask = "999999.00";
-            this.mskEnrollmentFee.Name = "mskEnrollmentFee";
-            this.mskEnrollmentFee.Size = new System.Drawing.Size(63, 13);
-            this.mskEnrollmentFee.TabIndex = 2;
-            this.mskEnrollmentFee.Text = "123   00";
-            this.mskEnrollmentFee.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.mskEnrollmentFee.Visible = false;
             // 
             // dtpBirthday
             // 
@@ -323,14 +291,22 @@
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // tbId
+            // 
+            this.tbId.Location = new System.Drawing.Point(112, 282);
+            this.tbId.Name = "tbId";
+            this.tbId.Size = new System.Drawing.Size(51, 20);
+            this.tbId.TabIndex = 22;
+            this.tbId.Text = "22";
+            // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.tbQryEnrFee);
+            this.tabPage2.Controls.Add(this.tbQryId);
             this.tabPage2.Controls.Add(this.btnQrt3);
             this.tabPage2.Controls.Add(this.btnQrt2);
             this.tabPage2.Controls.Add(this.lvwHits);
             this.tabPage2.Controls.Add(this.btnQrt1);
-            this.tabPage2.Controls.Add(this.mskQryId);
-            this.tabPage2.Controls.Add(this.mskQryEnrol);
             this.tabPage2.Controls.Add(this.dtpQryBirthday);
             this.tabPage2.Controls.Add(this.cboQryChildren);
             this.tabPage2.Controls.Add(this.nudQryAge);
@@ -348,6 +324,22 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Simple Queries";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // tbQryEnrFee
+            // 
+            this.tbQryEnrFee.Location = new System.Drawing.Point(113, 86);
+            this.tbQryEnrFee.Name = "tbQryEnrFee";
+            this.tbQryEnrFee.Size = new System.Drawing.Size(64, 20);
+            this.tbQryEnrFee.TabIndex = 38;
+            this.tbQryEnrFee.Text = "55.95";
+            // 
+            // tbQryId
+            // 
+            this.tbQryId.Location = new System.Drawing.Point(113, 17);
+            this.tbQryId.Name = "tbQryId";
+            this.tbQryId.Size = new System.Drawing.Size(51, 20);
+            this.tbQryId.TabIndex = 37;
+            this.tbQryId.Text = "22";
             // 
             // btnQrt3
             // 
@@ -386,26 +378,6 @@
             this.btnQrt1.Text = "Query by ID";
             this.btnQrt1.UseVisualStyleBackColor = true;
             this.btnQrt1.Click += new System.EventHandler(this.btnQrt1_Click);
-            // 
-            // mskQryId
-            // 
-            this.mskQryId.Location = new System.Drawing.Point(112, 17);
-            this.mskQryId.Mask = "0000";
-            this.mskQryId.Name = "mskQryId";
-            this.mskQryId.Size = new System.Drawing.Size(32, 20);
-            this.mskQryId.TabIndex = 9;
-            this.mskQryId.Text = "1";
-            this.mskQryId.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // mskQryEnrol
-            // 
-            this.mskQryEnrol.Location = new System.Drawing.Point(112, 86);
-            this.mskQryEnrol.Mask = "999999.00";
-            this.mskQryEnrol.Name = "mskQryEnrol";
-            this.mskQryEnrol.Size = new System.Drawing.Size(65, 20);
-            this.mskQryEnrol.TabIndex = 12;
-            this.mskQryEnrol.Text = "00000900";
-            this.mskQryEnrol.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // dtpQryBirthday
             // 
@@ -454,7 +426,7 @@
             this.txtQryName.Name = "txtQryName";
             this.txtQryName.Size = new System.Drawing.Size(207, 20);
             this.txtQryName.TabIndex = 14;
-            this.txtQryName.Text = "Test";
+            this.txtQryName.Text = "Bart";
             // 
             // label10
             // 
@@ -830,6 +802,16 @@
             this.btCopyToClipboard.UseVisualStyleBackColor = true;
             this.btCopyToClipboard.Click += new System.EventHandler(this.btCopyToClipboard_Click);
             // 
+            // btnBulkIndex
+            // 
+            this.btnBulkIndex.Location = new System.Drawing.Point(295, 277);
+            this.btnBulkIndex.Name = "btnBulkIndex";
+            this.btnBulkIndex.Size = new System.Drawing.Size(75, 28);
+            this.btnBulkIndex.TabIndex = 23;
+            this.btnBulkIndex.Text = "BulkIndex";
+            this.btnBulkIndex.UseVisualStyleBackColor = true;
+            this.btnBulkIndex.Click += new System.EventHandler(this.btnBulkIndex_Click);
+            // 
             // Form_CRUD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -882,13 +864,9 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.MaskedTextBox mskId;
-        private System.Windows.Forms.MaskedTextBox mskEnrollmentFee;
         private System.Windows.Forms.DateTimePicker dtpBirthday;
         private System.Windows.Forms.ComboBox cboHasChildren;
         private System.Windows.Forms.NumericUpDown nudAge;
-        private System.Windows.Forms.MaskedTextBox mskQryId;
-        private System.Windows.Forms.MaskedTextBox mskQryEnrol;
         private System.Windows.Forms.DateTimePicker dtpQryBirthday;
         private System.Windows.Forms.ComboBox cboQryChildren;
         private System.Windows.Forms.NumericUpDown nudQryAge;
@@ -934,8 +912,11 @@
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.TextBox tbOutput;
         private System.Windows.Forms.TextBox tbEnrollmentFee;
-        private System.Windows.Forms.TextBox tbId;
         private System.Windows.Forms.Button btCopyToClipboard;
+        private System.Windows.Forms.TextBox tbId;
+        private System.Windows.Forms.TextBox tbQryEnrFee;
+        private System.Windows.Forms.TextBox tbQryId;
+        private System.Windows.Forms.Button btnBulkIndex;
     }
 }
 
