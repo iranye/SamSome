@@ -54,6 +54,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Behaviors\AlphabeticalOnlyBehavior.cs" />
+    <Compile Include="Behaviors\TreeViewItemBehavior.cs" />
     <Compile Include="TextSearch\TextSearchDemoControl.xaml.cs">
       <DependentUpon>TextSearchDemoControl.xaml</DependentUpon>
     </Compile>

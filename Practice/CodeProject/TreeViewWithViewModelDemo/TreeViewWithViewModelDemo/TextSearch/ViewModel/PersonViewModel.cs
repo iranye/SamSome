@@ -9,16 +9,6 @@ namespace TreeViewWithViewModelDemo.TextSearch
     public class PersonViewModel : INotifyPropertyChanged
     {
         readonly Person _person;
-        public string Name
-        {
-            get { return _person.Name; }
-        }
-
-        readonly PersonViewModel _parent;
-        public PersonViewModel Parent
-        {
-            get { return _parent; }
-        }
 
         readonly ReadOnlyCollection<PersonViewModel> _children;
         public ReadOnlyCollection<PersonViewModel> Children
@@ -26,6 +16,12 @@ namespace TreeViewWithViewModelDemo.TextSearch
             get { return _children; }
         }
 
+        readonly PersonViewModel _parent;
+        public PersonViewModel Parent
+        {
+            get { return _parent; }
+        }
+        
         bool _isExpanded;
         public bool IsExpanded
         {
@@ -37,6 +33,9 @@ namespace TreeViewWithViewModelDemo.TextSearch
                     _isExpanded = value;
                     OnPropertyChanged("IsExpanded");
                 }
+
+                if (_isExpanded && _parent != null)
+                    _parent.IsExpanded = true;
             }
         }
 
@@ -52,6 +51,11 @@ namespace TreeViewWithViewModelDemo.TextSearch
                     OnPropertyChanged("IsSelected");
                 }
             }
+        }
+
+        public string Name
+        {
+            get { return _person.Name; }
         }
 
         public PersonViewModel(Person person)
@@ -75,7 +79,7 @@ namespace TreeViewWithViewModelDemo.TextSearch
             {
                 return false;
             }
-            return Name.IndexOf(searchText, StringComparison.InvariantCulture) > -1;
+            return Name.IndexOf(searchText, StringComparison.InvariantCultureIgnoreCase) > -1;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

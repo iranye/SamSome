@@ -30,8 +30,16 @@
                 Content="Speak"
                 Margin="0,0,6,0"
                 Width="60" />
+        <Button Command="{Binding SpeakRelay}"
+                CommandParameter="Relay Partner!"
+                Content="Speak (Relay)"
+                Margin="0,0,6,0"
+                Width="90" />                
         <Button Command="vm:PersonViewModel.DieCommand"
                 Content="Die"
                 Width="60" />
+        <Button Command="{Binding DieCommandRelay}"
+                Content="Die(Relay)"
+                Width="80" />
     </StackPanel>
 </UserControl>

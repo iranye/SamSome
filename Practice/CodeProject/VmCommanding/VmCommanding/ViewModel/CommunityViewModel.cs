@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using MicroMvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -36,6 +37,25 @@ namespace VmCommanding.ViewModel
                 if (personView.CanDie)
                     personView.Die();
             }
+        }
+
+        void KillAllExecute()
+        {
+            foreach (PersonViewModel personView in People)
+            {
+                if (personView.CanDie)
+                    personView.Die();
+            }
+        }
+
+        bool CanKillAllExecute()
+        {
+            return People.Any(p => p.CanDie);
+        }
+
+        public ICommand KillAll
+        {
+            get { return new RelayCommand(KillAllExecute, CanKillAllExecute); }
         }
     }
 }

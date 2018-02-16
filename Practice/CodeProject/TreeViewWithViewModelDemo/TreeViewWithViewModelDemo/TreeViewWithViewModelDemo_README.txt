@@ -1,8 +1,6 @@
 https://www.codeproject.com/Articles/26288/Simplifying-the-WPF-TreeView-by-Using-the-ViewMode
 
 * Things to learn about *
-Composition of xaml code using separate files vs everything-in-one-xaml approach.
-Defining DataContext in code-behind.
 Passing parameters to ICommand properties.
 Code structuring into separate projects & folders.
 INotifyPropertyChanged is a UI-specific interface, which is why the PersonViewModel class implements it, not the Person class.

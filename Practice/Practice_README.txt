@@ -1,3 +1,13 @@
+*** Stuff to do ***
+Update CodeProject\TreeViewWithViewModelDemo with Behavior (see Josh's page).
+Register Enter keystroke vs tab.
+Passing parameters to ICommand properties.
+Setting FocusedElement (e.g. for textbox)
+
+Work through HighlightableTextBlock in NewStuff and put in SamSome\Practice.
+Create a .Net Core API to support a CRUD interface for playlists.
+Add Shadow effect to buttons
+
 *** Be able to do this ***
 ** WPF **
 * Show or Hide items in a ListBox/ListView *

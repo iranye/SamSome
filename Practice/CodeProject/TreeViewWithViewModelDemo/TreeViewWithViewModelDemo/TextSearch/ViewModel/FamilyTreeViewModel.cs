@@ -49,6 +49,7 @@ namespace TreeViewWithViewModelDemo.TextSearch
                 {
                     _rootPerson
                 });
+
             _searchCommand = new SearchFamilyTreeCommand(this);
         }
 

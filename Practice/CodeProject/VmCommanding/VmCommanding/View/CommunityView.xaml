@@ -16,6 +16,10 @@
                 Command="vm:CommunityViewModel.KillAllMembersCommand"
                 Content="Kill All"
                 Margin="0,8,0,0" />
+        <Button DockPanel.Dock="Bottom"
+                Command="{Binding KillAll}"
+                Content="Kill All (Relay)"
+                Margin="0,8,0,0" />
         <ItemsControl ItemsSource="{Binding People}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

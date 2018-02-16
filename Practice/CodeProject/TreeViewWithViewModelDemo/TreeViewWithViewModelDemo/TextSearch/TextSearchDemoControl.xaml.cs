@@ -14,6 +14,7 @@ namespace TreeViewWithViewModelDemo.TextSearch
             Person rootPerson = Database.GetFamilyTree();
             _familyTree = new FamilyTreeViewModel(rootPerson);
             DataContext = _familyTree;
+            _familyTree.SearchText = "y";
         }
 
         private void searchTextBox_KeyDown(object sender, KeyEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MicroMvvm;
+using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
@@ -35,6 +36,23 @@ namespace VmCommanding.ViewModel
             MessageBox.Show(whatToSay, title);
         }
 
+        void SpeakExecute(string whatToSay)
+        {
+            string msg = whatToSay ?? String.Empty;
+            string title = _person.Name + " says...";
+            MessageBox.Show(whatToSay, title);
+        }
+
+        bool CanSpeakExecute(string parameter)
+        {
+            return _person.IsAlive;
+        }
+
+        public ICommand SpeakRelay
+        {
+            get { return new RelayCommand<string>(SpeakExecute, CanSpeakExecute); }
+        }
+
         public static readonly RoutedCommand DieCommand = new RoutedCommand();
 
         public bool CanDie
@@ -47,6 +65,23 @@ namespace VmCommanding.ViewModel
             _person.IsAlive = false;
             OnPropertyChanged("CanDie");
             OnPropertyChanged("CanSpeak");
+        }
+
+        void DieExecute()
+        {
+            _person.IsAlive = false;
+            OnPropertyChanged("CanDie");
+            OnPropertyChanged("CanSpeak");
+        }
+
+        bool CanDieExecute()
+        {
+            return _person.IsAlive;
+        }
+
+        public ICommand DieCommandRelay
+        {
+            get { return new RelayCommand(DieExecute, CanDieExecute); }
         }
 
         public PersonViewModel(Person person)
