@@ -1,8 +1,17 @@
 *** Stuff to do ***
-Update CodeProject\TreeViewWithViewModelDemo with Behavior (see Josh's page).
-Register Enter keystroke vs tab.
-Passing parameters to ICommand properties.
+* Refer to WPF TreeViewWithViewModelDemo *
+Hitting <Enter> into a textbox to effect a change vs having to "tab out".
 Setting FocusedElement (e.g. for textbox)
+
+* Refer to WPF HighlightableTextBlock *
+Passing parameters to ICommand properties.
+
+* Refer to WPF AReusableWPFAutocompleteTextBox *
+Define exotic stuff in Window.Resources (beyond Style tags)
+Themes in WPF
+Explicitly defining Bindings to source (i.e., no DataContext)
+Implementing TextBox in cs file then including as visual control in xaml.
+
 
 Work through HighlightableTextBlock in NewStuff and put in SamSome\Practice.
 Create a .Net Core API to support a CRUD interface for playlists.

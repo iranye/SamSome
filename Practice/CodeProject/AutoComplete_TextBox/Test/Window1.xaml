@@ -1,0 +1,50 @@
+﻿<Window x:Class="Test.Window1"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:actb="clr-namespace:Aviad.WPF.Controls;assembly=Aviad.WPF.Controls"
+        Title="Window1" Height="200" Width="600"
+        xmlns:local="clr-namespace:Test"
+        FocusManager.FocusedElement="{Binding ElementName=ActbInputPath}">
+    <!-- Set initial control focus via focus manager -->
+    <Window.Resources>
+        <!--
+        A CollectionViewSource with PriorityBinding queries different sources
+        and displays the results from that source that answers with the least delay.
+        A default or FallbackValue is displayed if there is no value to display.
+   
+        The PriorityBinding implements asynchronous usage of the ViewModel via Binding engine(!).
+      -->
+        <CollectionViewSource x:Key="prioritySources">
+            <CollectionViewSource.Source>
+                <PriorityBinding>
+                    <Binding Source="{StaticResource vm}" Path="QueryCollection" IsAsync="True"/>
+                    <Binding Source="{StaticResource vm}" Path="WaitMessage"/>
+                </PriorityBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <local:MyDataTemplateSelector x:Key="TemplateSelector"/>
+        <DataTemplate x:Key="TheItemTemplate">
+            <TextBlock Text="{Binding}" Margin="3" />
+        </DataTemplate>
+        <DataTemplate x:Key="WaitTemplate">
+            <TextBlock Text="{Binding}" Margin="3,1,3,0"/>
+        </DataTemplate>
+    </Window.Resources>
+    <DockPanel>
+        <TextBox 
+            DockPanel.Dock="Top"
+            TextWrapping="Wrap"
+            Margin="3,9,3,9"
+            Text="{Binding Blurb}" />
+        <Label Content="Path:" SnapsToDevicePixels="False" Target="{Binding}" />
+        <actb:AutoCompleteTextBox
+            Name="ActbInputPath"
+            Text="{Binding Source={StaticResource vm}, Path=QueryText, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Source={StaticResource prioritySources}}" 
+            ItemTemplateSelector="{StaticResource TemplateSelector}"
+            Binding="{Binding}"
+            MaxCompletions="1024"
+            Margin="3,3,3,3" VerticalAlignment="Top" TabIndex="0"
+        />
+    </DockPanel>
+</Window>
