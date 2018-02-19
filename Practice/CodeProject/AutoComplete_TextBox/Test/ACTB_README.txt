@@ -1,4 +1,5 @@
-﻿https://www.codeproject.com/Articles/273978/A-Reusable-WPF-Autocomplete-TextBox-Part
+﻿https://www.codeproject.com/Articles/44920/A-Reusable-WPF-Autocomplete-TextBox
+https://www.codeproject.com/Articles/273978/A-Reusable-WPF-Autocomplete-TextBox-Part
 
 * Fixit *
 Put ViewModel.cs class back into ACTB project if it can easily re-used.

@@ -13,8 +13,12 @@ namespace Test
 
             // Return DataTemplate for WaitMesage or List of Suggestions based on the
             // type of item we are being asked to DataTemplate here...
+
             if (item is ViewModel.WaitMsg)
+            {
                 return wnd.FindResource("WaitTemplate") as DataTemplate;
+
+            }
             return wnd.FindResource("TheItemTemplate") as DataTemplate;
         }
     }

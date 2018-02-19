@@ -2,40 +2,91 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Test
 {
+    /*
+     * XAML uses:
+     * QueryText
+     * QueryCollection
+     * 
+     * Window1.cs uses:
+     * SuggestEntries
+     */
+
+
     [Serializable]
     public class ViewModel : INotifyPropertyChanged
     {
         private const int MaxSuggestionEntries = 128;
         
         [NonSerialized]
-        private List<WaitMsg> mWaitMessage = new List<WaitMsg>() { new WaitMsg() };
+        private List<WaitMsg> _waitMessage = new List<WaitMsg>() { new WaitMsg() };
+
+        [XmlIgnore]
+        public IEnumerable WaitMessage
+        {
+            get { return _waitMessage; }
+        }
 
         [NonSerialized]
-        private string mQueryText = @"C:\";
+        private string _queryText = @"C:\";
 
-        [NonSerialized]
-        private IEnumerable mQueryCollection = null;
-
-        [NonSerialized]
-        private SortedList<string, int> mSuggestShare = new SortedList<string, int>();
-
-        private List<string> mSuggestEntries = new List<string>();
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public List<string> SuggestEntries
+        [XmlIgnore]
+        public string QueryText
         {
             get
             {
-                return mSuggestEntries;
+                return _queryText;
             }
 
             set
             {
-                mSuggestEntries = new List<string>();
-                mSuggestShare = new SortedList<string, int>();
+                if (String.IsNullOrEmpty(value) || value.Length < 3)
+                {
+                    _queryText = String.Empty;
+                    return;
+                }
+                if (_queryText != value)
+                {
+                    _queryText = value;
+                    OnPropertyChanged(typeof(ViewModel).GetProperty("QueryText").Name);
+                    _queryCollection = null;
+                    OnPropertyChanged(typeof(ViewModel).GetProperty("QueryCollection").Name);
+                }
+            }
+        }
+        
+        [NonSerialized]
+        private IEnumerable _queryCollection = null;
+
+        [XmlIgnore]
+        public IEnumerable QueryCollection
+        {
+            get
+            {
+                QueryList(QueryText);
+                return (_queryCollection == null ? new List<string>() : _queryCollection);
+            }
+        }
+
+        [NonSerialized]
+        private SortedList<string, int> _suggestShare = new SortedList<string, int>();
+
+        private List<string> _suggestEntries = new List<string>();
+        public List<string> SuggestEntries
+        {
+            get
+            {
+                return _suggestEntries;
+            }
+
+            set
+            {
+                _suggestEntries = new List<string>();
+                _suggestShare = new SortedList<string, int>();
 
                 if (value != null)
                 {
@@ -43,8 +94,8 @@ namespace Test
                     {
                         if (value[i] != null)
                         {
-                            mSuggestEntries.Add(value[i].ToUpper());
-                            mSuggestShare.Add(value[i].ToUpper(), 1);
+                            _suggestEntries.Add(value[i].ToUpper());
+                            _suggestShare.Add(value[i].ToUpper(), 1);
                         }
                     }
                 }
@@ -52,139 +103,93 @@ namespace Test
                 OnPropertyChanged(typeof(ViewModel).GetProperty("SuggestEntries").Name);
             }
         }
-        
-        [System.Xml.Serialization.XmlIgnore]
-        public IEnumerable WaitMessage
-        {
-            get { return mWaitMessage; }
-        }
 
-        [System.Xml.Serialization.XmlIgnore]
-        public string QueryText
+        private bool IsServerFolderShare(string path, out string serverFolderShare)
         {
-            get
+            serverFolderShare = string.Empty;
+            if (path == null || path.Length <= 8)
             {
-                return mQueryText;
+                return false;
             }
 
-            set
+            char pathSeparatorChar = Path.DirectorySeparatorChar;
+            if (path[0] != pathSeparatorChar || path[1] != pathSeparatorChar) return false;
+
+            int serverInd = -1;
+            int shareIndex = -1;
+
+            if ((serverInd = path.IndexOf(pathSeparatorChar, 2)) == -1) return false;
+
+            if ((shareIndex = path.IndexOf(pathSeparatorChar, serverInd + 1)) == -1)
             {
-                if (String.IsNullOrEmpty(value) || value.Length < 3)
-                {
-                    mQueryText = String.Empty;
-                    return;
-                }
-                if (mQueryText != value)
-                {
-                    mQueryText = value;
-                    OnPropertyChanged(typeof(ViewModel).GetProperty("QueryText").Name);
-                    mQueryCollection = null;
-                    OnPropertyChanged(typeof(ViewModel).GetProperty("QueryCollection").Name);
-                }
-            }
-        }
-        
-        [System.Xml.Serialization.XmlIgnore]
-        public IEnumerable QueryCollection
-        {
-            get
-            {
-                QueryList(QueryText);
-                return (mQueryCollection == null ? new List<string>() : mQueryCollection);
-            }
-        }
-
-        public bool GetServerFolderShare(string sInPath, out string sServerFolderShare)
-        {
-            sServerFolderShare = string.Empty;
-            char cPathDel = '\\';
-
-            if (sInPath == null) return false;
-
-            if (sInPath.Length <= 8) return false;
-
-            if (sInPath[0] != cPathDel || sInPath[1] != cPathDel) return false;
-
-            int iServer = -1, iShare = -1;
-
-            if ((iServer = sInPath.IndexOf(cPathDel, 2)) == -1) return false;
-
-            if ((iShare = sInPath.IndexOf(cPathDel, iServer + 1)) == -1)
-            {
-                if (System.IO.Directory.Exists(sInPath))      // String is of the form: '\\Server\SharedFolder'
+                if (Directory.Exists(path))      // String is of the form: '\\Server\SharedFolder'
                 {                                            // which is still OK
-                    sServerFolderShare = sInPath.ToUpper() + cPathDel;
+                    serverFolderShare = path.ToUpper() + pathSeparatorChar;
                     return true;
                 }
                 else
                     return false;
             }
 
-            sServerFolderShare = sInPath.ToUpper().Substring(0, iShare + 1);
+            serverFolderShare = path.ToUpper().Substring(0, shareIndex + 1);
             return true;
         }
         
-        protected void OnPropertyChanged(string prop)
+        protected void AddListSuggest(string sharePath)
         {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-        
-        protected void AddListSuggest(string s)
-        {
-            if (s != null)
+            if (sharePath != null)
             {
-                if (s.Trim().Length > 0)
-                    if (mSuggestShare.ContainsKey(s) == false)
+                if (sharePath.Trim().Length > 0)
+                    if (_suggestShare.ContainsKey(sharePath) == false)
                     {
                         // Increment frequency if entry is already avaliable
                         // Otherwise, remove first or least frequency item and add new entry to keep list size at limit
-                        if (mSuggestShare.Count < ViewModel.MaxSuggestionEntries)
+                        if (_suggestShare.Count < ViewModel.MaxSuggestionEntries)
                         {
-                            mSuggestEntries.Add(s.ToUpper());
-                            mSuggestShare.Add(s.ToUpper(), 1);
+                            _suggestEntries.Add(sharePath.ToUpper());
+                            _suggestShare.Add(sharePath.ToUpper(), 1);
                         }
                         else
                         {
                             int iMinIdx = 0;
-                            for (int i = 0; i < mSuggestShare.Count; i++)
+                            for (int i = 0; i < _suggestShare.Count; i++)
                             {
-                                if (mSuggestShare.Values[i] < mSuggestShare.Values[iMinIdx])
+                                if (_suggestShare.Values[i] < _suggestShare.Values[iMinIdx])
                                 {
                                     iMinIdx = i;
                                 }
                             }
 
-                            mSuggestEntries.RemoveAt(iMinIdx);
-                            mSuggestShare.RemoveAt(iMinIdx);
+                            _suggestEntries.RemoveAt(iMinIdx);
+                            _suggestShare.RemoveAt(iMinIdx);
 
-                            mSuggestEntries.Add(s.ToUpper());
-                            mSuggestShare.Add(s.ToUpper(), 1);
+                            _suggestEntries.Add(sharePath.ToUpper());
+                            _suggestShare.Add(sharePath.ToUpper(), 1);
                         }
                     }
                     else
                     {
-                        mSuggestShare[s.ToUpper()] += 1;
+                        _suggestShare[sharePath.ToUpper()] += 1;
                     }
             }
         }
 
         private void QueryList(string searchPath)
         {
-            char sPathDel = System.IO.Path.DirectorySeparatorChar;
-            string sServerFolderShare;
+            char pathSeparatorChar = Path.DirectorySeparatorChar;
+            string serverFolderShare;
 
-            List<string> sRet = null;
+            List<string> listOfPaths = null;
 
             try
             {
                 // Simply use this to test whether query is asynchrone to UI or not
-                ////System.Threading.Thread.Sleep(5000);
+                //System.Threading.Thread.Sleep(5000);
 
                 // suggest list of drives if user has not typed anything, yet
                 if ((searchPath == null ? string.Empty : searchPath).Length <= 1)
                 {
-                    sRet = new List<string>(System.IO.Directory.GetLogicalDrives());
+                    listOfPaths = new List<string>(Directory.GetLogicalDrives());
                 }
                 else
                 {
@@ -192,42 +197,44 @@ namespace Test
                     {
                         if (searchPath[1] == ':')
                         {
-                            sRet = new List<string>(System.IO.Directory.GetDirectories(searchPath + sPathDel));
+                            listOfPaths = new List<string>(Directory.GetDirectories(searchPath + pathSeparatorChar));
                         }
                         else
                         {
                             // Suggest shares on a UNC path addressed computer
-                            sRet = SuggestEntries;
+                            listOfPaths = SuggestEntries;
                         }
                     }
                     else
                     {
                         bool bQueryUNCShares = false;
-                        string sFileServer = string.Empty;
+                        string fileServerPath = string.Empty;
 
                         // Determine whether this is a UNC Path without any share (just the server portion of it)
                         if (searchPath.Length > 3)
                         {
-                            if (searchPath[0] == '\\' && searchPath[1] == '\\' && searchPath[searchPath.Length - 1] == '\\' &&
-                                 searchPath.Substring(2, searchPath.Length - 3).Contains("\\") == false)
+                            if (searchPath[0] == pathSeparatorChar 
+                                && searchPath[1] == pathSeparatorChar
+                                && searchPath[searchPath.Length - 1] == pathSeparatorChar
+                                && searchPath.Substring(2, searchPath.Length - 3).Contains("\\") == false)
                             {
                                 bQueryUNCShares = true;
-                                sFileServer = searchPath.Substring(2, searchPath.Length - 3);
+                                fileServerPath = searchPath.Substring(2, searchPath.Length - 3);
                             }
                         }
 
                         if (bQueryUNCShares == true) // query for shared folders on a file server via UNC
                         {
-                            ShareCollection sc = new ShareCollection(sFileServer);
+                            ShareCollection shareCollection = new ShareCollection(fileServerPath);
 
-                            if (sc.Count > 0)
+                            if (shareCollection.Count > 0)
                             {
-                                sRet = new List<string>();
-                                foreach (Share s in sc)
+                                listOfPaths = new List<string>();
+                                foreach (Share s in shareCollection)
                                 {
                                     if (s.IsFileSystem)
                                     {
-                                        sRet.Add(s.ToString());
+                                        listOfPaths.Add(s.ToString());
 
                                         // Add server to list of suggestions for next time when accessing this UNC address
                                         AddListSuggest("\\\\" + s.Server + "\\");
@@ -237,26 +244,26 @@ namespace Test
                         }
                         else
                         {
-                            if (System.IO.Directory.Exists(searchPath))
+                            if (Directory.Exists(searchPath))
                             {
-                                sRet = new List<string>(System.IO.Directory.GetDirectories(searchPath));
+                                listOfPaths = new List<string>(Directory.GetDirectories(searchPath));
 
-                                if (sRet.Count > 0)
-                                    if (GetServerFolderShare(searchPath, out sServerFolderShare))
+                                if (listOfPaths.Count > 0)
+                                    if (IsServerFolderShare(searchPath, out serverFolderShare))
                                     {
                                         // Add server + share to list of suggestions for next time when accessing this address
-                                        AddListSuggest(sServerFolderShare);
+                                        AddListSuggest(serverFolderShare);
                                     }
                             }
                             else
                             {
-                                int idx = searchPath.LastIndexOf(System.IO.Path.DirectorySeparatorChar);
+                                int idx = searchPath.LastIndexOf(Path.DirectorySeparatorChar);
 
                                 if (idx > 0)
                                 {
                                     string sParentDir = searchPath.Substring(0, idx + 1);
                                     string sSearchPattern = searchPath.Substring(idx + 1) + "*";
-                                    sRet = new List<string>(System.IO.Directory.GetDirectories(sParentDir, sSearchPattern));
+                                    listOfPaths = new List<string>(Directory.GetDirectories(sParentDir, sSearchPattern));
                                 }
                             }
                         }
@@ -271,14 +278,22 @@ namespace Test
             // and change it only if it is indeed different
             // (this saves messaging and event overheads that would othwise produce
             //  the same results multiple times causing overheads and oddities nobody needs...
-            bool bChange = (sRet == null && mQueryCollection != null) ||
-                            (sRet != null && mQueryCollection == null);
+            bool bChange = (listOfPaths == null && _queryCollection != null) ||
+                            (listOfPaths != null && _queryCollection == null);
 
-            if (sRet != null && mQueryCollection != null)
-                bChange = (sRet == mQueryCollection);
+            if (listOfPaths != null && _queryCollection != null)
+                bChange = (listOfPaths == _queryCollection);
 
             if (bChange == true)
-                mQueryCollection = sRet;
+                _queryCollection = listOfPaths;
+        }
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+        
+        protected void OnPropertyChanged(string prop)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
 
         internal class WaitMsg

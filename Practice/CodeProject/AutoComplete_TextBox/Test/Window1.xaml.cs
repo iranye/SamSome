@@ -33,7 +33,7 @@ namespace Test
                             // Load the object saved above by using the Deserialize function
                             ViewModel viewModel = (ViewModel) serializerObj.Deserialize(readFileStream);
 
-                            ((ViewModel) this.Resources["vm"]).SuggestEntries = viewModel.SuggestEntries;
+                            vm.SuggestEntries = viewModel.SuggestEntries;
 
                             // Cleanup
                             readFileStream.Close();
@@ -51,7 +51,7 @@ namespace Test
         {
             get
             {
-                return System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     "ACTBFolderSettings.xml");
             }
         }
