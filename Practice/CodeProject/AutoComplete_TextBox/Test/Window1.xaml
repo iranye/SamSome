@@ -7,6 +7,7 @@
         FocusManager.FocusedElement="{Binding ElementName=ActbInputPath}">
     <!-- Set initial control focus via focus manager -->
     <Window.Resources>
+        <local:ViewModel x:Key="vm"/>
         <!--
         A CollectionViewSource with PriorityBinding queries different sources
         and displays the results from that source that answers with the least delay.
@@ -27,15 +28,13 @@
             <TextBlock Text="{Binding}" Margin="3" />
         </DataTemplate>
         <DataTemplate x:Key="WaitTemplate">
-            <TextBlock Text="{Binding}" Margin="3,1,3,0"/>
+            <TextBlock Text="{Binding Source=ActbInputPath, Path=Text}" Margin="3,1,3,0"/>
         </DataTemplate>
     </Window.Resources>
-    <DockPanel>
-        <TextBox 
-            DockPanel.Dock="Top"
-            TextWrapping="Wrap"
-            Margin="3,9,3,9"
-            Text="{Binding Blurb}" />
+    <DockPanel VerticalAlignment="Top">
+        <Button DockPanel.Dock="Left"
+                Margin="6,0"
+                Height="30" Name="BtnDoIt" Content="Do It" Click="BtnDoIt_Click" />
         <Label Content="Path:" SnapsToDevicePixels="False" Target="{Binding}" />
         <actb:AutoCompleteTextBox
             Name="ActbInputPath"
@@ -44,7 +43,13 @@
             ItemTemplateSelector="{StaticResource TemplateSelector}"
             Binding="{Binding}"
             MaxCompletions="1024"
+            DockPanel.Dock="Top"
             Margin="3,3,3,3" VerticalAlignment="Top" TabIndex="0"
         />
+        <TextBox 
+            DockPanel.Dock="Bottom"
+            TextWrapping="Wrap"
+            Margin="3,9,3,9"
+            Text="{Binding Blurb}" />
     </DockPanel>
 </Window>

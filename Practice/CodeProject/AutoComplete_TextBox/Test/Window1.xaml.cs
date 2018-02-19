@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
 using System.Xml.Serialization;
 
 namespace Test
@@ -85,11 +86,19 @@ namespace Test
                 }
             }
         }
-        
-        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+
+        private void BtnDoIt_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(e.Uri.AbsoluteUri));
-            e.Handled = true;
+            var dc = ((Button)sender).DataContext as DirectoriesViewModel;
+            if (dc != null)
+            {
+                ViewModel vm = this.Resources["vm"] as ViewModel;
+
+                if (vm != null)
+                {
+                    dc.Blurb = vm.QueryText;
+                }
+            }
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Test
         private List<WaitMsg> mWaitMessage = new List<WaitMsg>() { new WaitMsg() };
 
         [NonSerialized]
-        private string mQueryText = string.Empty;
+        private string mQueryText = @"C:\";
 
         [NonSerialized]
         private IEnumerable mQueryCollection = null;
