@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="MathStuff.LongOperations.LongOperationsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MathStuff.LongOperations"
+             mc:Ignorable="d">
+    <UserControl.DataContext>
+        <local:LongOperationsViewModel />
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary1.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid VerticalAlignment="Stretch">
+        <DockPanel>
+            <!--<DockPanel DockPanel.Dock="Top" >
+                <Button Content="Run Prime Factorization"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource ButtonStyle}"
+                            Command="{Binding GetPrimeFactorization}" />
+                <Button Content="Cancel"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource ButtonStyle}"
+                            Command="{Binding CancelRequest}" />
+                <Button Content="Use Example Value"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource ButtonStyle}"
+                            Command="{Binding UseExampleValue}" />
+                <TextBox Text="{Binding PrimeFactorization.InputStr}"
+                                 Style="{StaticResource TextBoxStyle}" />
+            </DockPanel>-->
+            <DockPanel Margin="0,3,0,6" >
+                <StackPanel>
+                    <Button Content="CLR"
+                            ToolTip="Clear Log Messages"
+                            Command="{Binding ClearLogMessages}"
+                            Style="{StaticResource TallButton}" />
+                    <Button Content="T1"
+                            ToolTip="Run Test 1"
+                            Command="{Binding RunTestOne}"
+                            Style="{StaticResource TallButton}" />
+                    <Button Content="T2"
+                            ToolTip="Run Test 2"
+                            Command="{Binding RunTestTwo}"
+                            Style="{StaticResource TallButton}" />
+                    <Button Content="T3"
+                            ToolTip="Run Test 3"
+                            Command="{Binding Test3}"
+                            Style="{StaticResource TallButton}" />
+                </StackPanel>
+                <TextBox IsReadOnly="True"
+                             ToolTip="Log Messages"
+                             DockPanel.Dock="Bottom"
+                             Text="{Binding StatusViewModelLongOps.LogMessage, Mode=OneWay}"
+                             MinHeight="160"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             MinWidth="490"
+                             Margin="0,0,6,0"
+                             Width="Auto"
+                             Height="Auto"
+                             VerticalScrollBarVisibility="Auto" />
+            </DockPanel>
+        </DockPanel>
+    </Grid>
+</UserControl>

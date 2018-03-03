@@ -2,6 +2,7 @@
 * Refer to WPF TreeViewWithViewModelDemo *
 Hitting <Enter> into a textbox to effect a change vs having to "tab out".
 Setting FocusedElement (e.g. for textbox)
+LinearGradient Border wrapping a stackpanel for a text box.
 
 * Refer to WPF HighlightableTextBlock *
 Passing parameters to ICommand properties.

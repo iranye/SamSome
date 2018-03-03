@@ -14,40 +14,40 @@ namespace MathStuff
             ResetSourceAndToken();
         }
 
-        private String mStatus = String.Empty;
+        private String _status = String.Empty;
         public String Status
         {
-            get { return mStatus; }
+            get { return _status; }
             set
             {
-                mStatus = value;
+                _status = value;
                 NotifyPropertyChanged("Status");
             }
         }
 
-        private int mProgress;
+        private int _progress;
         public int Progress
         {
-            get { return mProgress; }
+            get { return _progress; }
             set
             {
-                if (mProgress != value)
+                if (_progress != value)
                 {
-                    mProgress = value;
+                    _progress = value;
                     NotifyPropertyChanged("Progress");
                 }
             }
         }
 
-        private List<BigInteger> mPrimeFactors = new List<BigInteger>();
+        private List<BigInteger> _primeFactors = new List<BigInteger>();
         public String PrimeFactors
         {
             get
             {
                 string res = String.Empty;
-                if (mPrimeFactors.Count > 0)
+                if (_primeFactors.Count > 0)
                 {
-                    foreach (var p in mPrimeFactors)
+                    foreach (var p in _primeFactors)
                     {
                         res += $"{p,0:N0} • ";
                     }
@@ -59,13 +59,13 @@ namespace MathStuff
 
         public string InputStr
         {
-            get { return mInput.ToString(); }
+            get { return _input.ToString(); }
             set
             {
-                if (mInput.ToString() != value)
+                if (_input.ToString() != value)
                 {
                     string toParse = value.Replace(",", "").Trim();
-                    if (!BigInteger.TryParse(toParse, out mInput))
+                    if (!BigInteger.TryParse(toParse, out _input))
                     {
                         Status = $"Failed to parse '{value}'";
                     }
@@ -76,15 +76,16 @@ namespace MathStuff
                 }
             }
         }
-        private BigInteger mInput;
+
+        private BigInteger _input;
         public BigInteger Input
         {
-            get { return mInput; }
+            get { return _input; }
             set
             {
-                if (mInput != value)
+                if (_input != value)
                 {
-                    mInput = value;
+                    _input = value;
                     NotifyPropertyChanged("Input");
                 }
             }
@@ -101,11 +102,11 @@ namespace MathStuff
 
         public int FindFactorsWithCancel(CancellationToken cancellationToken)
         {
-            mPrimeFactors.Clear();
-            var factored = mInput;
+            _primeFactors.Clear();
+            var factored = _input;
             while (factored % 2 == 0)
             {
-                mPrimeFactors.Add(2);
+                _primeFactors.Add(2);
                 NotifyPropertyChanged("PrimeFactors");
                 factored /= 2;
             }
@@ -126,7 +127,7 @@ namespace MathStuff
                 numberOfLoopIterations++;
                 if (factored % factor == 0)
                 {
-                    mPrimeFactors.Add(factor);
+                    _primeFactors.Add(factor);
                     NotifyPropertyChanged("PrimeFactors");
                     factored /= factor;
                 }
@@ -135,11 +136,11 @@ namespace MathStuff
                     factor += 2;
                 }
             }
-            if (factored > 1) mPrimeFactors.Add(factored);
+            if (factored > 1) _primeFactors.Add(factored);
             Status = "... DONE";
-            if (mPrimeFactors.Count == 1)
+            if (_primeFactors.Count == 1)
             {
-                Status = $"{mInput,0:N0} IS PRIME!{Environment.NewLine}";
+                Status = $"{_input,0:N0} IS PRIME!{Environment.NewLine}";
             }
             else
             {
@@ -177,21 +178,21 @@ namespace MathStuff
         public void FindFactors()
         {
             // https://docs.microsoft.com/en-us/dotnet/csharp/async
-            mPrimeFactors.Clear();
-            while (mInput % 2 == 0)
+            _primeFactors.Clear();
+            while (_input % 2 == 0)
             {
-                mPrimeFactors.Add(2);
+                _primeFactors.Add(2);
                 NotifyPropertyChanged("PrimeFactors");
-                mInput /= 2;
+                _input /= 2;
             }
             BigInteger factor = 3;
-            while (factor * factor <= mInput)
+            while (factor * factor <= _input)
             {
-                if (mInput % factor == 0)
+                if (_input % factor == 0)
                 {
-                    mPrimeFactors.Add(factor);
+                    _primeFactors.Add(factor);
                     NotifyPropertyChanged("PrimeFactors");
-                    mInput /= factor;
+                    _input /= factor;
                 }
                 else
                 {
@@ -199,7 +200,7 @@ namespace MathStuff
                 }
 
             }
-            if (mInput > 1) mPrimeFactors.Add(mInput);
+            if (_input > 1) _primeFactors.Add(_input);
             NotifyPropertyChanged("PrimeFactors");
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace GeneralPractice
@@ -31,14 +32,47 @@ namespace GeneralPractice
             // ExtensionMethod();
             // DailyLinq();
             // MoreLinq();
-            NutshellLinq();
+            // NutshellLinq();
             // QueryVsLinqMethod();
             // SimpleLinq();
             // FuzzyStrCompare();
             // RefsOfCollections();
             // TypeVariance();
+            AsyncStuff();
             Console.ReadLine();
         }
+
+        #region AsyncStuff
+
+        async void FooAsync()
+        {
+            await Task.Delay(4000);
+        }
+
+        private static void RestOfMethod()
+        {
+            Console.WriteLine("RestOfMethod");
+        }
+
+        private static void AsyncStuff()
+        {
+            DemoAsync().Wait();
+        }
+
+        private static async Task DemoAsync()
+        {
+            var d = new Dictionary<int, int>();
+            for (int i = 0; i < 10000; i++)
+            {
+                int id = Thread.CurrentThread.ManagedThreadId;
+                int count;
+                d[id] = d.TryGetValue(id, out count) ? count + 1 : 1;
+                await Task.Yield();
+            }
+            foreach (var pair in d) Console.WriteLine(pair);
+        }
+
+        #endregion
 
         private static void ExtensionMethod()
         {

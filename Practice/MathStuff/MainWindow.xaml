@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MathStuff"
+        xmlns:longOperations="clr-namespace:MathStuff.LongOperations"        
         mc:Ignorable="d"
         Icon="pi.ico"
         Title="Math Stuff" Height="800" Width="700">
@@ -11,20 +12,11 @@
         <local:MathViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <Style x:Key="TextBoxStyle" TargetType="TextBox">
-            <Setter Property="Margin" Value="6,3" />
-        </Style>
-        <Style x:Key="ButtonStyle" TargetType="Button">
-            <Setter Property="Margin" Value="6,3" />
-            <Setter Property="Height" Value="20" />
-            <Setter Property="Padding" Value="3,0" />
-        </Style>
-        <Style x:Key="TallButton" TargetType="Button">
-            <Setter Property="Margin" Value="6,0" />
-            <Setter Property="Height" Value="60" />
-            <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="FontSize" Value="10" />
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary1.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid>
@@ -41,35 +33,58 @@
                        HorizontalAlignment="Left"/>
                 <Label  Content="{Binding Version}" FontSize="14" />
             </StackPanel>
-            <DockPanel Grid.Row="1">
-                <DockPanel DockPanel.Dock="Top" >
-                    <Button Content="Run Prime Factorization"
-                            DockPanel.Dock="Left"
-                            Style="{StaticResource ButtonStyle}"
-                            Command="{Binding GetPrimeFactorization}" />
-                    <Button Content="Cancel"
+            <TabControl Grid.Row="1">
+                <TabItem Header="Prime Factorization">
+                    <DockPanel>
+                        <DockPanel DockPanel.Dock="Top" >
+                            <Border DockPanel.Dock="Bottom"
+                                    BorderBrush="Gray"
+                                    Margin="6,0"
+                                    BorderThickness="1">
+                                <Border.Background>
+                                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                                        <GradientStop Color="#33000000" Offset="0" />
+                                        <GradientStop Color="#11000000" Offset="1" />
+                                    </LinearGradientBrush>
+                                </Border.Background>
+                                <DockPanel>
+                                    <Button
+                                        Content="Run Prime Factorization"
+                                        DockPanel.Dock="Left"
+                                        Style="{StaticResource ButtonStyle}"
+                                        Command="{Binding GetPrimeFactorization}" />
+                                    <Button Content="Cancel"
                             DockPanel.Dock="Left"
                             Style="{StaticResource ButtonStyle}"
                             Command="{Binding CancelRequest}" />
-                    <Button Content="Use Example Value"
+                                    <Button Content="Use Example Value"
                             DockPanel.Dock="Right"
                             Style="{StaticResource ButtonStyle}"
                             Command="{Binding UseExampleValue}" />
-                    <TextBox Text="{Binding PrimeFactorization.InputStr}"
+                                    <TextBox Text="{Binding PrimeFactorization.InputStr}"
                                  Style="{StaticResource TextBoxStyle}" />
-                </DockPanel>
-                <DockPanel Margin="0,3,0,6" >
-                    <StackPanel>
-                        <Button Content="TST"
-                            ToolTip="Run Test"
-                            Command="{Binding RunTest}"
-                            Style="{StaticResource TallButton}" />
-                        <Button Content="CLR"
-                            ToolTip="Clear Log Messages"
-                            Command="{Binding ClearLogMessages}"
-                            Style="{StaticResource TallButton}" />
-                    </StackPanel>
-                    <TextBox IsReadOnly="True"
+                                </DockPanel>
+                            </Border>
+                        </DockPanel>
+                        <DockPanel Margin="0,3,0,6" >
+                            <StackPanel>
+                                <Button
+                                    Content="CLR"
+                                    ToolTip="Clear Log Messages"
+                                    Command="{Binding ClearLogMessages}"
+                                    Style="{StaticResource TallButton}" />
+                                <Button 
+                                    Content="T1"
+                                    ToolTip="Run Test"
+                                    Command="{Binding RunTest}"
+                                    Style="{StaticResource TallButton}" />
+                                <Button 
+                                    Content="T2"
+                                    ToolTip="Run Test"
+                                    Command="{Binding RunTestTwo}"
+                                    Style="{StaticResource TallButton}" />
+                            </StackPanel>
+                            <TextBox IsReadOnly="True"
                              ToolTip="Log Messages"
                              DockPanel.Dock="Bottom"
                              Text="{Binding StatusViewModel.LogMessage, Mode=OneWay}"
@@ -81,8 +96,13 @@
                              Width="Auto"
                              Height="Auto"
                              VerticalScrollBarVisibility="Auto" />
-                </DockPanel>
-            </DockPanel>
+                        </DockPanel>
+                    </DockPanel>
+                </TabItem>
+                <TabItem Header="AsyncAwait">
+                    <longOperations:LongOperationsView />
+                </TabItem>
+            </TabControl>
         </Grid>
     </ScrollViewer>
 </Window>

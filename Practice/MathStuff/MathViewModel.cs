@@ -54,6 +54,54 @@ namespace MathStuff
             get { return new RelayCommand(GetPrimeFactorizationExecute, CanGetPrimeFactorizationExecute); }
         }
 
+        void RunTestTwoExecute()
+        {
+            StatusViewModel.AddLogMessage($"Getting Prime factorization for {PrimeFactorization.Input,0:N0}");
+            PrimeFactorization.FindFactorsAsync();
+
+            var task = PrimeFactorization.FindFactorsWithCancelAsync(PrimeFactorization.CancellationToken);
+            int iterationCount = task.Result; // this causes gui to lock up
+            StatusViewModel.AddLogMessage($"Iteration Count={iterationCount}");
+
+
+
+            //public async Task<int> FindFactorsWithCancelAsync(CancellationToken cancellationToken)
+            //{
+            //    if (TokenSource == null || TokenSource.IsCancellationRequested)
+            //    {
+            //        ResetSourceAndToken();
+            //    }
+            //    int iterationCount = await Task.Run(() => FindFactorsWithCancel(cancellationToken));
+            //    return iterationCount;
+            //}
+
+            //public async void FindFactorsAsync()
+            //{
+            //    try
+            //    {
+            //        await FindFactorsWithCancelAsync(CancellationToken);
+            //    }
+            //    catch (OperationCanceledException cancelledException)
+            //    {
+            //        Status = "Operation Cancelled";
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Status = "Exception in FindFactorsAsync: " + ex.Message;
+            //    }
+            //}
+        }
+
+        bool CanRunTestTwoExecute()
+        {
+            return PrimeFactorization.Input > 0;
+        }
+
+        public ICommand RunTestTwo
+        {
+            get { return new RelayCommand(RunTestTwoExecute, CanRunTestTwoExecute); }
+        }
+
         void CancelRequestExecute()
         {
             PrimeFactorization.TokenSource.Cancel();
