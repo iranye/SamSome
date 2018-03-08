@@ -38,7 +38,7 @@ td{
 /*
 ** Ira Nye
 ** Regexer: Batchwise text group and replace tool
-** Last Modified: 10/27/2017
+** Last Modified: 03/07/2018
 **
 ** This tool is intended to perform search and replacement operations on a set of lines.
 */
@@ -68,15 +68,6 @@ function dbl_chomp(s) {
   return chomped_s;
 }
 
-function get_select_input(menu_id, start_ind) {
-  var select_input = document.getElementById(menu_id);
-
-  var index = select_input['selectedIndex'];
-  if (index < start_ind) { return null; }
-
-  return select_input[index].innerHTML;
-}
-
 function ToClipBoard(box) {
   if (box == "out")
   {
@@ -95,90 +86,12 @@ function clear_box(o) { o.value = ""; }
 function print_to_in(s)  { document.forms[0].inbox.value += s; }
 function print_to_out(s) { document.forms[0].outbox.value += s; }
 
-//Field Management Functions///////////////////////////////
-function save_type_arr(db_obj, typesArr) {
-  for (var i = 0; i < typesArr.length; i++) {
-    db_obj.addType(typesArr[i]);
-  }
-}
-
-var current_db_obj = null;
-
-function massage_aux(type, aux) {
-  var found_index = TypesArray.lookup_type(type);
-  var new_aux = -1;
-
-  if (found_index == -1) {
-    alert ("type not found: '" + type + "'");
-    return -1;
-  }
-  var type_obj = TypesArray[found_index];
-  if (!type_obj.expected_aux) { return null; }
-
-  switch(type_obj.expected_aux) {
-    case "int" :
-      new_aux = parseInt(aux);
-      if (isNaN(new_aux) || new_aux <= 0) { return -1; }
-      break;
-    default: return -1;
-  }
-  return new_aux;
-}
-
 //Table Management Functions///////////////////////////////
 function clear_table(table_id) {
   var table_obj = document.getElementById(table_id);
   // print_to_out("table_obj.rows.length: " + table_obj.rows.length + "\n");
   if (table_obj.rows.length > 0) {
     table_obj.innerHTML = "";
-  }
-}
-
-function add_table() {
-  var input = massage_input(document.forms[0].input.value);
-  if (!input) { return; }
-
-  //print_to_out("adding table: " + input + "\n");
-  var found = TablesArray.lookup_table(input);
-  if (found != -1) {
-    alert ("table already exists: '" + input + "'");
-    return;
-  }
-
-  var new_table = new TableObj(input);
-  TablesArray.push(new_table);
-
-  var table_menu = document.getElementById("table_select");
-  table_menu.options[table_menu.length] = new Option(new_table.name);
-  table_menu['selectedIndex'] = table_menu.length - 1;
-  reset_table_fields_menu();
-}
-
-var input_description = "New Table/Field";
-
-function massage_input(str) {
-  if ((str == input_description) || (str == "") || (str.match(" "))) {
-    alert ("invalid table/field name: '" + str + "'");
-    return null;
-  }
-  return str;
-}
-
-function add_table_row(one, two, three) {
-  var table_list = document.getElementById("table_list");
-  print_to_out("toggle visible: \n");
-
-  var visible = table_list.style.visibility == "visible" ? "yes" : "no";
-  print_to_out("visible: " + visible + "\n");
-  if (visible == "yes") // if (table_list.style.visibility == visible)
-  {
-    print_to_out("visible. setting to hidden\n");
-    table_list.style.visibility = "hidden";
-  }
-  else
-  {
-    print_to_out("hidden. setting to visible\n");
-    table_list.style.visibility = "visible";
   }
 }
 
@@ -342,18 +255,6 @@ function add_row(data_array, tbl_id, class_name, mouseover) {
   append_row(rowObj, tbl_id);
 }
 
-function delete_rows(tbl_id, stop_val) {
-  var tblObj = document.getElementById(tbl_id);
-  var rowsArr = tblObj.rows;
-
-  if (rowsArr.length == 0) return 0;
-
-  for (var i = rowsArr.length-1; i >= stop_val; i--) {
-      tblObj.deleteRow(i);
-  }
-  return 1;
-}
-
 function dump_done() {
   //print_to_out("dump_done\n");
   clear_outbox();
@@ -381,55 +282,6 @@ function dump_not_yet_done() {
       print_to_out(child.innerText + "\n");
     }
   }
-}
-
-//populate stored fields menu for selected table
-function populate_fields_menu() {
-  var table_choice = get_select_input("table_select", 1);
-
-  var table_fields_menu = document.getElementById("field_select");
-  if (table_fields_menu.style.visibility == "hidden") { return; }
-
-  reset_table_fields_menu();
-
-  var found_index = TablesArray.lookup_table(table_choice);
-  if (found_index == -1) {
-    alert ("table not found: '" + table_choice + "'");
-    return;
-  }
-  var table_obj = TablesArray[found_index];
-
-  var FieldsForMenu = new Array();
-  if (table_obj.list) {
-    var current = table_obj.list;
-    while (current) {
-      FieldsForMenu.push(current.data.toString());
-      current = current.next;
-    }
-  }
-  for (var i = 0; i < FieldsForMenu.length; i++) {
-    table_fields_menu.options[table_fields_menu.length] = new Option(FieldsForMenu[i].toString());
-  }
-}
-
-function get_field_mode() {
-  var field_button   = document.getElementById("field_button");
-  return field_button.value;
-}
-
-function load_form_fields() {
-  print_to_out("loading form!\n");
-}
-
-//toggle field for either Add or Update operations
-function toggle_fields_button(button_obj) {
-  var field_button     = document.getElementById("field_button");
-  field_button.value   = button_obj.text_value;
-  field_button.onclick = button_obj.func;
-}
-
-function update_field() {
-  print_to_out("updating field!\n");
 }
 
 function pad(n, width, z) {
@@ -676,7 +528,11 @@ function pretty_print(assign_st) {
 
   clear_box(document.forms[0].outbox);
   var lines = get_lines(assign_st);
-  if (!lines) { alert("nothing to process!"); return; }
+
+  if (!lines) {  
+    print_to_in("var x = x + 1;\nstring abc = 123;\nint myBigInt = new Int(32);\n");
+    return;
+  }
   for (var i = 0; i < lines.length; i++) {
     var eq = lines[i].split(equals_pat);
     //print_to_out("eq.length: " + eq.length + "\n");
