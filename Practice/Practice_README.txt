@@ -1,4 +1,9 @@
 *** Stuff to do ***
+** WPF Experience **
+Experience with WCF, Windows Services, and WebAPI
+Working knowledge of XAML, and how to code a WPF view in XML format (not in a design panel in Visual Studio), including how to implement resource files, converters, styles, templates, and dependency properties
+Experience with 3rd party user control libraries (i.e. Telerik, SciChart, DevExpress, and/or Infragistics)
+
 * Refer to WPF TreeViewWithViewModelDemo *
 Hitting <Enter> into a textbox to effect a change vs having to "tab out".
 Setting FocusedElement (e.g. for textbox)
@@ -56,17 +61,17 @@ Add Shadow effect to buttons
 	</DockPanel>
 * Tabs *
 	<ScrollViewer VerticalScrollBarVisibility="Auto" >
-        <Grid>
+		<Grid>
 			...
-            <StackPanel Grid.Row="0" Orientation="Horizontal">
-                <Label Content="One Source Uploader"
-                       FontSize="14"
-                       HorizontalAlignment="Left"/>
-                <Label  Content="{Binding Version}" FontSize="14" />
-            </StackPanel>
-            <TabControl Grid.Row="1">
-                <TabItem Header="Curl">
-                    <StackPanel>
+			<StackPanel Grid.Row="0" Orientation="Horizontal">
+				<Label Content="One Source Uploader"
+					   FontSize="14"
+					   HorizontalAlignment="Left"/>
+				<Label  Content="{Binding Version}" FontSize="14" />
+			</StackPanel>
+			<TabControl Grid.Row="1">
+				<TabItem Header="Curl">
+					<StackPanel>
 						...
 				</TabItem>
 				<TabItem Header="Read RDLs">
@@ -74,5 +79,5 @@ Add Shadow effect to buttons
 			</TabControl>
 		</Grid>
 	</ScrollViewer>
-                    
-                    
+					
+					

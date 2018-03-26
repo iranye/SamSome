@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:MathStuff.LongOperations"
              mc:Ignorable="d">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <local:LongOperationsViewModel />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -15,24 +15,69 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid VerticalAlignment="Stretch">
-        <DockPanel>
-            <!--<DockPanel DockPanel.Dock="Top" >
-                <Button Content="Run Prime Factorization"
+    <StackPanel>
+        <StackPanel>
+            <Border                 BorderBrush="Gray"
+                                    Margin="6,0"
+                                    BorderThickness="1">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                        <GradientStop Color="#33000000" Offset="0" />
+                        <GradientStop Color="#11000000" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <DockPanel>
+                    <Button
+                            Content="Run"
                             DockPanel.Dock="Left"
                             Style="{StaticResource ButtonStyle}"
-                            Command="{Binding GetPrimeFactorization}" />
-                <Button Content="Cancel"
+                            Command="{Binding HttpTextAsync}" />
+                    <Button Content="Cancel"
                             DockPanel.Dock="Left"
                             Style="{StaticResource ButtonStyle}"
                             Command="{Binding CancelRequest}" />
-                <Button Content="Use Example Value"
+                    <Button Content="Use Example Value"
                             DockPanel.Dock="Right"
                             Style="{StaticResource ButtonStyle}"
                             Command="{Binding UseExampleValue}" />
-                <TextBox Text="{Binding PrimeFactorization.InputStr}"
-                                 Style="{StaticResource TextBoxStyle}" />
-            </DockPanel>-->
+                    <TextBox Text="{Binding UrlInputStr}"
+                             Name="Url"
+                             KeyDown="textBox_KeyDown"
+                             Style="{StaticResource TextBoxStyle}" />
+                </DockPanel>
+            </Border>
+            <Border                 BorderBrush="Gray"
+                                    Margin="6,0"
+                                    BorderThickness="1">
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,1" EndPoint="0,0">
+                        <GradientStop Color="#33000000" Offset="0" />
+                        <GradientStop Color="#11000000" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <DockPanel>
+                    <Button
+                        ToolTip="Calculate Hash for FilePath"
+                        Content="Run"
+                        DockPanel.Dock="Left"
+                        Style="{StaticResource ButtonStyle}"
+                        Command="{Binding CalculateHash}" />
+                    <Button Content="Cancel"
+                            DockPanel.Dock="Left"
+                            Style="{StaticResource ButtonStyle}"
+                            Command="{Binding CancelRequest}" />
+                    <Button Content="Use Example Value"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource ButtonStyle}"
+                            Command="{Binding UseExampleValue}" />
+                    <TextBox Text="{Binding FilePathInputStr}"
+                             Name="FilePath"
+                             KeyDown="textBox_KeyDown"
+                             Style="{StaticResource TextBoxStyle}" />
+                </DockPanel>
+            </Border>
+        </StackPanel>
+        <DockPanel>
             <DockPanel Margin="0,3,0,6" >
                 <StackPanel>
                     <Button Content="CLR"
@@ -40,22 +85,31 @@
                             Command="{Binding ClearLogMessages}"
                             Style="{StaticResource TallButton}" />
                     <Button Content="T1"
-                            ToolTip="Run Test 1"
+                            ToolTip="Await call to long operation"
                             Command="{Binding RunTestOne}"
                             Style="{StaticResource TallButton}" />
                     <Button Content="T2"
-                            ToolTip="Run Test 2"
+                            ToolTip="NOT awaiting call to long operation"
                             Command="{Binding RunTestTwo}"
                             Style="{StaticResource TallButton}" />
-                    <Button Content="T3"
-                            ToolTip="Run Test 3"
-                            Command="{Binding Test3}"
+                    <Button Content="ANA"
+                            ToolTip="Analysis Async"
+                            Command="{Binding Analysis}"
+                            Style="{StaticResource TallButton}" />
+                    <Button Content="HSH"
+                            ToolTip="Calculate Hash (Sync)"
+                            Command="{Binding CalculateHashSync}"
+                            Style="{StaticResource TallButton}" />
+
+                    <Button Content="HSH"
+                            ToolTip="Calculate Hash (Async)"
+                            Command="{Binding CalculateHash}"
                             Style="{StaticResource TallButton}" />
                 </StackPanel>
                 <TextBox IsReadOnly="True"
                              ToolTip="Log Messages"
                              DockPanel.Dock="Bottom"
-                             Text="{Binding StatusViewModelLongOps.LogMessage, Mode=OneWay}"
+                             Text="{Binding StatusViewModel.LogMessage, Mode=OneWay}"
                              MinHeight="160"
                              TextWrapping="Wrap"
                              AcceptsReturn="True"
@@ -66,5 +120,5 @@
                              VerticalScrollBarVisibility="Auto" />
             </DockPanel>
         </DockPanel>
-    </Grid>
+    </StackPanel>
 </UserControl>
