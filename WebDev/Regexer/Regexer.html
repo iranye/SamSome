@@ -332,6 +332,7 @@ function run_sub() {
   var line = "";
   
   var upperCaseFirstChar = document.getElementById("to_upper_first").checked;
+  var fix_dbtype_name = document.getElementById("fix_dbtype_name").checked;  
 
   // Explicitly sequential numbering (only uses first input line)
   if (endNumber.length > 0 && !isNaN(endNumber) && !isNaN(startNumber)) {
@@ -375,6 +376,9 @@ function run_sub() {
     if (upperCaseFirstChar) {
       line = capitalizeFirstLetter(line);
     }
+    if (fix_dbtype_name) {
+      line = fix_DB_type_name(line);
+    }
     if (doSorting) {
       if (linkedList == null) {
         linkedList = new ListNode(line);
@@ -387,11 +391,22 @@ function run_sub() {
     }
   }
   while (linkedList != null && linkedList.data != null) {
-    print_to_out(linkedList.data + "\n");
+    print_to_(linkedList.data + "\n");
     linkedList = linkedList.next;
   }
 }
 
+function fix_DB_type_name(string) {
+	string = string.replace(".bit", ".Bit");
+	string = string.replace(".datetime", ".DateTime");
+	string = string.replace(".int", ".Int");
+	string = string.replace(".nvarchar", ".NVarChar");
+	string = string.replace(".uniqueidentifier", ".UniqueIdentifier");
+	string = string.replace(".varchar", ".VarChar");
+	string = string.replace(".xml", ".Xml");
+	
+  return string;
+}
 
 function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
@@ -724,6 +739,7 @@ document.forms[0].outbox.value += '$&\tEntire matched string\r\n';
     <input type="checkbox" id="sort_output" accesskey="S" />Sort Results
     <input type="checkbox" id="sql_code" />SQL
     <input type="checkbox" id="to_upper_first" accesskey="U" />Uppercase First Char
+    <input type="checkbox" id="fix_dbtype_name" checked="true" />Fix DB types
     [Start #: <input type="text" size="3" id="start_number" value="1" />, End #: <input type="text" size="3" id="end_number" value="" />]
   </p>
     
