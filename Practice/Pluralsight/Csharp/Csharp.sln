@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibertyCsharp7FirstLook", "LibertyCsharp7FirstLook\LibertyCsharp7FirstLook.csproj", "{28DDD494-8287-43D7-9411-B252766DCF6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterfacesVsAbstractClasses", "InterfacesVsAbstractClasses\InterfacesVsAbstractClasses.csproj", "{0D775AA7-607D-4419-A17B-E302F209DEBF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28DDD494-8287-43D7-9411-B252766DCF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28DDD494-8287-43D7-9411-B252766DCF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28DDD494-8287-43D7-9411-B252766DCF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28DDD494-8287-43D7-9411-B252766DCF6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D775AA7-607D-4419-A17B-E302F209DEBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D775AA7-607D-4419-A17B-E302F209DEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D775AA7-607D-4419-A17B-E302F209DEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D775AA7-607D-4419-A17B-E302F209DEBF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {793F4790-5AD2-4423-89C5-F7B57040E18B}
+	EndGlobalSection
+EndGlobal

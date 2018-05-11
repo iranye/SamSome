@@ -391,20 +391,44 @@ function run_sub() {
     }
   }
   while (linkedList != null && linkedList.data != null) {
-    print_to_(linkedList.data + "\n");
+    print_to_out(linkedList.data + "\n");
     linkedList = linkedList.next;
   }
 }
 
 function fix_DB_type_name(string) {
-	string = string.replace(".bit", ".Bit");
+    string = string.replace(".bigint", ".BigInt");
+    string = string.replace(".bit", ".Bit");
 	string = string.replace(".datetime", ".DateTime");
+	string = string.replace(".decimal", ".Decimal");
 	string = string.replace(".int", ".Int");
 	string = string.replace(".nvarchar", ".NVarChar");
 	string = string.replace(".uniqueidentifier", ".UniqueIdentifier");
 	string = string.replace(".varchar", ".VarChar");
 	string = string.replace(".xml", ".Xml");
-	
+
+	string = string.replace("Value = 1, SqlDbType = SqlDbType.DateTime", "Value = DateTime.Now, SqlDbType = SqlDbType.DateTime");
+	string = string.replace("Value = 1, SqlDbType = SqlDbType.DateTime2", "Value =  DateTime.Now, SqlDbType = SqlDbType.DateTime2");
+	string = string.replace("Value = 1, SqlDbType = SqlDbType.NVarChar", "Value = \"bob\", SqlDbType = SqlDbType.NVarChar");
+	string = string.replace("Value = 1, SqlDbType = SqlDbType.UniqueIdentifier", "Value = Guid.NewGuid(), SqlDbType = SqlDbType.UniqueIdentifier");
+
+	string = string.replace("\"@noteType\", Value = \"bob\"", "\"@noteType\", Value = \"pdf\"");
+
+	string = string.replace("\"@STGeographyText\", Value = \"bob\"", "\"@STGeographyText\", Value = geographyTextValue");
+
+    string = string.replace("\"@username\", Value = \"bob\"", "\"@username\", Value = @\"nvp\\ira.nye\"");
+    string = string.replace("\"@userName\", Value = \"bob\"", "\"@userName\", Value = @\"nvp\\ira.nye\"");
+
+    string = string.replace("\"@vendorID\", Value = \"bob\"", "\"@vendorID\", Value = \"04189F9A-4E03-499F-88C0-6B52E2D7ECE4\"");
+    string = string.replace("\"@VendorID\", Value = \"bob\"", "\"@VendorID\", Value = \"04189F9A-4E03-499F-88C0-6B52E2D7ECE4\"");
+
+    string = string.replace("\"@noteGuid\", Value = \"bob\"", "\"@noteGuid\", Value = \"22800F9E-58F8-4D40-89D9-0A6E4F19475F\"");
+    string = string.replace("\"@NoteGuid\", Value = \"bob\"", "\"@NoteGuid\", Value = \"22800F9E-58F8-4D40-89D9-0A6E4F19475F\"");
+    
+    
+    //string.replace(/"\"@username\", Value = \"bob\""/gi, "ParameterName = \"@username\", Value = @\"nvp\ira.nye\"");
+    //string = string.replace(/"@username\""/gi, "@userName\"\"\""); 
+
   return string;
 }
 
