@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D7701830-43C3-4456-A10B-E3F8C1FEE3F8}</ProjectGuid>
+    <ProjectGuid>{F63A20E2-F9B3-4509-9833-FF94482FB3BC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>PeopleViewer</RootNamespace>
-    <AssemblyName>PeopleViewer</AssemblyName>
+    <RootNamespace>PeopleViewer.Basic</RootNamespace>
+    <AssemblyName>PeopleViewer.Basic</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -35,7 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -54,6 +57,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Connected Services\MyService\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="MainViewModel.cs" />
     <Compile Include="RepositoryFactory.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -87,44 +96,54 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Connected Services\MyService\PersonService.wsdl" />
+    <None Include="Connected Services\MyService\PersonService.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MyService\PersonService1.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Connected Services\MyService\PersonService2.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\DataSources\PersonRepository.Interface.Person.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PersonRepository.CSV\PersonRepository.CSV.csproj">
-      <Project>{22d242eb-8113-49e3-8cc9-03a41e3b185e}</Project>
-      <Name>PersonRepository.CSV</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PersonRepository.Interface\PersonRepository.Interface.csproj">
-      <Project>{ec937f01-0e60-4405-8e52-efcb7c98bcde}</Project>
+      <Project>{07234eac-b32f-4769-a4c5-83209a858829}</Project>
       <Name>PersonRepository.Interface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PersonRepository.Service\PersonRepository.Service.csproj">
-      <Project>{be3e8f46-9b92-467a-a1b6-28afcf522112}</Project>
-      <Name>PersonRepository.Service</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PersonRepository.SQL\PersonRepository.SQL.csproj">
-      <Project>{003702d8-e922-4539-80d4-15aab22ff29d}</Project>
-      <Name>PersonRepository.SQL</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="People.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="People.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Connected Services\MyService\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\MyService\PersonService.disco" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\MyService\configuration91.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\MyService\configuration.svcinfo" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Connected Services\MyService\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)..\RepositoriesForBinFolder\*.*" "$(SolutionDir)PeopleViewer.Basic\bin\$(ConfigurationName)" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>
