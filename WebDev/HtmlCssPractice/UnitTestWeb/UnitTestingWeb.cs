@@ -14,12 +14,12 @@ namespace UnitTestWeb
     [TestClass]
     public class UnitTestingWeb
     {
-        private IWebDriver driver;
+        private IWebDriver _webDriver;
         private const string TEST_DEK_FILE = "Arty.dek";
         private const string TEST_DIRECTORY = @"C:\Temp\UnitTestingWeb";
 
-        private FileInfo mXmlDeckFile;
-        private Deck mTestDeck;
+        private FileInfo _xmlDeckFile;
+        private Deck _testDeck;
 
         public string TestDirectoryPath
         {
@@ -83,95 +83,71 @@ namespace UnitTestWeb
             ClearTestDirectory();
 
             FileInfo inputFileInfo = new FileInfo(TestDeckFilePath);
-            if (!File.Exists(TestDeckFilePath))
-            {
-                throw new Exception(string.Format("The file: '{0}' does not exist.", TestDeckFilePath));
-            }
+            Assert.IsTrue(File.Exists(TestDeckFilePath), $"The file '{TestDeckFilePath}' does not exist.");
 
-            mXmlDeckFile = Program.ConvertDeckToDeserializableXml(inputFileInfo);
-            mTestDeck = Deck.GetFromFile(mXmlDeckFile);
+            _xmlDeckFile = Program.ConvertDeckToDeserializableXml(inputFileInfo);
+            _testDeck = Deck.GetFromFile(_xmlDeckFile);
 
-            if (mTestDeck.CardStack.Count < 1)
+            if (_testDeck.CardStack.Count < 1)
             {
                 throw new Exception(string.Format("Failed to read any files from dek: '{0}'.", TestDeckFilePath));
             }
-            Debug.WriteLine("Found {0} Cards.", mTestDeck.CardStack.Count);
-            foreach (Cards card in mTestDeck.CardStack)
+            Debug.WriteLine("Found {0} Cards.", _testDeck.CardStack.Count);
+            foreach (Cards card in _testDeck.CardStack)
             {
                 Debug.WriteLine(card.ToString());
             }
-            driver = new ChromeDriver();
-            //driver = new FirefoxDriver();
-            Thread.Sleep(2255);
+            _webDriver = new ChromeDriver();
+            //_webDriver = new FirefoxDriver();
         }
 
         [TestMethod]
         public void TestCardSearch()
         {
-            Assert.IsTrue(mTestDeck.CardStack.Count > 0);
+            Assert.IsTrue(_testDeck.CardStack.Count > 0);
             Assert.IsTrue(File.Exists(TestDeckFilePath));
-            string errorMessage;
             int sleepTimeMs = 4000;
             try
             {
                 string url = @"http://gatherer.wizards.com/Pages/Default.aspx";
-                driver.Navigate().GoToUrl(url);
-
-                foreach (var nextCard in mTestDeck.CardStack)
+                _webDriver.Navigate().GoToUrl(url);
+                string pattern = @"multiverseid=(\d+)";
+                
+                foreach (var card in _testDeck.CardStack)
                 {
                     Thread.Sleep(sleepTimeMs);
-                    var searchBox = driver.FindElement(By.ClassName("textboxinput"));
+                    var searchBox = _webDriver.FindElement(By.Id("ctl00_ctl00_MainContent_Content_SearchControls_CardSearchBoxParent_CardSearchBox"));
+                    Assert.IsTrue(searchBox != null, "searchBox is NULL");
+
                     searchBox.Clear();
-                    searchBox.SendKeys(string.Format("{0}{1}", nextCard.Name, Environment.NewLine));
+                    searchBox.SendKeys(string.Format("{0}{1}", card.Name, Environment.NewLine));
+                    MatchCollection matches = Regex.Matches(_webDriver.Url, pattern);
+                    Assert.IsTrue(matches.Count > 0, $"Failed to match '{_webDriver.Url}' using '{pattern}'");
+                    string multiversid = matches[0].Groups[1].Value;
+                    Assert.IsTrue(Int32.TryParse(multiversid, out var mid), $"Failed to Parse multiversid '{multiversid}'");
 
-                    string pattern = @"multiverseid=(\d+)";
-                    MatchCollection matches = Regex.Matches(driver.Url, pattern);
-                    if (matches.Count == 0)
+                    card.MultiverseID = mid;
+
+                    var imageOnlyUrl = $@"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={multiversid}&type=card";
+
+                    string pathToImageFile = Path.Combine(TestDirectoryPath, multiversid + ".jpg");
+                    if (!File.Exists(pathToImageFile))
                     {
-                        if (
-                            !LogToFile(DateTime.Now, string.Format("Failed to match '{0}' using '{1}'", driver.Url, pattern),
-                                out errorMessage))
+                        using (BinaryWriter writer = new BinaryWriter(File.Open(pathToImageFile, FileMode.Create)))
                         {
-                            Debug.WriteLine("Failed to Log to file: " + errorMessage);
-                            // MessageBox.Show(@"Failed to Log to file." + Environment.NewLine + ex.Message, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else
-                    {
-                        string multiversid = matches[0].Groups[1].Value;
-                        int mid = 0;
-                        if (!Int32.TryParse(multiversid, out mid))
-                        {
-                            Debug.WriteLine("Failed to Parse multiversid: " + multiversid);
-                        }
-
-                        nextCard.MultiverseID = mid;
-                        if (!LogToFile(DateTime.Now, string.Format("{0} multiverseid={1}", nextCard, multiversid), out errorMessage))
-                        {
-                            Debug.WriteLine("Failed to Log to file: " + errorMessage);
-                        }
-
-                        Debug.WriteLine(driver.Url + ", " + multiversid);
-
-                        var imageOnlyUrl = string.Format(
-                            @"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid={0}&type=card", multiversid);
-
-                        string pathToImageFile = Path.Combine(TestDirectoryPath, multiversid + ".jpg");
-                        if (!File.Exists(pathToImageFile))
-                        {
-                            using (BinaryWriter writer = new BinaryWriter(File.Open(pathToImageFile, FileMode.Create)))
+                            using (var client = new WebClient())
                             {
-                                using (var client = new WebClient())
-                                {
-                                    writer.Write(client.DownloadData(imageOnlyUrl));
-                                }
-                                writer.Write(true);
+                                writer.Write(client.DownloadData(imageOnlyUrl));
                             }
+
+                            writer.Write(true);
                         }
                     }
-                    driver.Navigate().Back();
+
+                    _webDriver.Navigate().Back();
                 }
-                mTestDeck.SaveToFile(mXmlDeckFile);
+
+                _testDeck.SaveToFile(_xmlDeckFile);
             }
             catch (Exception ex)
             {
@@ -179,7 +155,7 @@ namespace UnitTestWeb
             }
             finally
             {
-                driver.Close();
+                _webDriver.Close();
             }
         }
         
