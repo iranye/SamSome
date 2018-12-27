@@ -97,7 +97,6 @@ namespace UnitTestWeb
             {
                 Debug.WriteLine(card.ToString());
             }
-            _webDriver = new ChromeDriver();
             //_webDriver = new FirefoxDriver();
         }
 

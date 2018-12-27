@@ -1,0 +1,7 @@
+git status -s
+git diff --staged
+git difftool -y
+
+git log --pretty=format:"%h - %an, %ar : %s"
+git log --pretty=format:"%h %s" --graph
+git log -S function_name
