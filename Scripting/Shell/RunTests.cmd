@@ -1,25 +1,45 @@
-:: Set up assembly name and fixture, then for each category or run function needed to run, run nUnit with the appropriate parameters
-:: The script is intended to be saved to a batch file and ran in the folder: C:\bio\UTE\Implant\Test
 @echo off
-SET assembly=RepetitiveAndScanRateHysteresisImplant
-SET fixture=Msei.Verification.ImplantLevel.RepetitiveAndScanRateHysteresisPrimusCRTImplant
 
-SET resultsDir=_Results_%assembly%
-IF NOT EXIST %resultsDir% MKDIR %resultsDir%
-IF EXIST _nunit-log.txt del _nunit-log.txt
-SET nunit-exe="C:\Program Files\NUnit 2.5.6\bin\net-2.0\nunit-console.exe"
+:: *** Core.Data Testing ***
+:: CD C:\src\git\library-coredata\Tests\NVP.Core.Data.Sql.Tests.ZpDatabases\bin\Release
+:: NVP.ICCP.IntegrationTests.dll
+vstest.console.exe NVP.ICCP.IntegrationTests.dll /Logger:trx /ResultsDirectory:C:\ProgramData\TestResults\NVP.ICCP.IntegrationTests\VSTest
+vstest.console.exe NVP.Core.Data.Sql.Tests.ZpDatabases.dll /Logger:trx /ResultsDirectory:C:\ProgramData\TestResults\NVP.Core.Data.TestResults\VSTest /TestCaseFilter:TestCategory=ZpCustomers
 
-SET category=InteractionsProgramming
-%nunit-exe% %assembly%.dll /include=%category% /fixture=%fixture% >> _nunit-log.txt
-IF EXIST Results\%assembly%.Ver.docx MOVE /Y Results\%assembly%.Ver.docx %resultsDir%\%assembly%[%category%].Ver.docx
+:: *** ICCP Testing ***
+:: CD C:\source\Nvoicepay\ICCP\Libraries\NVP.ICCP\NVP.ICCP.IntegrationTests\bin\Debug
+:: NVP.ICCP.IntegrationTests.dll
 
-SET function=RepetitiveRateHysteresisVsInPSync
-%nunit-exe% %assembly%.dll /run=%fixture%.%function% >> _nunit-log.txt
-IF EXIST Results\%assembly%.Ver.docx MOVE /Y Results\%assembly%.Ver.docx %resultsDir%\%assembly%(%function%).Ver.docx
+::  /TestCaseFilter:TestCategory=AuthsAndClearances
+::  /TestCaseFilter:TestCategory=VcnRequest
+::  /TestCaseFilter:TestCategory=BasicInfo
+::  /TestCaseFilter:TestCategory=VcnDetail
+::  /TestCaseFilter:TestCategory=ModifyVcn
+::  /TestCaseFilter:TestCategory=CancelVcn
+::  /TestCaseFilter:TestCategory=
 
-SET category=RepetitiveRateHysteresisEventsVsInPSyncMode
-%nunit-exe% %assembly%.dll /include=%category% /fixture=%fixture% >> _nunit-log.txt
-IF EXIST Results\%assembly%.Ver.docx MOVE /Y Results\%assembly%.Ver.docx %resultsDir%\%assembly%[%category%].Ver.docx
 
+:: vstest.console.exe %1 /TestCaseFilter:TestCategory=Nightly /Logger:trx
+:: vstest.console.exe NVP.ICCP.IntegrationTests.dll /Logger:trx
 
-IF EXIST _nunit-log.txt MOVE /Y _nunit-log.txt %resultsDir%\nunit-log.txt
+SET WAITCMD=C:\Windows\System32\timeout.exe
+SET ITERCOUNT=8
+:: SET WAITSECONDS_DEFAULT=5
+SET WAITSECONDS_24_HOURS=86400
+SET WAITSECONDS_12_HOURS=43200
+
+:REPEAT
+IF %ITERCOUNT%==0 goto:eof
+
+SET /A ITERCOUNT=ITERCOUNT-1
+echo %ITERCOUNT% 
+
+vstest.console.exe NVP.ICCP.IntegrationTests.dll /Logger:trx /ResultsDirectory:C:\ProgramData\TestResults\NVP.ICCP.IntegrationTests\VSTest
+
+%WAITCMD% %WAITSECONDS_12_HOURS%
+GOTO REPEAT
+
+goto:eof
+
+:: CD C:\source\Nvoicepay\VSTS-17623-Part2\Services\NVP.EpiqPrintCheckRequestFileProcessor\NVP.EpiqPrintCheckRequestFileProcessor.Test\bin\Debug
+NVP.EpiqPrintCheckRequestFileProcessor.dll

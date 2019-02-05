@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundWorkerDemo", "BackgroundWorkerDemo\BackgroundWorkerDemo.csproj", "{603225D0-3460-4030-945B-23DE2A2BA939}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncGood", "AsyncGood\AsyncGood.csproj", "{9EF3323E-2416-4791-BE0B-8A794D7ABB36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{603225D0-3460-4030-945B-23DE2A2BA939}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{603225D0-3460-4030-945B-23DE2A2BA939}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{603225D0-3460-4030-945B-23DE2A2BA939}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{603225D0-3460-4030-945B-23DE2A2BA939}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EF3323E-2416-4791-BE0B-8A794D7ABB36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EF3323E-2416-4791-BE0B-8A794D7ABB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EF3323E-2416-4791-BE0B-8A794D7ABB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EF3323E-2416-4791-BE0B-8A794D7ABB36}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {17CF1276-D1CD-4841-A8F8-4B0C46E04A6A}
+	EndGlobalSection
+EndGlobal
