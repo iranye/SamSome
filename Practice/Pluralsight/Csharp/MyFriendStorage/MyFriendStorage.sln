@@ -9,6 +9,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendStorage.DataAccess", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendStorage.Model", "FriendStorage.Model\FriendStorage.Model.csproj", "{FB5B7E8F-65AC-4C96-B464-C9222E810835}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThomasMath", "ThomasMath", "{462C8C58-1AA3-4B02-9F1B-AA6570DA7A8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasMathLib", "ThomasMath\ThomasMathLib\ThomasMathLib.csproj", "{79F658B2-4D9A-4231-9C0B-882E7C88382A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasMathLibTests", "ThomasMath\ThomasMathLibTests\ThomasMathLibTests.csproj", "{52FD01A8-F9D2-45C9-848E-31A334BA87C3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThomasMathLibTestsXUnit", "ThomasMath\ThomasMathLibTestsXUnit\ThomasMathLibTestsXUnit.csproj", "{9070D20B-040D-4922-850B-B42D796E2866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FriendStorage.UITests", "FriendStorage.UITests\FriendStorage.UITests.csproj", "{81EE9569-9393-4462-BD31-5A1F81AB5912}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,9 +37,30 @@ Global
 		{FB5B7E8F-65AC-4C96-B464-C9222E810835}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB5B7E8F-65AC-4C96-B464-C9222E810835}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB5B7E8F-65AC-4C96-B464-C9222E810835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{79F658B2-4D9A-4231-9C0B-882E7C88382A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{79F658B2-4D9A-4231-9C0B-882E7C88382A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{79F658B2-4D9A-4231-9C0B-882E7C88382A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{79F658B2-4D9A-4231-9C0B-882E7C88382A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52FD01A8-F9D2-45C9-848E-31A334BA87C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52FD01A8-F9D2-45C9-848E-31A334BA87C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52FD01A8-F9D2-45C9-848E-31A334BA87C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52FD01A8-F9D2-45C9-848E-31A334BA87C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9070D20B-040D-4922-850B-B42D796E2866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9070D20B-040D-4922-850B-B42D796E2866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9070D20B-040D-4922-850B-B42D796E2866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9070D20B-040D-4922-850B-B42D796E2866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81EE9569-9393-4462-BD31-5A1F81AB5912}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81EE9569-9393-4462-BD31-5A1F81AB5912}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81EE9569-9393-4462-BD31-5A1F81AB5912}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81EE9569-9393-4462-BD31-5A1F81AB5912}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{79F658B2-4D9A-4231-9C0B-882E7C88382A} = {462C8C58-1AA3-4B02-9F1B-AA6570DA7A8E}
+		{52FD01A8-F9D2-45C9-848E-31A334BA87C3} = {462C8C58-1AA3-4B02-9F1B-AA6570DA7A8E}
+		{9070D20B-040D-4922-850B-B42D796E2866} = {462C8C58-1AA3-4B02-9F1B-AA6570DA7A8E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1C806560-24A9-4C75-B9A0-BEF02704AB21}
