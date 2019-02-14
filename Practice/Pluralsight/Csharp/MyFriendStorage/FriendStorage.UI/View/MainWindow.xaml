@@ -1,0 +1,28 @@
+﻿<Window x:Class="FriendStorage.UI.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:FriendStorage.UI.View"
+        Title="FriendStorage" FontSize="{StaticResource DefaultFontSize}"
+        MinHeight="650" MinWidth="900" Height="650" Width="920"
+        Background="Black"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock Margin="10" Foreground="White" FontSize="40" Grid.ColumnSpan="3">
+            <Bold Foreground="Red">Friend</Bold>Storage
+        </TextBlock>
+    </Grid>
+</Window>

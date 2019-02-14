@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackgroundWorkerDemo", "Bac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncGood", "AsyncGood\AsyncGood.csproj", "{9EF3323E-2416-4791-BE0B-8A794D7ABB36}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectorySearcher", "DirectorySearcher\DirectorySearcher.csproj", "{EB774825-3D4A-4913-BCF0-3DA214DF6E3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9EF3323E-2416-4791-BE0B-8A794D7ABB36}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9EF3323E-2416-4791-BE0B-8A794D7ABB36}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9EF3323E-2416-4791-BE0B-8A794D7ABB36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB774825-3D4A-4913-BCF0-3DA214DF6E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB774825-3D4A-4913-BCF0-3DA214DF6E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB774825-3D4A-4913-BCF0-3DA214DF6E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB774825-3D4A-4913-BCF0-3DA214DF6E3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
