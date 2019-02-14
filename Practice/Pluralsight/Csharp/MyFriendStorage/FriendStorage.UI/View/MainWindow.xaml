@@ -32,6 +32,11 @@
         </StackPanel>
 
         <!--Navigation-->
+        <view:NavigationView DataContext="{Binding NavigationViewModel}" Grid.Row="2" />
+
+        <GridSplitter Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Width="5" Background="DarkRed" HorizontalAlignment="Center"/>
+
+        <!--Tabs-->
         <TabControl ItemsSource="{Binding FriendEditViewModels}"
                     SelectedItem="{Binding SelectedFriendEditViewModel, Mode=TwoWay}"
                     Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="2" Background="Black">
@@ -54,7 +59,7 @@
                             AncestorType={x:Type TabControl}},
                             Path=DataContext.CloseFriendTabCommand}"
                                 CommandParameter="{Binding}"
-                                Width="20" Height="20" FontWeight="Bold" FontSize="12" Foreground="White" Padding="0">
+                                Width="20" Height="20" FontWeight="Bold" FontSize="12" >
                         </Button>
                     </StackPanel>
                 </DataTemplate>
