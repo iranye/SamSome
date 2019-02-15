@@ -136,5 +136,15 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FriendStorage.DataAccess\FriendStorage.DataAccess.csproj">
+      <Project>{c5fe411b-6885-43ea-95cd-ff4ad18954ee}</Project>
+      <Name>FriendStorage.DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FriendStorage.Model\FriendStorage.Model.csproj">
+      <Project>{fb5b7e8f-65ac-4c96-b464-c9222e810835}</Project>
+      <Name>FriendStorage.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
