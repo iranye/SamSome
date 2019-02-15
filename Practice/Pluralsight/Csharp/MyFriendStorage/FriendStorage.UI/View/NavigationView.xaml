@@ -3,19 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FriendStorage.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300" Background="Black">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <ItemsControl ItemsSource="{Binding Friends}" Foreground="White">
+    <ScrollViewer  VerticalScrollBarVisibility="Auto">
+        <ItemsControl ItemsSource="{Binding Friends}" Foreground="White">
+            <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Command="{Binding OpenFriendEditViewCommand}"
-                            Style="{StaticResource NavigationButtonStyle}">
+                  Style="{StaticResource NavigationButtonStyle}">
                         <TextBlock>
-                            <Run Text="{Binding FirstName}" /> <Run Text="{Binding LastName}" />
+              <Run Text="{Binding FirstName}"/> <Run Text="{Binding LastName}"/>
                         </TextBlock>
                     </Button>
                 </DataTemplate>
-            </ItemsControl>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </ScrollViewer>
 </UserControl>

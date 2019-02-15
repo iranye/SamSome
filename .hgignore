@@ -22,6 +22,7 @@ _ReSharper.*
 *.resources
 *.tlog
 *.pdb
+*.zip
 .gitattributes
 .gitignore
 .vs/
