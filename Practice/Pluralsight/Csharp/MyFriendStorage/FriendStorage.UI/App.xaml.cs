@@ -1,4 +1,6 @@
-﻿using FriendStorage.UI.View;
+﻿using FriendStorage.DataAccess;
+using FriendStorage.UI.DataProvider;
+using FriendStorage.UI.View;
 using FriendStorage.UI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -18,7 +20,10 @@ namespace FriendStorage.UI
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var mainWindow = new MainWindow(new MainViewModel());
+            var mainWindow = new MainWindow(
+                new MainViewModel(
+                    new NavigationViewModel(
+                        new NavigationDataProvider(() => new FileDataService()))));
             mainWindow.Show();
         }
     }
