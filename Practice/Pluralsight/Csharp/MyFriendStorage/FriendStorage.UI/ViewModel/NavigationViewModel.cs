@@ -10,7 +10,7 @@ namespace FriendStorage.UI.ViewModel
         void Load();
     }
 
-    public class NavigationViewModel : ViewModelBase
+    public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {
         public ObservableCollection<LookupItem> Friends { get; private set; }
 

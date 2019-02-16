@@ -20,10 +20,9 @@ namespace FriendStorage.UI
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var mainWindow = new MainWindow(
-                new MainViewModel(
-                    new NavigationViewModel(
-                        new NavigationDataProvider(() => new FileDataService()))));
+            var navigationViewModel = new NavigationViewModel(new NavigationDataProvider(() => new FileDataService()));
+            var mainViewModel = new MainViewModel(navigationViewModel);
+            var mainWindow = new MainWindow(mainViewModel);
             mainWindow.Show();
         }
     }
