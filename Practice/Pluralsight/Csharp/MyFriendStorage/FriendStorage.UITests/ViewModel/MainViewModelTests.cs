@@ -1,9 +1,5 @@
 ﻿using FriendStorage.UI.ViewModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Moq;
 using Xunit;
 
 namespace FriendStorage.UITests.ViewModel
@@ -13,20 +9,10 @@ namespace FriendStorage.UITests.ViewModel
        [Fact]
        public void ShouldCallLoadMethodOfNavigationViewModel()
         {
-            NavigationViewModelMock navigationViewModel = new NavigationViewModelMock();
-            var viewModel = new MainViewModel(navigationViewModel);
-
+            var navigationViewModelMock = new Mock<INavigationViewModel>();
+            var viewModel = new MainViewModel(navigationViewModelMock.Object);
             viewModel.Load();
-            Assert.True(navigationViewModel.LoadHasBeenCalled);
-        }
-    }
-
-    public class NavigationViewModelMock : INavigationViewModel
-    {
-        public bool LoadHasBeenCalled { get; set; }
-        public void Load()
-        {
-            LoadHasBeenCalled = true;
+            navigationViewModelMock.Verify(vm => vm.Load(), Times.Once);
         }
     }
 }
