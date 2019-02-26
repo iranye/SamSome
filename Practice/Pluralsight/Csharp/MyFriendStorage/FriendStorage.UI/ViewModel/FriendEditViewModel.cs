@@ -1,4 +1,5 @@
 ﻿using FriendStorage.Model;
+using FriendStorage.UI.DataProvider;
 
 namespace FriendStorage.UI.ViewModel
 {
@@ -10,11 +11,28 @@ namespace FriendStorage.UI.ViewModel
 
     public class FriendEditViewModel : ViewModelBase, IFriendEditViewModel
     {
-        public void Load(int friendId)
+        private IFriendDataProvider _dataProvider;
+        private Friend _friend;
+
+        public FriendEditViewModel(IFriendDataProvider dataProvider)
         {
-            throw new System.NotImplementedException();
+            _dataProvider = dataProvider;
         }
 
-        public Friend Friend { get; }
+        public void Load(int friendId)
+        {
+            var friend = _dataProvider.GetFriendById(friendId);
+            Friend = friend;
+        }
+
+        public Friend Friend
+        {
+            get { return _friend; }
+            private set
+            {
+                _friend = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

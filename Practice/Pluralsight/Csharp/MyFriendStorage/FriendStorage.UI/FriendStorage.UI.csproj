@@ -62,6 +62,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Command\DelegateCommand.cs" />
+    <Compile Include="DataProvider\FriendDataProvider.cs" />
+    <Compile Include="DataProvider\IFriendDataProvider.cs" />
     <Compile Include="DataProvider\NavigationDataProvider.cs" />
     <Compile Include="Events\OpenFriendEditViewEvent.cs" />
     <Compile Include="Startup\BootStrapper.cs" />
