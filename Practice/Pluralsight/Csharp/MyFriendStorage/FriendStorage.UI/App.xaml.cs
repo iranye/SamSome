@@ -9,6 +9,8 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Autofac;
+using FriendStorage.UI.Startup;
 
 namespace FriendStorage.UI
 {
@@ -20,9 +22,12 @@ namespace FriendStorage.UI
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            var navigationViewModel = new NavigationViewModel(new NavigationDataProvider(() => new FileDataService()));
-            var mainViewModel = new MainViewModel(navigationViewModel);
-            var mainWindow = new MainWindow(mainViewModel);
+            var bootStrapper = new BootStrapper();
+            var container = bootStrapper.BootStrap();
+            var mainWindow = container.Resolve<MainWindow>();
+            //var navigationViewModel = new NavigationViewModel(new NavigationDataProvider(() => new FileDataService()));
+            //var mainViewModel = new MainViewModel(navigationViewModel);
+            //var mainWindow = new MainWindow(mainViewModel);
             mainWindow.Show();
         }
     }

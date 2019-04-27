@@ -12,7 +12,7 @@
                     <Button Command="{Binding OpenFriendEditViewCommand}"
                             Style="{StaticResource NavigationButtonStyle}">
                         <TextBlock>
-              <Run Text="{Binding DisplayMember}"/>
+                        <Run Text="{Binding DisplayMember}"/>
                         </TextBlock>
                     </Button>
                 </DataTemplate>
