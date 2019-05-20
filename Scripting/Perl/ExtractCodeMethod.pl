@@ -22,21 +22,24 @@ sub usage() {
   print("Usage  : ReadFile [options]\n");
   print("Options:        -f <file>, to read input from <file>\n");
   print(" "x16,"-m <method name> to indicate which method to extract\n");
+  print(" "x16,"-s <search string> -c <count> to dump <count> lines AFTER encountering <search string>\n");
   print(" "x16,"-h or -? displays this help\n");
   print("\n");
   exit 0;
 }
 
 my %opt;
-getopts('f:m:?h', \%opt)||die("Error: Incorrect command line options !!!\n");
+getopts('f:m:?s:c:h', \%opt)||die("Error: Incorrect command line options !!!\n");
 
 # Checking if anyone needs help... ;) 
 if (defined($opt{'?'}) || defined($opt{'h'})) {
   usage();
 }
-# Test if someone specified -f <file> and open it (perhabs...) ;)
 if (defined($opt{'f'}) && defined($opt{'m'})) {
   extractMethod($opt{'f'}, $opt{'m'});
+}
+elsif (defined($opt{'f'}) && defined($opt{'s'}) && defined($opt{'c'})) {
+  extractLines($opt{'f'}, $opt{'s'}, $opt{'c'});
 }
 elsif (defined($opt{'f'})) {
   dumpAllSigs($opt{'f'});
@@ -93,5 +96,32 @@ sub extractMethod {
   
   foreach my $methodLine (@methodLines) {
     printf "%s", $methodLine;
+  }
+}
+
+sub extractLines {
+  my $file = shift;
+  my $searchStr = shift;
+  my $linesCount = shift;
+  my $decr = $linesCount;
+  my $collecting_lines = 0;
+  my $line = "";
+  # printf "Extracting lines from '%s' using '%s' then '%s' lines\r\n", $file, $searchStr, $linesCount;
+  open(FH, "<$file")||die("Error: Cannot open file $file for input !!!\n\n");
+  foreach (<FH>) {
+    $line = $_;
+    if ($collecting_lines) {
+        printf "%s", $line;
+        $decr = --$decr;
+    }
+    if ($decr == 0) {
+      $collecting_lines = 0;
+      $decr = $linesCount;
+    }
+    # printf "index(...)=%s\r\n", index($line, $searchStr);
+    if (index($line, $searchStr) != -1) {
+        $collecting_lines = 1;
+    }
+    # printf "decr: %s\r\n", $decr;
   }
 }
