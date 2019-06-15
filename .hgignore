@@ -34,6 +34,7 @@ AUTHOR_CODE/
 desktop.ini
 .ntvs_analysis.dat
 packages/
+Migrations/
 /TBD/
 TestResults/
 _UpgradeReport_Files/
