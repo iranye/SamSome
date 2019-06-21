@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NinjaDomain.DataModel")]
+[assembly: AssemblyTitle("Mtg.DataModel")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NinjaDomain.DataModel")]
+[assembly: AssemblyProduct("Mtg.DataModel")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d71a7961-ba34-44d1-a631-ec602e200130")]
+[assembly: Guid("40770f6f-d24b-4818-aad2-dc3d5b0daf83")]
 
 // Version information for an assembly consists of the following four values:
 //

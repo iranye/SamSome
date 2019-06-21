@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E897E9EB-8E21-420A-8589-78EEF5533711}</ProjectGuid>
+    <ProjectGuid>{40770F6F-D24B-4818-AAD2-DC3D5B0DAF83}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NinjaDomain.Classes</RootNamespace>
-    <AssemblyName>NinjaDomain.Classes</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>Mtg.DataModel</RootNamespace>
+    <AssemblyName>Mtg.DataModel</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
@@ -54,12 +54,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes.cs" />
+    <Compile Include="Migrations\201906212239169_ce_Initial.cs" />
+    <Compile Include="Migrations\201906212239169_ce_Initial.Designer.cs">
+      <DependentUpon>201906212239169_ce_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906212246480_ce_AddReleaseDate.cs" />
+    <Compile Include="Migrations\201906212246480_ce_AddReleaseDate.Designer.cs">
+      <DependentUpon>201906212246480_ce_AddReleaseDate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="MtgContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Mtg.Classes\Mtg.Classes.csproj">
+      <Project>{c1e22ad1-b161-4a5a-b2a2-75b1797c95c1}</Project>
+      <Name>Mtg.Classes</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201906212239169_ce_Initial.resx">
+      <DependentUpon>201906212239169_ce_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906212246480_ce_AddReleaseDate.resx">
+      <DependentUpon>201906212246480_ce_AddReleaseDate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -4,23 +4,19 @@ Create DataModel project and add Context.cs class e.g.:
     {
         public DbSet<Card> Cards { get; set; }
     }
-	
+
+Set DataModel project as startup	
 install-package EntityFramework
 install-package EntityFramework.SqlServerCompact
 
-
-Set DataModel project as startup
 After installing EFPowerTools.vsix, in Sln Explorer right-click NinjaContext.cs class and use EntityFramework option to show modeling
 
-Update App.config (see below)
+Update App.config (see below (addition of connectionString section should be all that's needed))
 reference assembly: System.ComponentModel.DataAnnotations and use [Required] attribute on NinjaEquipment Ninja propery (to get 1 to many vs 0 to many relationship)
 enable-migrations
 add-migration ce_Initial
 update-database -verbose
-add-migration ce_Update00
-
-
-
+add-migration ce_AddDob
 
 *** App.Config (Sql Server CE)
 <?xml version="1.0" encoding="utf-8"?>
@@ -53,3 +49,10 @@ add-migration ce_Update00
     connectionString="Data Source=|DataDirectory|..\..\..\NinjaDomain.DataModel.NinjaContext.sdf" />
   </connectionStrings>
 </configuration>
+
+
+  <connectionStrings>
+    <add name="Mtg.DataModel.MtgContext"
+    providerName="System.Data.SqlServerCe.4.0"
+    connectionString="Data Source=|DataDirectory|..\..\..\Mtg.DataModel.MtgContext.sdf" />
+  </connectionStrings>

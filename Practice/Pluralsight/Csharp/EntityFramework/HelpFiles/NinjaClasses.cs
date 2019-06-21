@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace NinjaDomain.Classes
 {
@@ -7,7 +11,6 @@ namespace NinjaDomain.Classes
     {
         Shinobi = 1,
         Kunoichi = 2
-
     }
 
     public enum EquipmentType
@@ -25,7 +28,6 @@ namespace NinjaDomain.Classes
         public Clan Clan { get; set; }
         public int ClanId { get; set; }
         public List<NinjaEquipment> EquipmentOwned { get; set; }
-        public System.DateTime DateOfBirth { get; set; }
     }
 
     public class Clan
