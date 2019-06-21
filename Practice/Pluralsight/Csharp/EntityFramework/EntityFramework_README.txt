@@ -1,15 +1,18 @@
-﻿install-package EntityFramework
-install-package EntityFramework.SqlServerCompact
-
+﻿* DataModel *
 Create DataModel project and add Context.cs class e.g.:
     public class MtgContext : DbContext
     {
         public DbSet<Card> Cards { get; set; }
     }
+	
+install-package EntityFramework
+install-package EntityFramework.SqlServerCompact
+
 
 Set DataModel project as startup
 After installing EFPowerTools.vsix, in Sln Explorer right-click NinjaContext.cs class and use EntityFramework option to show modeling
 
+Update App.config (see below)
 reference assembly: System.ComponentModel.DataAnnotations and use [Required] attribute on NinjaEquipment Ninja propery (to get 1 to many vs 0 to many relationship)
 enable-migrations
 add-migration ce_Initial
