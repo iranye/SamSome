@@ -17,7 +17,8 @@ namespace SamuraiApp.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Server=(localdb)\\mssqllocaldb;Database=SamuraiData");
+                "Server=(localdb)\\mssqllocaldb;Database=SamuraiData;Trusted_Connection=true");
+            base.OnConfiguring(optionsBuilder);
         }
     }
 }
