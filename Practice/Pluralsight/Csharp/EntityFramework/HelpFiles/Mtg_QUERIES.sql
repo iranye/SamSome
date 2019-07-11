@@ -1,3 +1,3 @@
 SELECT e.*, c.*
-FROM Expansions e
-LEFT JOIN Cards c ON c.ExpansionId = e.Id
+FROM Expansion e
+LEFT JOIN Card c ON c.ExpansionId = e.Id

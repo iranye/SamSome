@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{40770F6F-D24B-4818-AAD2-DC3D5B0DAF83}</ProjectGuid>
+    <ProjectGuid>{433CED53-1185-49C8-BAEB-DA6DB86FBC90}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Mtg.DataModel</RootNamespace>
@@ -54,13 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201906212239169_ce_Initial.cs" />
-    <Compile Include="Migrations\201906212239169_ce_Initial.Designer.cs">
-      <DependentUpon>201906212239169_ce_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201906212246480_ce_AddReleaseDate.cs" />
-    <Compile Include="Migrations\201906212246480_ce_AddReleaseDate.Designer.cs">
-      <DependentUpon>201906212246480_ce_AddReleaseDate.cs</DependentUpon>
+    <Compile Include="Migrations\201907072221015_Initial.cs" />
+    <Compile Include="Migrations\201907072221015_Initial.Designer.cs">
+      <DependentUpon>201907072221015_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MtgContext.cs" />
@@ -76,13 +72,16 @@
       <Name>Mtg.Classes</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201906212239169_ce_Initial.resx">
-      <DependentUpon>201906212239169_ce_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201907072221015_Initial.resx">
+      <DependentUpon>201907072221015_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201906212246480_ce_AddReleaseDate.resx">
-      <DependentUpon>201906212246480_ce_AddReleaseDate.cs</DependentUpon>
-    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Mtg.DataModel.MtgContext.sdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

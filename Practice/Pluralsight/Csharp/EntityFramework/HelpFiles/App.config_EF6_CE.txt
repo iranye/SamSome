@@ -25,6 +25,6 @@
   <connectionStrings>
     <add name="Mtg.DataModel.MtgContext"
     providerName="System.Data.SqlServerCe.4.0"
-    connectionString="Data Source=|DataDirectory|..\..\App_Data\Mtg.DataModel.MtgContext.sdf" />
+    connectionString="Data Source=|DataDirectory|Mtg.DataModel.MtgContext.sdf" />
   </connectionStrings>
 </configuration>

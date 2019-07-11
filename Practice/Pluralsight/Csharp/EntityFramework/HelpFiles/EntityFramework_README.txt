@@ -3,6 +3,7 @@ Create DataModel project and add Context.cs class e.g.:
     public class MtgContext : DbContext
     {
         public DbSet<Card> Cards { get; set; }
+        public DbSet<Expansion> Expansions { get; set; }
     }
 
 Set DataModel project as startup	
@@ -14,7 +15,14 @@ After installing EFPowerTools.vsix, in Sln Explorer right-click NinjaContext.cs 
 Update App.config (see below (addition of connectionString section should be all that's needed))
 reference assembly: System.ComponentModel.DataAnnotations and use [Required] attribute on NinjaEquipment Ninja propery (to get 1 to many vs 0 to many relationship)
 enable-migrations
-add-migration ce_Initial
+
+in Class that sub-classes DbContext add:
+protected override void OnModelCreating( DbModelBuilder dbModelBuilder)
+{
+dbModelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+}
+
+add-migration Initial
 update-database -verbose
 add-migration ce_AddDob
 
@@ -55,4 +63,31 @@ add-migration ce_AddDob
     <add name="Mtg.DataModel.MtgContext"
     providerName="System.Data.SqlServerCe.4.0"
     connectionString="Data Source=|DataDirectory|..\..\..\Mtg.DataModel.MtgContext.sdf" />
+  </connectionStrings>
+  
+  
+  <connectionStrings>
+    <add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|..\..\..\Ninjas.mdf;Initial Catalog=aspnet-GigHub;Integrated Security=True"
+      providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  
+  <connectionStrings>
+    <add name="myConnectionString" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|Mtg.DataModel.MtgContext.mdf;Initial Catalog=Mtg.DataModel.MtgContext;Integrated Security=True"
+      providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  
+  <connectionStrings>
+    <add name="MtgDataModel" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|MtgDataModel.mdf;Initial Catalog=MtgDataModel;Integrated Security=True"
+      providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  
+  <connectionStrings>
+  <add name="myConnectionString"
+       connectionString="Data Source=VBOX01;Initial Catalog=netnutsandbolts;User ID=netnutsandbolts;Password=netnutsandbolts;MultipleActiveResultSets=True"
+       providerName="System.Data.SqlClient" />
+</connectionStrings>
+
+  <connectionStrings>
+    <add name="Mtg.DataModel.MtgContext" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=App_Data\Mtg.DataModel.MtgContext.mdf;Initial Catalog=Mtg.DataModel.MtgContext;Integrated Security=True"
+      providerName="System.Data.SqlClient" />
   </connectionStrings>
