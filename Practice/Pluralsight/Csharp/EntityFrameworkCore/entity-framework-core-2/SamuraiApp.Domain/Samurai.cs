@@ -9,6 +9,7 @@ namespace SamuraiApp.Domain
         public string Name { get; set; }
         public List<Quote> Quotes { get; set; }
         public int BattleId { get; set; }
+        public DateTime Birthday { get; set; }
         public Samurai()
         {
             Quotes = new List<Quote>();

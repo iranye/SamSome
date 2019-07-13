@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SamuraiApp.Domain;
+using System.IO;
 
 namespace SamuraiApp.Data
 {
@@ -9,21 +10,12 @@ namespace SamuraiApp.Data
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Battle> Battles { get; set; }
 
-        //public static string MDF_Directory
-        //{
-        //    get
-        //    {
-        //        var directoryPath = AppDomain.CurrentDomain.BaseDirectory;
-        //        return Path.GetFullPath(Path.Combine(directoryPath, "..//..//..//TestDB"));
-        //    }
-        //}
-
-        public string connectionString =
-            "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|SamuraiData.mdf;Integrated Security=True; Connect Timeout=30;";
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(connectionString);
+            var cs = Directory.GetCurrentDirectory();
+            var path = Path.Combine(cs, @"App_Data\SamuraData.mdf");
+            optionsBuilder.UseSqlServer(
+                $"Data Source=(LocalDB)\\MSSQLLocalDB;Database=SamuraiData;AttachDbFilename={path};Integrated Security=True; Connect Timeout=30;");
             base.OnConfiguring(optionsBuilder);
         }
     }
