@@ -18,5 +18,11 @@ namespace SamuraiApp.Data
                 $"Data Source=(LocalDB)\\MSSQLLocalDB;Database=SamuraiAppData;AttachDbFilename={path};Integrated Security=True; Connect Timeout=30;");
             base.OnConfiguring(optionsBuilder);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SamuraiBattle>()
+                .HasKey(s => new {s.SamuraiId, s.BattleId});
+        }
     }
 }

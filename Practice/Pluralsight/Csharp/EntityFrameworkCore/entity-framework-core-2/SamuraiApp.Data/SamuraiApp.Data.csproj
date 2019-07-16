@@ -128,6 +128,14 @@
     <Compile Include="Migrations\20190716224223_Initial.designer.cs">
       <DependentUpon>20190716224223_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\20190716224939_RemoveBirthday.cs" />
+    <Compile Include="Migrations\20190716224939_RemoveBirthday.designer.cs">
+      <DependentUpon>20190716224939_RemoveBirthday.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\20190716230547_Relationships.cs" />
+    <Compile Include="Migrations\20190716230547_Relationships.designer.cs">
+      <DependentUpon>20190716230547_Relationships.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\SamuraiContextModelSnapshot.cs" />
     <Compile Include="SamuraiContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
