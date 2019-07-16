@@ -29,6 +29,5 @@ Thumbs.db
 *.suo
 *.user
 *.vspscc
-Migrations/
 [Rr]elease*/
 _ReSharper*/

@@ -13,9 +13,9 @@ namespace SamuraiApp.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var cs = Directory.GetCurrentDirectory();
-            var path = Path.Combine(cs, @"App_Data\SamuraData.mdf");
+            var path = Path.Combine(cs, @"App_Data\SamuraiData.mdf");
             optionsBuilder.UseSqlServer(
-                $"Data Source=(LocalDB)\\MSSQLLocalDB;Database=SamuraiData;AttachDbFilename={path};Integrated Security=True; Connect Timeout=30;");
+                $"Data Source=(LocalDB)\\MSSQLLocalDB;Database=SamuraiAppData;AttachDbFilename={path};Integrated Security=True; Connect Timeout=30;");
             base.OnConfiguring(optionsBuilder);
         }
     }

@@ -1,0 +1,7 @@
+https://www.computerhope.com/mklink.htm
+
+Use mklink @ admin console to (in CWD):
+  create shortcuts to files
+  create shortcuts to directories
+  create junctions to local directories
+    

@@ -124,13 +124,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\20190712231658_Initial.cs" />
-    <Compile Include="Migrations\20190712231658_Initial.designer.cs">
-      <DependentUpon>20190712231658_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\20190713042015_AddDob.cs" />
-    <Compile Include="Migrations\20190713042015_AddDob.designer.cs">
-      <DependentUpon>20190713042015_AddDob.cs</DependentUpon>
+    <Compile Include="Migrations\20190716224223_Initial.cs" />
+    <Compile Include="Migrations\20190716224223_Initial.designer.cs">
+      <DependentUpon>20190716224223_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\SamuraiContextModelSnapshot.cs" />
     <Compile Include="SamuraiContext.cs" />
