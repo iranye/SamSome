@@ -21,12 +21,20 @@ namespace SamuraiApp.Data
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Battle> Battles { get; set; }
 
+        private string _path = String.Empty;
         public String Path
         {
             get
             {
-                return @"E:\source_git\SamSome\Practice\Pluralsight\Csharp\EntityFrameworkCore\entity-framework-core-2\SomeUI\App_Data\SamuraiData.mdf";
+                if (String.IsNullOrWhiteSpace(_path))
+                {
+                    _path =
+                        @"Foobar";
+                }
+
+                return _path;
             }
+            set { _path = value; }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

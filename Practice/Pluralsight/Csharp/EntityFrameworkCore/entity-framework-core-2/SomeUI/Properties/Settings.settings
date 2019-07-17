@@ -1,0 +1,9 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SomeUI.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="mdfPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">E:\source_git\SamSome\Practice\Pluralsight\Csharp\EntityFrameworkCore\entity-framework-core-2\SomeUI\App_Data\SamuraiData.mdf</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

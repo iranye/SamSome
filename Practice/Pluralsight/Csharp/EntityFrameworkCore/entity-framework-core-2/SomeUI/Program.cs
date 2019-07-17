@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using SamuraiApp.Data;
 using SamuraiApp.Domain;
+using SomeUI.Properties;
 
 namespace SomeUI
 {
     class Program
     {
+        private static readonly string _mdfPath = Settings.Default.mdfPath;
         static void Main(string[] args)
         {
             InsertSamurai();
             //InsertMultipleSamurai();
             //InsertMultipleDifferentObjects();
+            Console.Read();
         }
 
         private static void InsertMultipleDifferentObjects()
@@ -25,6 +28,7 @@ namespace SomeUI
             };
             using (var context = new SamuraiContext())
             {
+                context.Path = Program._mdfPath;
                 context.AddRange(samurai, battle);
                 context.SaveChanges();
             }
@@ -49,6 +53,7 @@ namespace SomeUI
             Samurai samurai = GetNewSamurai();
             using (var context = new SamuraiContext())
             {
+                context.Path = Program._mdfPath;
                 context.Samurais.Add(samurai);
                 context.SaveChanges();
             }
