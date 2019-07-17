@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using SamuraiApp.Domain;
 using System.IO;
 using Microsoft.Extensions.Logging;
@@ -20,6 +21,14 @@ namespace SamuraiApp.Data
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Battle> Battles { get; set; }
 
+        public String Path
+        {
+            get
+            {
+                return @"E:\source_git\SamSome\Practice\Pluralsight\Csharp\EntityFrameworkCore\entity-framework-core-2\SomeUI\App_Data\SamuraiData.mdf";
+            }
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var cs = Directory.GetCurrentDirectory();
@@ -30,7 +39,7 @@ namespace SamuraiApp.Data
                 .UseLoggerFactory(MyConsoleLoggerFactory)
                 .EnableSensitiveDataLogging(true)
                 .UseSqlServer(
-                $"Data Source=(LocalDB)\\MSSQLLocalDB;Database=SamuraiAppData;AttachDbFilename={path};Integrated Security=True; Connect Timeout=30;");
+                $"Data Source=(LocalDB)\\MSSQLLocalDB;Database=SamuraiAppData;AttachDbFilename={Path};Integrated Security=True; Connect Timeout=30;");
             base.OnConfiguring(optionsBuilder);
         }
 
