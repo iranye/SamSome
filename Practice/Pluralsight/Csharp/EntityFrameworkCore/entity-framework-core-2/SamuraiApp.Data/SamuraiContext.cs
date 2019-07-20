@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using Microsoft.EntityFrameworkCore;
 using SamuraiApp.Domain;
 using System.IO;
@@ -21,33 +22,32 @@ namespace SamuraiApp.Data
         public DbSet<Quote> Quotes { get; set; }
         public DbSet<Battle> Battles { get; set; }
 
-        private string _path = String.Empty;
-        public String Path
+        public SamuraiContext(String mdfPath)
+        {
+            if (String.IsNullOrEmpty(mdfPath))
+            {
+                throw new ArgumentNullException(nameof(mdfPath));
+            }
+            _mdfPath = mdfPath;
+        }
+
+        private string _mdfPath = String.Empty;
+        public String MdfPath
         {
             get
             {
-                if (String.IsNullOrWhiteSpace(_path))
-                {
-                    _path =
-                        @"Foobar";
-                }
-
-                return _path;
+                return _mdfPath;
             }
-            set { _path = value; }
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             var cs = Directory.GetCurrentDirectory();
-            //var path = Path.Combine(cs, @"App_Data\SamuraiData.mdf");
-            var path =
-                @"E:\source_git\SamSome\Practice\Pluralsight\Csharp\EntityFrameworkCore\entity-framework-core-2\SomeUI\App_Data\SamuraiData.mdf";
             optionsBuilder
                 .UseLoggerFactory(MyConsoleLoggerFactory)
                 .EnableSensitiveDataLogging(true)
                 .UseSqlServer(
-                $"Data Source=(LocalDB)\\MSSQLLocalDB;Database=SamuraiAppData;AttachDbFilename={Path};Integrated Security=True; Connect Timeout=30;");
+                $"Data Source=(LocalDB)\\MSSQLLocalDB;Database=SamuraiAppData;AttachDbFilename={MdfPath};Integrated Security=True; Connect Timeout=30;");
             base.OnConfiguring(optionsBuilder);
         }
 

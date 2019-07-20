@@ -15,6 +15,11 @@ namespace SamuraiApp.Domain
         {
             Quotes = new List<Quote>();
         }
+
+        public override string ToString()
+        {
+            return $"Id: {Id},\tName: {Name}";
+        }
     }
 
     public class Quote
