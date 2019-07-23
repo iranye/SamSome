@@ -26,10 +26,57 @@ namespace SomeUI
                 PrintAllSamurais();
                 return;
             }
+            if (option.StartsWith("d1"))
+            {
+                DeleteWhileTracked();
+                PrintAllSamurais();
+                return;
+            }
+            if (option.StartsWith("d2"))
+            {
+                DeleteWhileNotTracked();
+                PrintAllSamurais();
+                return;
+            }
             if (option.StartsWith("happy"))
             {
                 PrintAllSamurais();
                 return;
+            }
+            if (option.StartsWith("e"))
+            {
+                EagerLoadingSamuraiWithQuotes();
+                return;
+            }
+            if (option.StartsWith("d3"))
+            {
+                int id;
+                if (args.Length > 1)
+                {
+                    if (String.IsNullOrWhiteSpace(args[1]) || !Int32.TryParse(args[1], out id))
+                    {
+                        Console.WriteLine($"Failed to parse '{args[1]}'");
+                        return;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Missing parameter [samurai id]");
+                    return;
+                }
+                var samuraiToDelete = _context.Samurais.Find(id);
+                if (samuraiToDelete == null)
+                {
+                    Console.WriteLine($"Samurai {id} not found");
+                    return;
+                }
+                DeleteWhileTracked(samuraiToDelete);
+                PrintAllSamurais();
+                return;
+            }
+            if (option.StartsWith("a"))
+            {
+                AddChildToExistingObjectWhileTracked();
             }
             //InsertSamurai();
             //InsertMultipleSamurai();
@@ -44,12 +91,12 @@ namespace SomeUI
 
             // InsertNewPkFkGraphMultipleChildren();
 
-            //AddChildToExistingObjectWhileTracked();
 
             // AddChildToExistingObjectWhileNotTracked();
 
-            EagerLoadingSamuraiWithQuotes();
             // FilteringWithRelatedData()
+            //ProjectSamuraisWithQuotes();
+            ProjectSamuraisWithHappyQuotes();
             //PrintAllSamurais();
             Console.Read();
         }
@@ -87,12 +134,30 @@ namespace SomeUI
             _context.SaveChanges();
         }
 
-        private static Samurai GetNewSamurai(string baseName=null)
+        private static void DeleteWhileTracked(Samurai samurai=null)
         {
-            var rand = new Random();
-            var name = String.IsNullOrEmpty(baseName) ? "Julie" : baseName;
-            var samuraiName = $"{name}{rand.Next(0, 955)}";
-            return new Samurai { Name = samuraiName };
+            if (samurai == null)
+            {
+                samurai = _context.Samurais.Where(s => s.Id >= 19).First();
+            }
+            if (samurai != null)
+            {
+                _context.Samurais.Remove(samurai);
+                _context.SaveChanges();
+            }
+        }
+
+        private static void DeleteWhileNotTracked()
+        {
+            var samurai = _context.Samurais.Where(s => s.Id >= 19).First();
+            if (samurai != null)
+            {
+                using (var context = new SamuraiContext(MdfPath))
+                {
+                    context.Samurais.Remove(samurai);
+                    context.SaveChanges();
+                }
+            }
         }
 
         private static void QuerySamuraisByName(string name)
@@ -182,8 +247,40 @@ namespace SomeUI
             PrintAllSamurais(samurais);
         }
 
+        private static void ProjectSamuraisWithQuotes()
+        {
+            var somePropertiesWithQuotes = _context.Samurais.Select(s => new { s.Id, s.Name, s.Quotes.Count }).ToList();
+            foreach (var unk in somePropertiesWithQuotes)
+            {
+                Console.WriteLine($"Id: {unk.Id}, Name: {unk.Name}, Quotes.Count: {unk.Count}");
+            }
+        }
+
+        private static void ProjectSamuraisWithHappyQuotes()
+        {
+            // EF Core projectoins don't connect graphs (Issue)
+            var samuraisWithHappyQuotes = _context.Samurais
+                .Select(s => new
+                {
+                    Samurai = s,
+                    Quotes = s.Quotes.Where(q => q.Text.Contains("happy")).ToList()
+                }).ToList();
+            foreach (var unk in samuraisWithHappyQuotes)
+            {
+                Console.WriteLine($"Id: {unk.Samurai.Id}, Name: {unk.Samurai.Name}, Quotes.Count: {unk.Quotes.Count}");
+            }
+        }
+
         // Helper Methods
-        private static void PrintAllSamurais(IEnumerable<Samurai> samurais=null)
+        private static Samurai GetNewSamurai(string baseName = null)
+        {
+            var rand = new Random();
+            var name = String.IsNullOrEmpty(baseName) ? "Julie" : baseName;
+            var samuraiName = $"{name}{rand.Next(0, 955)}";
+            return new Samurai { Name = samuraiName };
+        }
+
+        private static void PrintAllSamurais(IEnumerable<Samurai> samurais = null)
         {
             if (samurais != null)
             {

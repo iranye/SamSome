@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="mdfPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Users\ira\source_git\SamSome\Practice\Pluralsight\Csharp\EntityFrameworkCore\entity-framework-core-2\SomeUI\App_Data\SamuraiData.mdf</Value>
+      <Value Profile="(Default)">C:\Users\zombi\source_git\SamSome\Practice\Pluralsight\Csharp\EntityFrameworkCore\entity-framework-core-2\SomeUI\App_Data\SamuraiData.mdf</Value>
     </Setting>
   </Settings>
 </SettingsFile>
