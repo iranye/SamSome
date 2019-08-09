@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace SamuraiApp.Domain
 {
@@ -18,7 +19,12 @@ namespace SamuraiApp.Domain
 
         public override string ToString()
         {
-            return $"Id: {Id},\tName: {Name}";
+            StringBuilder sb = new StringBuilder();
+            foreach(var quote in Quotes)
+            {
+                sb.AppendLine($"'{quote.Text}'");
+            }
+            return $"Id: {Id},\tName: {Name}\r\n{sb.ToString()}";
         }
     }
 

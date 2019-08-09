@@ -25,8 +25,8 @@ namespace SomeUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("E:\\source_git\\SamSome\\Practice\\Pluralsight\\Csharp\\EntityFrameworkCore\\entity-fram" +
-            "ework-core-2\\SomeUI\\App_Data\\SamuraiData.mdf")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Users\\zombi\\source_git\\SamSome\\Practice\\Pluralsight\\Csharp\\EntityFrameworkCore" +
+            "\\entity-framework-core-2\\SomeUI\\App_Data\\SamuraiData.mdf")]
         public string mdfPath {
             get {
                 return ((string)(this["mdfPath"]));
