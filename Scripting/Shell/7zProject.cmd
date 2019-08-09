@@ -5,8 +5,9 @@ set dest_dir=%2
 
 if %input_dir%nul==nul goto error
 
+set massagedTime=%TIME: =0%
 set HH=%massagedTime:~0,2%
-set timestamp=%date:~4,2%%date:~7,2%%date:~-4%-%HH%%time:~3,2%%time:~6,2%
+set timestamp=%date:~-4%%date:~4,2%%date:~7,2%-%HH%%time:~3,2%%time:~6,2%
 
 set zip_name=%input_dir%_%timestamp%.7z
 
@@ -24,7 +25,7 @@ echo .
 pause
 
 :start
-7z a %zip_name% %input_dir% -mx0 -xr!bin -xr!obj -xr!_TBD -xr!SoftwareUnderTest -xr!.hg -p -xr!RDL-Data
+7z a %zip_name% %input_dir% -mx0 -xr!bin -xr!obj -xr!_TBD -xr!SoftwareUnderTest -xr!packages -xr!.hg -xr!_DATA -p -xr!.vs
 echo created: '%zip_name%'
 echo .
 echo moving to '%dest_dir%'
